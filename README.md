@@ -22,20 +22,37 @@ This tool automates the creation of a modular, testable, and documented project 
 - Python 3.10+
 - Git
 
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/west_ai_labs/new-project-generator.git
+   cd new-project-generator
+   ```
+
+2. Standard installation (pip):
+   ```bash
+   pip install -e .
+   ```
+   *Note: Using a virtual environment is highly recommended.*
+
 ### Usage
 
-1. Create a new directory for your project:
+1. Create a new directory for your output project:
    ```bash
    mkdir my-new-ai-project
    cd my-new-ai-project
    ```
 
-2. Run the generator script:
+2. Run the generator using the `forge-project` command:
    ```bash
-   python /path/to/new-project-generator/init_project.py
+   forge-project .
    ```
 
-3. Start developing on the `develop` branch!
+Alternatively, you can run it without installation:
+```bash
+python -m project_generator.cli .
+```
 
 ## 📁 Generated Project Structure
 
@@ -53,6 +70,7 @@ This tool automates the creation of a modular, testable, and documented project 
 │   └── ai_behavior.md     # Governance for AI agent contributions
 ├── src/                   # Production source code
 └── tests/                 # Unit and integration tests
+├── .aider.conf.yml        # Pre-configured Aider behavior
 ```
 
 ## 📜 Coding Standards (Enforced)
@@ -63,9 +81,29 @@ The generated project expects:
 - **Modular Code**: Business logic resides in `src/`, not notebooks.
 - **Documentation**: Google-style docstrings for all public modules.
 
+## 🏗️ Development of the Generator
+
+To work on the generator itself:
+
+1. Create a virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Linux/macOS
+   ```
+
+2. Install development dependencies:
+   ```bash
+   pip install -r requirements-dev.txt
+   ```
+
+3. Run the generator in development mode:
+   ```bash
+   pip install -e .
+   ```
+
 ## 🤝 Contributing
 
-Contributions to the generator are welcome! Please follow the Git Flow workflow and ensure any new scaffolding features are accompanied by updates to the `init_project.py` script and this README.
+Contributions to the generator are welcome! Please follow the Git Flow workflow and ensure any new scaffolding features are accompanied by updates to the `src/project_generator/assets/` modules and this README.
 
 ## 📄 License
 
