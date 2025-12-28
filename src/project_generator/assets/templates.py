@@ -212,6 +212,7 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
 .env
 
 # Jupyter Notebooks

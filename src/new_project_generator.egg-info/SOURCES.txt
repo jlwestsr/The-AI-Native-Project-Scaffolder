@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+src/__init__.py
+src/new_project_generator.egg-info/PKG-INFO
+src/new_project_generator.egg-info/SOURCES.txt
+src/new_project_generator.egg-info/dependency_links.txt
+src/new_project_generator.egg-info/entry_points.txt
+src/new_project_generator.egg-info/top_level.txt
+src/project_generator/__init__.py
+src/project_generator/cli.py
+src/project_generator/engine.py
+src/project_generator/git_ops.py
+src/project_generator/assets/__init__.py
+src/project_generator/assets/configs.py
+src/project_generator/assets/templates.py
+tests/test_initial.py
