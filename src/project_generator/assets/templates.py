@@ -1,10 +1,5 @@
-import os
-import sys
-import subprocess
+"""Large string constants for project templates."""
 
-# --- Content Definitions ---
-
-# 1. Aider Context ("The Brain")
 AIDER_CONTEXT = """
 # Project Context & Coding Standards
 
@@ -29,7 +24,6 @@ This is a production-grade AI engineering project.
 - `tests/` mirrors the structure of `src/`.
 """
 
-# 2. AI Behavior Rules
 AI_BEHAVIOR_RULES = """
 # AI Agent Behavior & Operational Rules
 
@@ -58,7 +52,6 @@ This document outlines the specific operational standards and behavioral expecta
 - **Browser Research**: Use the browser tool to look up documentation for specific library versions used in the project.
 """
 
-# 3. Feature Template
 FEATURE_TEMPLATE = """
 # Feature Title: [Enter Feature Name]
 
@@ -87,14 +80,16 @@ How will we know this is working correctly?
 Any additional context or questions for the AI review?
 """
 
-# 4. Aider Config
 AIDER_CONFIG = """
-# Aider Configuration
+# .aider.conf.yml
+read:
+  - rules/ai_behavior.md
+  - CONTEXT.md
+
 auto-commits: false  # We want manual control over commits to review them
 dirty-commits: false # Ensure working directory is clean before coding
 """
 
-# 3. Flake8 Config (Linting)
 FLAKE8_CONFIG = """
 [flake8]
 # 88 matches the Black line length standard
@@ -114,7 +109,6 @@ exclude =
     data
 """
 
-# 4. Pyproject.toml (Black + Pytest Config)
 PYPROJECT_TOML = """
 [build-system]
 requires = ["setuptools>=61.0"]
@@ -131,14 +125,14 @@ requires-python = ">=3.10"
 [tool.black]
 line-length = 88
 target-version = ['py310', 'py311']
-include = '\\.pyi?$'
+include = '\\\\.pyi?$'
 exclude = '''
 /(
-    \\.git
-  | \\.hg
-  | \\.mypy_cache
-  | \\.tox
-  | \\.venv
+    \\\\.git
+  | \\\\.hg
+  | \\\\.mypy_cache
+  | \\\\.tox
+  | \\\\.venv
   | _build
   | buck-out
   | build
@@ -160,7 +154,6 @@ pythonpath = [
 ]
 """
 
-# 5. GitHub Actions Workflow (CI/CD)
 GITHUB_WORKFLOW = """
 name: CI/CD Pipeline
 
@@ -206,7 +199,6 @@ jobs:
         pytest tests/
 """
 
-# 6. Gitignore
 GITIGNORE_CONTENT = """
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -238,7 +230,6 @@ models/
 !.aider.conf.yml
 """
 
-# 7. README.md (Initial Content)
 README_MD_CONTENT = """
 # AI Project
 
@@ -283,126 +274,3 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 [MIT](https://choosealicense.com/licenses/mit/)
 """
-
-# --- Configuration Mapping ---
-PROJECT_STRUCTURE = [
-    "data/raw",
-    "data/processed",
-    "docs/features",
-    "models",
-    "notebooks",
-    "src/data",
-    "src/features",
-    "src/models",
-    "src/visualization",
-    "tests",
-    "rules",
-    ".github/workflows"
-]
-
-FILES_TO_CREATE = {
-    "README.md": README_MD_CONTENT,
-    "CONTEXT.md": AIDER_CONTEXT,
-    "rules/ai_behavior.md": AI_BEHAVIOR_RULES,
-    "docs/feature_template.md": FEATURE_TEMPLATE,
-    "docs/features/stub.txt": "",
-    ".aider.conf.yml": AIDER_CONFIG,
-    ".flake8": FLAKE8_CONFIG,
-    "pyproject.toml": PYPROJECT_TOML,
-    ".github/workflows/unittests.yml": GITHUB_WORKFLOW,
-    "requirements.txt": "numpy\npandas\nscikit-learn\n",
-    "requirements-dev.txt": "pytest\nblack\nflake8\naider-chat\n",
-    "src/__init__.py": "",
-    "tests/__init__.py": "",
-    "tests/test_initial.py": """
-def test_sanity():
-    assert True
-""",
-}
-
-def run_command(command, cwd=None):
-    """Runs a shell command and handles errors."""
-    try:
-        subprocess.run(
-            command, 
-            check=True, 
-            shell=True, 
-            cwd=cwd, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE
-        )
-        print(f"✔ Executed: {command}")
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Error executing: {command}")
-        print(e.stderr.decode())
-        sys.exit(1)
-
-def check_greenfield(path):
-    """Ensures the directory is empty (ignoring the script itself)."""
-    existing_items = [f for f in os.listdir(path) if f != "init_project.py"]
-    if existing_items:
-        print(f"❌ Error: Directory '{path}' is not empty. Please run this in a greenfield folder.")
-        print(f"   Found: {existing_items}")
-        sys.exit(1)
-
-def create_structure(base_path):
-    """Creates folders and files."""
-    print("...Scaffolding folder structure...")
-    
-    # Create Directories
-    for folder in PROJECT_STRUCTURE:
-        os.makedirs(os.path.join(base_path, folder), exist_ok=True)
-    
-    # Create Files
-    for filename, content in FILES_TO_CREATE.items():
-        file_path = os.path.join(base_path, filename)
-        # Ensure directory exists for nested files (like workflows)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        
-        with open(file_path, 'w') as f:
-            f.write(content.strip())
-            
-    # Create .gitignore specifically
-    with open(os.path.join(base_path, ".gitignore"), 'w') as f:
-        f.write(GITIGNORE_CONTENT.strip())
-
-def init_git(base_path):
-    """Initializes Git, commits baseline, and creates develop branch."""
-    print("...Initializing Git and Branching Strategy...")
-    
-    # 1. Init
-    run_command("git init", cwd=base_path)
-    
-    # 2. Add files
-    run_command("git add .", cwd=base_path)
-    
-    # 3. Commit to Main
-    run_command('git commit -m "Initial commit: Complete AI project scaffold"', cwd=base_path)
-    
-    # 4. Create and Switch to Develop branch
-    run_command("git checkout -b develop", cwd=base_path)
-
-def main():
-    current_dir = os.getcwd()
-    
-    print(f"Starting AI Project Initialization in: {current_dir}")
-    
-    # 1. Safety Check
-    check_greenfield(current_dir)
-    
-    # 2. Build Structure
-    create_structure(current_dir)
-    
-    # 3. Git Operations
-    init_git(current_dir)
-    
-    print("\n✅ Success! Project is ready.")
-    print("   - You are currently on the 'develop' branch.")
-    print("   - CI/CD is configured in .github/workflows/unittests.yml")
-    print("   - Linter/Formatter configs are set (.flake8, pyproject.toml)")
-    print("   - Aider context is ready in CONTEXT.md")
-    print("   - AI behavior rules are ready in rules/ai_behavior.md")
-    print("   - Feature documentation structure is ready in docs/")
-
-if __name__ == "__main__":
-    main()
