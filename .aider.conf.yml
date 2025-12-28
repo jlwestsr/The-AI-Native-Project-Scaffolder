@@ -1,0 +1,3 @@
+# Aider Configuration
+auto-commits: false  # We want manual control over commits to review them
+dirty-commits: false # Ensure working directory is clean before coding
