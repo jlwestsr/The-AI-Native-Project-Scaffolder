@@ -38,3 +38,15 @@ This document outlines the specific operational standards and behavioral expecta
 - **Verification**: After applying an Ansible role, run `ansible-playbook ansible/verify.yml` to ensure the system state matches the intended configuration.
 - **Security**: Never commit `~/.ssh/` keys or personal tokens. If a script needs to check for them, it should do so without exposing contents.
 - **Git Tracking**: All changes must be committed. Use branches for risky or complex changes to facilitate rollbacks. Never commit directly to `main` without testing.
+
+## 8. Feature Implementation Workflow
+When given a directive to work through a feature, follow these steps strictly:
+1.  **Create a Branch**: Create a new git branch to do the work (e.g., `git checkout -b feat/feature-name`).
+2.  **Do the Work**: Implement the changes, following all coding standards and guardrails.
+3.  **Test the Work**: Run standard tests (`pytest`, `flake8`) and add new tests as required. Ensure all pass.
+4.  **Document the Work**: Update relevant documentation (README, feature docs, walkthrough).
+5.  **Commit, Merge, and Push**:
+    - Commit changes with conventional messages.
+    - Switch to the main development branch (e.g., `develop`).
+    - Merge the feature branch.
+    - Push the updated branch to the remote.

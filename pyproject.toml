@@ -8,6 +8,10 @@ version = "0.1.0"
 description = "Production-grade AI Project Scaffolder"
 authors = [{name = "JLWestSr", email = "labs@example.com"}]
 requires-python = ">=3.10"
+dependencies = [
+    "rich",
+    "questionary",
+]
 
 [project.scripts]
 forge-project = "project_generator.cli:main"

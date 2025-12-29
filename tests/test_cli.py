@@ -28,7 +28,7 @@ class TestCLI(unittest.TestCase):
         # Verify calls
         mock_os.makedirs.assert_called_with("/tmp/test", exist_ok=True)
         mock_engine.check_greenfield.assert_called_with("/tmp/test")
-        mock_engine.create_structure.assert_called_with("/tmp/test", update=False)
+        mock_engine.create_structure.assert_called_with("/tmp/test", update=False, context={})
         mock_git.init_git.assert_called_with("/tmp/test")
 
 if __name__ == '__main__':

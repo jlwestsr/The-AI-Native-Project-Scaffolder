@@ -12,13 +12,17 @@ def check_greenfield(path):
         print(f"   Found: {existing_items}")
         sys.exit(1)
 
-def create_structure(base_path, update=False):
+def create_structure(base_path, update=False, context=None):
     """Creates folders and files.
     
     Args:
         base_path: The root directory for the project.
         update: If True, do not verify directory is empty and do not overwrite existing files.
+        context: Dictionary of placeholders to replace in templates (e.g., {"__PROJECT_NAME__": "MyProject"}).
     """
+    if context is None:
+        context = {}
+
     print("...Scaffolding folder structure...")
     
     # Create Directories
@@ -34,6 +38,10 @@ def create_structure(base_path, update=False):
         if update and os.path.exists(file_path):
             print(f"   [SKIP] {filename} (Exists)")
             continue
+            
+        # Apply context replacements
+        for key, value in context.items():
+            content = content.replace(key, value)
             
         with open(file_path, 'w') as f:
             f.write(content.strip())

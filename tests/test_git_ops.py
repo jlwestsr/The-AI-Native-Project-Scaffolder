@@ -40,7 +40,8 @@ class TestGitOps(unittest.TestCase):
             call("git init", cwd="/tmp/test"),
             call("git add .", cwd="/tmp/test"),
             call('git commit -m "Initial commit: Complete AI project scaffold"', cwd="/tmp/test"),
-            call("git checkout -b develop", cwd="/tmp/test")
+            call("git checkout -b develop", cwd="/tmp/test"),
+            call("pip install pre-commit && pre-commit install", cwd="/tmp/test")
         ]
         mock_run_cmd.assert_has_calls(expected_calls)
 

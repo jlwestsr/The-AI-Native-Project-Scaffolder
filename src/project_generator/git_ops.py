@@ -34,3 +34,7 @@ def init_git(base_path):
     
     # 4. Create and Switch to Develop branch
     run_command("git checkout -b develop", cwd=base_path)
+
+    # 5. Install Pre-commit hooks
+    print("...Installing Pre-commit hooks...")
+    run_command("pip install pre-commit && pre-commit install", cwd=base_path)

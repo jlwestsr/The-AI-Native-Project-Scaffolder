@@ -105,6 +105,28 @@ auto-commits: false  # We want manual control over commits to review them
 dirty-commits: false # Ensure working directory is clean before coding
 """
 
+PRE_COMMIT_CONFIG = """
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+"""
+
 FLAKE8_CONFIG = """
 [flake8]
 # 88 matches the Black line length standard
@@ -130,11 +152,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ai_project"
+name = "__PROJECT_NAME__"
 version = "0.1.0"
 description = "Production-grade AI Project"
-authors = [{name = "JLWestSr", email = "labs@example.com"}]
+authors = [{name = "__AUTHOR_NAME__", email = "labs@example.com"}]
 requires-python = ">=3.10"
+license = {text = "__LICENSE__"}
 
 # --- Black Configuration ---
 [tool.black]
@@ -247,7 +270,7 @@ models/
 """
 
 README_MD_CONTENT = """
-# AI Project
+# __PROJECT_NAME__
 
 This project was forged using the **Forge AI-Native Scaffolder**.
 

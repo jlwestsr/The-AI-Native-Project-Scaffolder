@@ -1,6 +1,7 @@
 """CLI Entry point for the project generator."""
 import os
 import argparse
+import sys
 from . import engine, git_ops
 
 def main():
@@ -19,7 +20,17 @@ def main():
     args = parser.parse_args()
 
     target_path = os.path.abspath(args.target_dir)
-    
+    context = {}
+
+    # Interactive Mode Check
+    # If no target specified (uses default), update flag is strict False, and we have a TTY
+    if args.target_dir == os.getcwd() and not args.update and sys.stdin.isatty():
+        try:
+            from . import wizard
+            context = wizard.run_wizard()
+        except ImportError:
+            print("Warning: fit/questionary not found. Skipping interactive mode.")
+
     print(f"Starting AI Project Initialization in: {target_path}")
     
     # Ensure directory exists
@@ -30,7 +41,7 @@ def main():
         engine.check_greenfield(target_path)
     
     # 2. Build Structure
-    engine.create_structure(target_path, update=args.update)
+    engine.create_structure(target_path, update=args.update, context=context)
     
     # 3. Git Operations
     if not os.path.exists(os.path.join(target_path, ".git")):
