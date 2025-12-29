@@ -118,7 +118,7 @@ build-backend = "setuptools.build_meta"
 name = "ai_project"
 version = "0.1.0"
 description = "Production-grade AI Project"
-authors = [{name = "West AI Labs", email = "labs@example.com"}]
+authors = [{name = "JLWestSr", email = "labs@example.com"}]
 requires-python = ">=3.10"
 
 # --- Black Configuration ---

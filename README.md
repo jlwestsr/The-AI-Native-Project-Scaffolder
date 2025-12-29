@@ -134,4 +134,4 @@ We are building the future of AI-native engineering. If you have ideas for impro
 Iterate fast, governed safely. Forge is released under the [MIT License](LICENSE).
 
 ---
-*Built with ❤️ by [West AI Labs](https://github.com/west_ai_labs)*
+*Built with ❤️ by [JLWestSr](https://github.com/jlwestsr)*
