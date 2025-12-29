@@ -22,7 +22,7 @@ class TestCLI(unittest.TestCase):
         
         # Call main with no args (uses default)
         with patch('argparse.ArgumentParser.parse_args',
-                   return_value=MagicMock(target_dir="/tmp/test", update=False, manager=None)):
+                   return_value=MagicMock(target_dir="/tmp/test", update=False, manager=None, config_list=False, config_set=None)):
             cli.main()
             
         # Verify calls
