@@ -3,6 +3,7 @@ import os
 import questionary
 from rich.console import Console
 from rich.panel import Panel
+from . import config_manager
 
 console = Console()
 
@@ -23,28 +24,30 @@ def run_wizard():
         project_name = default_name
         
     # 2. Author Name
-    # Try to Git config for default? simpler to just default to "User" for now
-    # or use basic OS check
+    default_author = config_manager.get_setting("author_name", "User")
     author_name = questionary.text(
         "Author Name:",
-        default="User"
+        default=default_author
     ).ask()
     
     # 3. Python Version
+    default_python = config_manager.get_setting("python_version", "3.10")
     python_version = questionary.select(
         "Python Version:",
         choices=["3.10", "3.11"],
-        default="3.10"
+        default=default_python
     ).ask()
 
     # 4. Package Manager
+    default_manager = config_manager.get_setting("package_manager", "pip")
     package_manager = questionary.select(
         "Which package manager to use?",
         choices=["pip", "poetry", "uv"],
-        default="pip"
+        default=default_manager
     ).ask()
 
     # 4. License
+    default_license = config_manager.get_setting("license", "MIT")
     license_type = questionary.select(
         "Choose a License:",
         choices=[
@@ -53,7 +56,7 @@ def run_wizard():
             "Proprietary",
             "None"
         ],
-        default="MIT"
+        default=default_license
     ).ask()
     
     # 5. Success

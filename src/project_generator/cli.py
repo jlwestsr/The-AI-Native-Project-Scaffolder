@@ -2,7 +2,8 @@
 import os
 import argparse
 import sys
-from . import engine, git_ops
+from . import engine, git_ops, config_manager
+from .wizard import run_wizard
 
 def main():
     parser = argparse.ArgumentParser(description="Forge a production-grade AI project structure.")
@@ -23,7 +24,36 @@ def main():
         default=None,
         help="Package manager to use"
     )
+    # Global Config Arguments
+    parser.add_argument(
+        "--config-set",
+        nargs="+",
+        help="Set global config values (e.g. --config-set author_name='Jane Doe')"
+    )
+    parser.add_argument(
+        "--config-list",
+        action="store_true",
+        help="List current global configuration"
+    )
     args = parser.parse_args()
+
+    # Handle Configuration Commands
+    if args.config_list:
+        config = config_manager.load_config()
+        print(f"Global Config ({config_manager.get_config_path()}):")
+        for k, v in config.items():
+            print(f"  {k} = {v}")
+        return
+
+    if args.config_set:
+        for setting in args.config_set:
+            if "=" in setting:
+                key, value = setting.split("=", 1)
+                config_manager.set_setting(key, value)
+                print(f"✅ Updated {key} = {value}")
+            else:
+                print(f"❌ Invalid format: {setting}. Use key=value.")
+        return
 
     target_path = os.path.abspath(args.target_dir)
     context = {}

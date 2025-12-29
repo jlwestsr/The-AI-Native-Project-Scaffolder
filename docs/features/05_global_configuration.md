@@ -5,10 +5,10 @@ Users verify their `author` and `email` information frequently. They shouldn't h
 
 ## Requirements
 List the specific requirements for this feature:
-- [ ] Look for checking `~/.config/forge/config.toml` (or `~/.forgeconfig`).
-- [ ] Read default values for: `author_name`, `author_email`, `license`, `python_version`.
-- [ ] Override global defaults with CLI arguments if provided.
-- [ ] Add a `forge config` command to easily set these values.
+- [x] Look for checking `~/.config/forge/config.toml` (or `~/.forgeconfig`).
+- [x] Read default values for: `author_name`, `author_email`, `license`, `python_version`.
+- [x] Override global defaults with CLI arguments if provided.
+- [x] Add a `forge config` command to easily set these values (implemented as `forge --config-set`).
 
 ## Technical Implementation (Optional)
 If you have specific ideas about how this should be built, list them here:
@@ -18,9 +18,9 @@ If you have specific ideas about how this should be built, list them here:
 
 ## Acceptance Criteria
 How will we know this is working correctly?
-- [ ] Use defaults from config file if no args provided.
-- [ ] `forge config --set author="Jane Doe"` updates the file.
-- [ ] Tests verify precedence: CLI Args > Global Config > Hardcoded Defaults.
+- [x] Use defaults from config file if no args provided.
+- [x] `forge config --set author="Jane Doe"` updates the file (usage: `forge --config-set author_name="Jane Doe"`).
+- [x] Tests verify precedence: CLI Args > Global Config > Hardcoded Defaults.
 
 ## Feedback/Notes
 Use `platformdirs` to determine the correct config path for the OS.

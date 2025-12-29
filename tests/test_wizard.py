@@ -14,11 +14,13 @@ sys.modules['questionary'] = MagicMock()
 from project_generator import wizard
 
 class TestWizard(unittest.TestCase):
+    @patch('project_generator.wizard.config_manager.get_setting')
     @patch('questionary.text')
     @patch('questionary.select')
-    def test_run_wizard(self, mock_select, mock_text):
+    def test_run_wizard(self, mock_select, mock_text, mock_config):
         """Test wizard collects inputs correctly."""
         # Setup mocks
+        mock_config.return_value = "DefaultVal" # for any get_setting call
         mock_text.return_value.ask.side_effect = ["MyProject", "Alice"] # Name, Author
         mock_select.return_value.ask.side_effect = [
             "3.10",    # Python
@@ -36,10 +38,12 @@ class TestWizard(unittest.TestCase):
         assert context["__PACKAGE_MANAGER__"] == "poetry"
         assert context["__LICENSE__"] == "MIT"
 
+    @patch('project_generator.wizard.config_manager.get_setting')
     @patch('questionary.text')
     @patch('questionary.select')
-    def test_run_wizard_defaults(self, mock_select, mock_text):
+    def test_run_wizard_defaults(self, mock_select, mock_text, mock_config):
         """Test wizard handles defaults/empty input."""
+        mock_config.return_value = "DefaultVal"
         # Setup mocks: Return empty string for name to trigger default logic
         mock_text.return_value.ask.side_effect = ["", "User"] 
         mock_select.return_value.ask.side_effect = [

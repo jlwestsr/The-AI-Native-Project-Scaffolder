@@ -12,6 +12,9 @@ dependencies = [
     "rich",
     "questionary",
     "jinja2",
+    "platformdirs",
+    "tomli",
+    "tomli-w",
 ]
 
 [project.scripts]
