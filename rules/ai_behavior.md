@@ -41,6 +41,7 @@ This document outlines the specific operational standards and behavioral expecta
 
 ## 8. Feature Implementation Workflow
 When given a directive to work through a feature, follow these steps strictly:
+0.  **Create Feature Document**: Create a new file in `docs/features/` using the content from `docs/feature_template.md`. This MUST be the first step to define the feature scope.
 1.  **Create a Branch**: Create a new git branch to do the work (e.g., `git checkout -b feat/feature-name`).
 2.  **Do the Work**: Implement the changes, following all coding standards and guardrails.
 3.  **Test the Work**: Run standard tests (`pytest`, `flake8`) and add new tests as required. Ensure all pass.
