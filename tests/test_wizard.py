@@ -20,7 +20,11 @@ class TestWizard(unittest.TestCase):
         """Test wizard collects inputs correctly."""
         # Setup mocks
         mock_text.return_value.ask.side_effect = ["MyProject", "Alice"] # Name, Author
-        mock_select.return_value.ask.return_value = "MIT" # License
+        mock_select.return_value.ask.side_effect = [
+            "3.10",    # Python
+            "poetry",  # Package Manager
+            "MIT"      # License
+        ]
         
         # Run
         context = wizard.run_wizard()
@@ -28,6 +32,8 @@ class TestWizard(unittest.TestCase):
         # Verify
         assert context["__PROJECT_NAME__"] == "MyProject"
         assert context["__AUTHOR_NAME__"] == "Alice"
+        assert context["__PYTHON_VERSION__"] == "3.10"
+        assert context["__PACKAGE_MANAGER__"] == "poetry"
         assert context["__LICENSE__"] == "MIT"
 
     @patch('questionary.text')
@@ -36,7 +42,11 @@ class TestWizard(unittest.TestCase):
         """Test wizard handles defaults/empty input."""
         # Setup mocks: Return empty string for name to trigger default logic
         mock_text.return_value.ask.side_effect = ["", "User"] 
-        mock_select.return_value.ask.return_value = "MIT"
+        mock_select.return_value.ask.side_effect = [
+            "3.10",  # Python Version
+            "pip",   # Package Manager
+            "MIT"    # License
+        ]
         
         # Run
         with patch('os.path.basename', return_value="cwd_name"):
@@ -44,6 +54,10 @@ class TestWizard(unittest.TestCase):
         
         # Verify
         assert context["__PROJECT_NAME__"] == "cwd_name"
+        assert context["__AUTHOR_NAME__"] == "User"
+        assert context["__PYTHON_VERSION__"] == "3.10"
+        assert context["__PACKAGE_MANAGER__"] == "pip"
+        assert context["__LICENSE__"] == "MIT"
 
 if __name__ == '__main__':
     unittest.main()

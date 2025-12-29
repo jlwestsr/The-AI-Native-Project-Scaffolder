@@ -7,15 +7,21 @@ from . import engine, git_ops
 def main():
     parser = argparse.ArgumentParser(description="Forge a production-grade AI project structure.")
     parser.add_argument(
-        "target_dir", 
-        nargs="?", 
-        default=os.getcwd(), 
+        "target_dir",
+        nargs="?",
+        default=os.getcwd(),
         help="Directory to initialize the project in (default: current directory)"
     )
     parser.add_argument(
         "--update", "-u",
         action="store_true",
         help="Update an existing project (add missing files without overwriting)"
+    )
+    parser.add_argument(
+        "--manager",
+        choices=["pip", "poetry", "uv"],
+        default=None,
+        help="Package manager to use"
     )
     args = parser.parse_args()
 
@@ -41,6 +47,9 @@ def main():
         engine.check_greenfield(target_path)
     
     # 2. Build Structure
+    if args.manager:
+        context["__PACKAGE_MANAGER__"] = args.manager
+        
     engine.create_structure(target_path, update=args.update, context=context)
     
     # 3. Git Operations

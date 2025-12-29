@@ -30,25 +30,43 @@ def run_wizard():
         default="User"
     ).ask()
     
-    # 3. License
+    # 3. Python Version
+    python_version = questionary.select(
+        "Python Version:",
+        choices=["3.10", "3.11"],
+        default="3.10"
+    ).ask()
+
+    # 4. Package Manager
+    package_manager = questionary.select(
+        "Which package manager to use?",
+        choices=["pip", "poetry", "uv"],
+        default="pip"
+    ).ask()
+
+    # 4. License
     license_type = questionary.select(
-        "License:",
+        "Choose a License:",
         choices=[
             "MIT",
-            "Apache-2.0",
+            "Apache 2.0",
             "Proprietary",
             "None"
-        ]
+        ],
+        default="MIT"
     ).ask()
     
-    # 4. Success
+    # 5. Success
     console.print(f"[green]Configuration captured![/green]")
     console.print(f"Name: [bold]{project_name}[/bold]")
     console.print(f"Author: [bold]{author_name}[/bold]")
+    console.print(f"Package Manager: [bold]{package_manager}[/bold]")
     console.print(f"License: [bold]{license_type}[/bold]")
     
     return {
         "__PROJECT_NAME__": project_name,
         "__AUTHOR_NAME__": author_name,
+        "__PYTHON_VERSION__": python_version,
+        "__PACKAGE_MANAGER__": package_manager,
         "__LICENSE__": license_type
     }

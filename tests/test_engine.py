@@ -80,5 +80,22 @@ class TestEngine(unittest.TestCase):
                 assert 'authors = [{name = "Alice", email = "labs@example.com"}]' in content
                 assert 'license = {text = "MIT"}' in content
 
+    def test_create_structure_poetry(self):
+        """Test poetry validation (requirements.txt skipped)."""
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            context = {
+                "__PROJECT_NAME__": "PoetryProject",
+                "__PACKAGE_MANAGER__": "poetry"
+            }
+            engine.create_structure(tmpdirname, context=context)
+            
+            # requirements.txt should NOT exist
+            assert not os.path.exists(os.path.join(tmpdirname, "requirements.txt"))
+            
+            # pyproject.toml should contain poetry section
+            with open(os.path.join(tmpdirname, "pyproject.toml"), "r") as f:
+                content = f.read()
+                assert "[tool.poetry]" in content
+
 if __name__ == '__main__':
     unittest.main()

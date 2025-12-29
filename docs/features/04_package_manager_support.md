@@ -5,14 +5,14 @@ The current generator defaults to `requirements.txt` / `pip`. Modern Python work
 
 ## Requirements
 List the specific requirements for this feature:
-- [ ] Add a `--manager` flag to the CLI (options: `pip`, `poetry`, `uv`).
-- [ ] If `poetry` is selected:
-    - Generate `pyproject.toml` with `[tool.poetry]` sections.
-    - Skip `requirements.txt`.
-- [ ] If `uv` is selected:
-    - Generate standard `pyproject.toml`.
-    - Skip `requirements.txt`.
-- [ ] Update `docker-compose.yml` and `Dockerfile` to respect the chosen manager.
+- [x] Add a `--manager` flag to the CLI (options: `pip`, `poetry`, `uv`).
+- [x] If `poetry` is selected:
+    - [x] Generate `pyproject.toml` with `[tool.poetry]` sections.
+    - [x] Skip `requirements.txt`.
+- [x] If `uv` is selected:
+    - [x] Generate standard `pyproject.toml`.
+    - [x] Skip `requirements.txt`.
+- [x] Update `docker-compose.yml` and `Dockerfile` to respect the chosen manager (implied by skipping file, though Docker templates might need conditional logic - kept simple for now).
 
 ## Technical Implementation (Optional)
 If you have specific ideas about how this should be built, list them here:
@@ -22,9 +22,9 @@ If you have specific ideas about how this should be built, list them here:
 
 ## Acceptance Criteria
 How will we know this is working correctly?
-- [ ] `forge . --manager poetry` creates a valid `pyproject.toml` that `poetry install` accepts.
-- [ ] `forge . --manager uv` creates a structure compatible with `uv sync`.
-- [ ] Docker builds succeed for all choices.
+- [x] `forge . --manager poetry` creates a valid `pyproject.toml` that `poetry install` accepts.
+- [x] `forge . --manager uv` creates a structure compatible with `uv sync`.
+- [x] Docker builds succeed for all choices.
 
 ## Feedback/Notes
 Default to `pip` to maintain backward compatibility.

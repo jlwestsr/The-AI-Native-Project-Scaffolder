@@ -46,7 +46,8 @@ def create_structure(base_path, update=False, context=None):
         "project_name": context.get("__PROJECT_NAME__", "ai_project"),
         "author_name": context.get("__AUTHOR_NAME__", "User"),
         "license": context.get("__LICENSE__", "MIT"),
-        "python_version": context.get("__PYTHON_VERSION__", "3.10")
+        "python_version": context.get("__PYTHON_VERSION__", "3.10"),
+        "package_manager": context.get("__PACKAGE_MANAGER__", "pip"),
     }
 
     print("...Scaffolding folder structure...")
@@ -57,6 +58,10 @@ def create_structure(base_path, update=False, context=None):
     
     # Create Files
     for filename, template_name in configs.FILES_TO_CREATE.items():
+        # Package Manager Logic: Skip requirements.txt if not using pip
+        if filename in ["requirements.txt", "requirements-dev.txt"] and jinja_context["package_manager"] != "pip":
+            continue
+            
         file_path = os.path.join(base_path, filename)
         # Ensure directory exists for nested files (like workflows)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)

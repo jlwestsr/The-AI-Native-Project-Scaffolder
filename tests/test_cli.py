@@ -22,13 +22,17 @@ class TestCLI(unittest.TestCase):
         
         # Call main with no args (uses default)
         with patch('argparse.ArgumentParser.parse_args',
-                   return_value=MagicMock(target_dir="/tmp/test", update=False)):
+                   return_value=MagicMock(target_dir="/tmp/test", update=False, manager=None)):
             cli.main()
             
         # Verify calls
         mock_os.makedirs.assert_called_with("/tmp/test", exist_ok=True)
         mock_engine.check_greenfield.assert_called_with("/tmp/test")
-        mock_engine.create_structure.assert_called_with("/tmp/test", update=False, context={})
+        mock_engine.create_structure.assert_called_with(
+            "/tmp/test", 
+            update=False, 
+            context={}
+        )
         mock_git.init_git.assert_called_with("/tmp/test")
 
 if __name__ == '__main__':
