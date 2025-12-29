@@ -118,7 +118,7 @@ build-backend = "setuptools.build_meta"
 name = "ai_project"
 version = "0.1.0"
 description = "Production-grade AI Project"
-authors = [{name = "Your Name", email = "you@example.com"}]
+authors = [{name = "West AI Labs", email = "labs@example.com"}]
 requires-python = ">=3.10"
 
 # --- Black Configuration ---
@@ -234,9 +234,9 @@ models/
 README_MD_CONTENT = """
 # AI Project
 
-Project structure generated with industry best practices.
+This project was forged using the **Forge AI-Native Scaffolder**.
 
-## Getting Started
+## 🚀 Getting Started
 
 Instructions to get the project up and running on your local machine.
 
