@@ -43,7 +43,7 @@ The easiest way to use Forge globally is with `pipx`. This installs Forge in an 
 pipx ensurepath
 
 # Install Forge directly from GitHub
-pipx install git+https://github.com/west_ai_labs/forge-scaffolder.git
+pipx install git+https://github.com/jlwestsr/The-AI-Native-Project-Scaffolder.git
 ```
 
 ### Option 2: Local Development Installation
@@ -51,7 +51,7 @@ If you want to contribute to Forge or customize the templates locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/west_ai_labs/forge-scaffolder.git
+   git clone https://github.com/jlwestsr/The-AI-Native-Project-Scaffolder.git
    cd forge-scaffolder
    ```
 
