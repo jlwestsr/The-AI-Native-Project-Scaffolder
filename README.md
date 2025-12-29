@@ -128,6 +128,29 @@ Forge projects enforce the following by default:
 
 ---
 
+## ❓ Troubleshooting
+
+### Fix "Bad Interpreter" or Broken Environment
+If you move or rename your project folder, the virtual environment paths will break, causing errors like `bad interpreter: .../old-path/.venv/bin/python: no such file or directory`.
+
+**Solution:**
+Recreate the virtual environment in the new location:
+
+```bash
+# Remove the old environment
+rm -rf .venv
+
+# Create a new one
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Reinstall dependencies
+pip install -r requirements.txt
+pip install -e .
+```
+
+---
+
 ## 🤝 Contributing
 
 We are building the future of AI-native engineering. If you have ideas for improving agentic governance or scaffolding templates, please:
