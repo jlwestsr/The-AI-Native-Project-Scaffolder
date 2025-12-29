@@ -11,6 +11,11 @@ def main():
         default=os.getcwd(), 
         help="Directory to initialize the project in (default: current directory)"
     )
+    parser.add_argument(
+        "--update", "-u",
+        action="store_true",
+        help="Update an existing project (add missing files without overwriting)"
+    )
     args = parser.parse_args()
 
     target_path = os.path.abspath(args.target_dir)
@@ -20,14 +25,18 @@ def main():
     # Ensure directory exists
     os.makedirs(target_path, exist_ok=True)
     
-    # 1. Safety Check
-    engine.check_greenfield(target_path)
+    # 1. Safety Check (skip if updating)
+    if not args.update:
+        engine.check_greenfield(target_path)
     
     # 2. Build Structure
-    engine.create_structure(target_path)
+    engine.create_structure(target_path, update=args.update)
     
     # 3. Git Operations
-    git_ops.init_git(target_path)
+    if not os.path.exists(os.path.join(target_path, ".git")):
+        git_ops.init_git(target_path)
+    else:
+        print("...Skipping Git Init (Already initialized)...")
     
     print("\n✅ Success! Project is ready.")
     print("   - You are currently on the 'develop' branch.")

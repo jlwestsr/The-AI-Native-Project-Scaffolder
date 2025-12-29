@@ -81,6 +81,14 @@ forge .
 forge ~/projects/my-new-ai-model
 ```
 
+### Update an Existing Project
+Enable the "Update" feature to add missing standard files (like `Dockerfile` or `rules/ai_behavior.md`) without overwriting your manual changes.
+
+```bash
+# Update existing project (safe, idempotent)
+forge . --update
+```
+
 ### How to use with AI Agents
 1. **Define Features**: Use `docs/feature_template.md` to describe your feature.
 2. **Review Rules**: Ensure `rules/ai_behavior.md` matches your team's specific requirements.

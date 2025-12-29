@@ -12,8 +12,13 @@ def check_greenfield(path):
         print(f"   Found: {existing_items}")
         sys.exit(1)
 
-def create_structure(base_path):
-    """Creates folders and files."""
+def create_structure(base_path, update=False):
+    """Creates folders and files.
+    
+    Args:
+        base_path: The root directory for the project.
+        update: If True, do not verify directory is empty and do not overwrite existing files.
+    """
     print("...Scaffolding folder structure...")
     
     # Create Directories
@@ -26,6 +31,10 @@ def create_structure(base_path):
         # Ensure directory exists for nested files (like workflows)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         
+        if update and os.path.exists(file_path):
+            print(f"   [SKIP] {filename} (Exists)")
+            continue
+            
         with open(file_path, 'w') as f:
             f.write(content.strip())
             

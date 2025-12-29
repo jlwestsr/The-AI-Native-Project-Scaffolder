@@ -33,6 +33,7 @@ This document outlines the specific operational standards and behavioral expecta
 - **Pre-Commit Verification**: Before marking any task as complete, the agent MUST run `pytest` and ensure all tests pass.
 - **Linting Compliance**: All code must pass `flake8` checks. If new code introduces linting errors, the agent must fix them immediately.
 - **No Shadow Logic**: Do not implement business logic that isn't requested in requirements. If a logic choice is ambiguous, use `notify_user` to clarify.
+- **Ansible-First**: Do not run manual `apt install`, `pip install`, or configuration edits unless experimenting. Once confirmed, IMMEDIATELY port the change to an Ansible role.
 
 ## 2. Research & Discovery
 - **Codebase Awareness**: Before creating a new utility function or module, the agent MUST search `src/` to check for existing implementations.
@@ -50,6 +51,20 @@ This document outlines the specific operational standards and behavioral expecta
 ## 5. Tool Usage
 - **Terminal Execution**: Use the terminal to verify file existence and state before making assumptions.
 - **Browser Research**: Use the browser tool to look up documentation for specific library versions used in the project.
+
+## 6. Testing & Quality Assurance
+- **Mandatory Unit Tests**: All new Python scripts OR significant functional changes to existing ones MUST include unit tests (using `pytest`) in the `tests/` directory.
+- **System Verification**: New Ulauncher extensions or major system configurations (desktop entries, services) MUST be added to the `ansible/verify.yml` playbook.
+- **Test Runner**: Always run `./scripts/run_tests.sh` before finalizing work to ensure no regressions in linting, unit tests, or system state.
+- **Ansible Lint**: While some pre-existing debt exists, all *new* Ansible code should aim for zero legacy warnings. Use specific tasks instead of generic `shell` where possible.
+
+## 7. Development Workflow
+- **Conventional Commits**: Use `feat:`, `fix:`, `docs:`, or `chore:` prefixes.
+- **Python Environment (PEP 668)**: On Ubuntu 24.04, always use `--user --break-system-packages` for persistent system-level Python tool/dependency installation, OR use the project's `./venv/`.
+- **Node.js**: Use `community.general.npm` with `global: true` for system-wide CLI tools. Ensure `nodejs` and `npm` are installed via `apt` in the `common` role first.
+- **Verification**: After applying an Ansible role, run `ansible-playbook ansible/verify.yml` to ensure the system state matches the intended configuration.
+- **Security**: Never commit `~/.ssh/` keys or personal tokens. If a script needs to check for them, it should do so without exposing contents.
+- **Git Tracking**: All changes must be committed. Use branches for risky or complex changes to facilitate rollbacks. Never commit directly to `main` without testing.
 """
 
 FEATURE_TEMPLATE = """
@@ -274,4 +289,40 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+"""
+
+DOCKERFILE_CONTENT = """
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container at /app
+COPY requirements.txt .
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+COPY . .
+
+# Define environment variable
+ENV PYTHONUNBUFFERED=1
+
+# Run the application (Default command, can be overridden)
+# CMD ["python", "src/main.py"]
+CMD ["/bin/bash"]
+"""
+
+DOCKER_COMPOSE_CONTENT = """
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    # command: python src/main.py
+    command: tail -f /dev/null # Keep the container running for development
 """

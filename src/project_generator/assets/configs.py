@@ -34,4 +34,6 @@ FILES_TO_CREATE = {
 def test_sanity():
     assert True
 """,
+    "Dockerfile": templates.DOCKERFILE_CONTENT,
+    "docker-compose.yml": templates.DOCKER_COMPOSE_CONTENT,
 }
