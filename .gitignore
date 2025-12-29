@@ -24,6 +24,9 @@ models/
 *.pt
 *.pth
 
+# IDE Specific
+*.code-workspace
+
 # Aider / LLM tools
 .aider*
 !.aider.conf.yml
