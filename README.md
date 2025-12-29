@@ -1,110 +1,119 @@
-# New Project Generator: AI Engineering Edition
+# ⚒️ Forge: The AI-Native Project Scaffolder
 
-A specialized scaffolding tool designed to initialize production-grade AI engineering projects with industry-standard structure, governance, and development workflows.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![AI-Native](https://img.shields.io/badge/AI--Native-Collaboration-green.svg)](#ai-native-features)
 
-## 🚀 Overview
+**Forge** is a production-grade project generator designed specifically for modern AI engineering. It doesn't just create folders; it establishes an **AI Collaboration Framework** that ensures human-AI teams work within strict governance, shared context, and professional engineering standards.
 
-This tool automates the creation of a modular, testable, and documented project environment specifically tailored for AI/ML development and AI-agent collaboration. It enforces strict coding standards, Git Flow branching, and integrates AI-specific operational rules.
+---
+
+## 🚀 Why Forge?
+
+Traditional scaffolding tools (like Cookiecutter) focus on file organization. **Forge** focuses on **Agentic Governance**. It prepares your workspace to be understood and respected by AI tools (like Aider, Gemini Code Assist, or Cursor) the moment you run the first commit.
+
+### Core Philosophy
+- **AI-Native Context**: Every project ships with `CONTEXT.md` and `rules/ai_behavior.md` to ground your AI agent.
+- **Strict Governance**: Prevent AI "shadow logic" and reinvention of existing utilities.
+- **Production-Ready**: Enforces Type Hinting, Google-style docstrings, and 100% logic coverage in tests.
+
+---
 
 ## ✨ Key Features
 
-- **Automated Scaffolding**: Generates a comprehensive folder structure (`data/`, `src/`, `tests/`, `docs/`, `notebooks/`).
-- **AI Behavior Guardrails**: Includes a `rules/ai_behavior.md` file to govern how AI agents (like Aider or Gemini) should operate within the codebase.
-- **Git Flow Ready**: Automatically initializes a Git repository with `main` and `develop` branches.
-- **CI/CD Integration**: Pre-configured GitHub Actions for automated unit testing (`pytest`) and linting (`flake8`).
-- **Standardized Documentation**: Includes feature templates and a requirements tracking system in `docs/features/`.
-- **Developer Experience**: Pre-configured `.gitignore`, `pyproject.toml` (for Black & Pytest), and `.flake8` settings.
+| Feature | Description |
+| :--- | :--- |
+| **Agentic Rules** | Dedicated `rules/ai_behavior.md` to define operational guardrails for AI agents. |
+| **Aider Integration** | Pre-configured `.aider.conf.yml` forces auto-reading of context and rules. |
+| **Git Flow Automation** | Initializes a repo with `main` and `develop` branches out of the box. |
+| **Modular CI/CD** | Production-ready GitHub Actions for testing and linting (Black, Flake8). |
+| **Feature Tracking** | Structured `docs/features/` system with a ready-to-use template. |
+| **Standardized Layout** | Clean separation of `src/`, `data/`, `models/`, and `notebooks/`. |
 
-## 🛠️ Getting Started
+---
 
-### Prerequisites
+## 🛠️ Installation
 
-- Python 3.10+
-- Git
+Forge is a modular Python application. For global access, install it in editable mode:
 
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/west_ai_labs/new-project-generator.git
-   cd new-project-generator
-   ```
-
-2. Standard installation (pip):
-   ```bash
-   pip install -e .
-   ```
-   *Note: Using a virtual environment is highly recommended.*
-
-### Usage
-
-1. Create a new directory for your output project:
-   ```bash
-   mkdir my-new-ai-project
-   cd my-new-ai-project
-   ```
-
-2. Run the generator using the `forge-project` command:
-   ```bash
-   forge-project .
-   ```
-
-Alternatively, you can run it without installation:
 ```bash
-python -m project_generator.cli .
+git clone https://github.com/west_ai_labs/new-project-generator.git
+cd new-project-generator
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
 ```
 
-## 📁 Generated Project Structure
+### Create a Global Alias
+Add this to your `~/.zshrc` or `~/.bashrc`:
+```bash
+alias forge="/absolute/path/to/new-project-generator/.venv/bin/forge-project"
+```
+
+---
+
+## 📖 Usage
+
+### Forge a New Project
+```bash
+# Forge in the current directory
+forge .
+
+# Forge in a specific target directory
+forge ~/projects/my-new-ai-model
+```
+
+### How to use with AI Agents
+1. **Define Features**: Use `docs/feature_template.md` to describe your feature.
+2. **Review Rules**: Ensure `rules/ai_behavior.md` matches your team's specific requirements.
+3. **Collaborate**: Launch Aider/Cursor. The pre-configured context will ensure the agent respects your architecture from the first prompt.
+
+---
+
+## 📁 The Forge Structure
+
+When you forge a project, you get a battle-tested structure:
 
 ```text
 .
-├── CONTEXT.md             # Project-wide context for AI agents
-├── README.md              # Project overview and getting started
-├── data/                  # Raw and processed data (Git ignored)
+├── CONTEXT.md             # High-level architecture & standards for AI
+├── README.md              # Auto-generated project overview
+├── data/                  # Git-ignored (raw/processed)
 ├── docs/
-│   ├── feature_template.md # Template for describing new features
-│   └── features/          # Tracked feature documentation
-├── models/                # Trained model artifacts (Git ignored)
-├── notebooks/             # Experimental research and discovery
+│   ├── feature_template.md # Standardized feature requirement format
+│   └── features/          # Root for all feature documentation
+├── models/                # Git-ignored model artifacts & checkpoints
+├── notebooks/             # Research, discovery, and prototyping
 ├── rules/
-│   └── ai_behavior.md     # Governance for AI agent contributions
-├── src/                   # Production source code
-└── tests/                 # Unit and integration tests
-├── .aider.conf.yml        # Pre-configured Aider behavior
+│   └── ai_behavior.md     # MANDATORY rules for AI agent operation
+├── src/                   # Production-grade Python modules
+└── tests/                 # Unit & integration testing suite
 ```
 
-## 📜 Coding Standards (Enforced)
+---
 
-The generated project expects:
-- **Type Hinting**: Mandatory for all function definitions.
-- **Unit Testing**: 100% logic coverage in the `tests/` directory.
-- **Modular Code**: Business logic resides in `src/`, not notebooks.
-- **Documentation**: Google-style docstrings for all public modules.
+## 📜 AI-Native Coding Standards
 
-## 🏗️ Development of the Generator
+Forge projects enforce the following by default:
+- **Type Hinting**: Mandatory for all function signatures.
+- **Modular Logic**: Business logic lives in `src/`, never in notebooks.
+- **Docstrings**: Google-style documentation for all public modules.
+- **Automated Verification**: CI/CD pipeline integrated into every scaffold.
 
-To work on the generator itself:
-
-1. Create a virtual environment:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Linux/macOS
-   ```
-
-2. Install development dependencies:
-   ```bash
-   pip install -r requirements-dev.txt
-   ```
-
-3. Run the generator in development mode:
-   ```bash
-   pip install -e .
-   ```
+---
 
 ## 🤝 Contributing
 
-Contributions to the generator are welcome! Please follow the Git Flow workflow and ensure any new scaffolding features are accompanied by updates to the `src/project_generator/assets/` modules and this README.
+We are building the future of AI-native engineering. If you have ideas for improving agentic governance or scaffolding templates, please:
+1. Fork the repo.
+2. Create a feature branch off `develop`.
+3. Open a Pull Request.
+
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the `LICENSE` file for details.
+Iterate fast, governed safely. Forge is released under the [MIT License](LICENSE).
+
+---
+*Built with ❤️ by [West AI Labs](https://github.com/west_ai_labs)*
