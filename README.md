@@ -34,27 +34,45 @@ Traditional scaffolding tools (like Cookiecutter) focus on file organization. **
 
 ## 🛠️ Installation
 
-Forge is a modular Python application. For global access, install it in editable mode:
+### Option 1: Global Installation (Recommended)
+The easiest way to use Forge globally is with `pipx`. This installs Forge in an isolated environment and makes the `forge` command available everywhere.
 
 ```bash
-git clone https://github.com/west_ai_labs/new-project-generator.git
-cd new-project-generator
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .
+# Install pipx if you haven't already
+# brew install pipx (macOS) or sudo apt install pipx (Linux)
+pipx ensurepath
+
+# Install Forge directly from GitHub
+pipx install git+https://github.com/west_ai_labs/forge-scaffolder.git
 ```
 
-### Create a Global Alias
-Add this to your `~/.zshrc` or `~/.bashrc`:
-```bash
-alias forge="/absolute/path/to/new-project-generator/.venv/bin/forge-project"
-```
+### Option 2: Local Development Installation
+If you want to contribute to Forge or customize the templates locally:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/west_ai_labs/forge-scaffolder.git
+   cd forge-scaffolder
+   ```
+
+2. Create a virtual environment and install in editable mode:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -e .
+   ```
+
+3. (Optional) Create a global alias for quick access:
+   Add this to your `~/.zshrc` or `~/.bashrc`:
+   ```bash
+   alias forge="$(pwd)/.venv/bin/forge-project"
+   ```
 
 ---
 
-## 📖 Usage
-
 ### Forge a New Project
+Forge can be invoked as `forge-project` or via your `forge` alias (recommended).
+
 ```bash
 # Forge in the current directory
 forge .
