@@ -13,7 +13,7 @@ env = Environment(
 # Raw content mappings for non-template files
 RAW_CONTENT = {
     "requirements.txt": "numpy\npandas\nscikit-learn\n",
-    "requirements-dev.txt": "pytest\nblack\nflake8\npre-commit\naider-chat\n",
+    "requirements-dev.txt": "pytest\nblack\nflake8\npre-commit\naider-chat\nmkdocs-material\n",
     "tests/test_initial.py": """
 def test_sanity():
     assert True

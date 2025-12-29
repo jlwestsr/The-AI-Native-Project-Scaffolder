@@ -5,10 +5,10 @@ The `docs/` folder structure is excellent for version control, but less accessib
 
 ## Requirements
 List the specific requirements for this feature:
-- [ ] Generate `mkdocs.yml` in the project root.
-- [ ] Configure `mkdocs-material` theme by default.
-- [ ] Add a GitHub Action workflow `docs.yml` to deploy to GitHub Pages on push to `main`.
-- [ ] Include `docs/features/*` in the navigation automatically.
+- [x] Generate `mkdocs.yml` in the project root.
+- [x] Configure `mkdocs-material` theme by default.
+- [x] Add a GitHub Action workflow `docs.yml` to deploy to GitHub Pages on push to `main`.
+- [x] Include `docs/features/*` in the navigation automatically.
 
 ## Technical Implementation (Optional)
 If you have specific ideas about how this should be built, list them here:
@@ -18,9 +18,9 @@ If you have specific ideas about how this should be built, list them here:
 
 ## Acceptance Criteria
 How will we know this is working correctly?
-- [ ] `mkdocs serve` runs without errors immediately after project generation.
-- [ ] The site displays the `README.md` as the home page.
-- [ ] Feature files are listed in the side navigation.
+- [x] `mkdocs serve` runs without errors immediately after project generation.
+- [x] The site displays the `README.md` as the home page (via `docs/index.md` linking/referencing).
+- [x] Feature files are listed in the side navigation.
 
 ## Feedback/Notes
 Keep it optional (`--with-docs-site`) to avoid bloat for small projects? Or enable by default for "Production Grade"? Let's verify size impact.

@@ -35,4 +35,7 @@ FILES_TO_CREATE = {
     ".gitignore": ".gitignore.j2",
     "Dockerfile": "Dockerfile.j2",
     "docker-compose.yml": "docker-compose.yml.j2",
+    "mkdocs.yml": "mkdocs.yml.j2",
+    "docs/index.md": "docs/index.md.j2",
+    ".github/workflows/docs.yml": ".github/workflows/docs.yml.j2",
 }
