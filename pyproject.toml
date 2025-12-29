@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "new-project-generator"
+name = "forge-scaffolder"
 version = "0.1.0"
 description = "Production-grade AI Project Scaffolder"
 authors = [{name = "West AI Labs", email = "labs@example.com"}]
