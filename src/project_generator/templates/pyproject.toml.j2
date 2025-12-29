@@ -3,19 +3,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "forge-scaffolder"
+name = "{{ project_name }}"
 version = "0.1.0"
-description = "Production-grade AI Project Scaffolder"
-authors = [{name = "JLWestSr", email = "labs@example.com"}]
+description = "Production-grade AI Project"
+authors = [{name = "{{ author_name }}", email = "labs@example.com"}]
 requires-python = ">=3.10"
-dependencies = [
-    "rich",
-    "questionary",
-    "jinja2",
-]
-
-[project.scripts]
-forge-project = "project_generator.cli:main"
+license = {text = "{{ license }}"}
 
 # --- Black Configuration ---
 [tool.black]

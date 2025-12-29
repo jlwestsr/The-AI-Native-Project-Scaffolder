@@ -17,24 +17,22 @@ PROJECT_STRUCTURE = [
 ]
 
 FILES_TO_CREATE = {
-    "README.md": templates.README_MD_CONTENT,
-    "CONTEXT.md": templates.AIDER_CONTEXT,
-    "rules/ai_behavior.md": templates.AI_BEHAVIOR_RULES,
-    "docs/feature_template.md": templates.FEATURE_TEMPLATE,
+    "README.md": "README.md.j2",
+    "CONTEXT.md": "CONTEXT.md.j2",
+    "rules/ai_behavior.md": "rules/ai_behavior.md.j2",
+    "docs/feature_template.md": "docs/feature_template.md.j2",
     "docs/features/stub.txt": "",
-    ".aider.conf.yml": templates.AIDER_CONFIG,
-    ".pre-commit-config.yaml": templates.PRE_COMMIT_CONFIG,
-    ".flake8": templates.FLAKE8_CONFIG,
-    "pyproject.toml": templates.PYPROJECT_TOML,
-    ".github/workflows/unittests.yml": templates.GITHUB_WORKFLOW,
-    "requirements.txt": "numpy\npandas\nscikit-learn\n",
-    "requirements-dev.txt": "pytest\nblack\nflake8\npre-commit\naider-chat\n",
+    ".aider.conf.yml": ".aider.conf.yml.j2",
+    ".pre-commit-config.yaml": ".pre-commit-config.yaml.j2",
+    ".flake8": ".flake8.j2",
+    "pyproject.toml": "pyproject.toml.j2",
+    ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
+    "requirements.txt": "requirements.txt", # String content, not template
+    "requirements-dev.txt": "requirements-dev.txt", # String content
     "src/__init__.py": "",
     "tests/__init__.py": "",
-    "tests/test_initial.py": """
-def test_sanity():
-    assert True
-""",
-    "Dockerfile": templates.DOCKERFILE_CONTENT,
-    "docker-compose.yml": templates.DOCKER_COMPOSE_CONTENT,
+    "tests/test_initial.py": "tests/test_initial.py", # String content
+    ".gitignore": ".gitignore.j2",
+    "Dockerfile": "Dockerfile.j2",
+    "docker-compose.yml": "docker-compose.yml.j2",
 }

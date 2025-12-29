@@ -56,5 +56,29 @@ class TestEngine(unittest.TestCase):
                 content = f.read()
                 assert content.strip() == templates.DOCKER_COMPOSE_CONTENT.strip()
 
+    def test_create_structure_with_context(self):
+        """Test file creation with context replacement (Jinja2)."""
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            context = {
+                "__PROJECT_NAME__": "MyAIProject",
+                "__AUTHOR_NAME__": "Alice",
+                "__LICENSE__": "MIT"
+            }
+            engine.create_structure(tmpdirname, context=context)
+            
+            # Check README
+            readme_path = os.path.join(tmpdirname, "README.md")
+            with open(readme_path, "r") as f:
+                content = f.read()
+                assert "# MyAIProject" in content
+                
+            # Check pyproject.toml
+            toml_path = os.path.join(tmpdirname, "pyproject.toml")
+            with open(toml_path, "r") as f:
+                content = f.read()
+                assert 'name = "MyAIProject"' in content
+                assert 'authors = [{name = "Alice", email = "labs@example.com"}]' in content
+                assert 'license = {text = "MIT"}' in content
+
 if __name__ == '__main__':
     unittest.main()
