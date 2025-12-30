@@ -1,5 +1,8 @@
 # Project Context & Coding Standards
 
+> **[IMPORTANCE: CRITICAL] AI AGENT DIRECTIVE**:
+> You MUST read and adhere to [rules/ai_behavior.md](rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.
+
 ## Project Overview
 This is a production-grade AI engineering project. 
 
@@ -16,6 +19,11 @@ This is a production-grade AI engineering project.
 4. Ensure `git init` and `.gitignore` are respected.
 
 ## File Structure
-- `data/` and `models/` are ignored by git.
-- `src/` contains the source code.
-- `tests/` mirrors the structure of `src/`.
+- `data/`: Contains raw and processed data. **Ignored by git** to prevent leaking sensitive information.
+- `docs/`: Project documentation, including feature specs (in `features/`) and architectural decisions.
+- `models/`: Binary model files and weights. **Ignored by git**.
+- `notebooks/`: Jupyter notebooks for experimentation and analysis. Logic MUST be moved to `src/` before production.
+- `rules/`: AI compliance and behavior rules (e.g., `ai_behavior.md`).
+- `src/`: The core source code of the project. Organized by feature or module.
+- `tests/`: Unit tests mirroring the `src/` structure.
+- `.github/`: CI/CD pipelines and GitHub Actions workflows.

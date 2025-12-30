@@ -3,6 +3,9 @@
 AIDER_CONTEXT = """
 # Project Context & Coding Standards
 
+> **[IMPORTANCE: CRITICAL] AI AGENT DIRECTIVE**:
+> You MUST read and adhere to [rules/ai_behavior.md](rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.
+
 ## Project Overview
 This is a production-grade AI engineering project. 
 
@@ -19,9 +22,14 @@ This is a production-grade AI engineering project.
 4. Ensure `git init` and `.gitignore` are respected.
 
 ## File Structure
-- `data/` and `models/` are ignored by git.
-- `src/` contains the source code.
-- `tests/` mirrors the structure of `src/`.
+- `data/`: Contains raw and processed data. **Ignored by git** to prevent leaking sensitive information.
+- `docs/`: Project documentation, including feature specs (in `features/`) and architectural decisions.
+- `models/`: Binary model files and weights. **Ignored by git**.
+- `notebooks/`: Jupyter notebooks for experimentation and analysis. Logic MUST be moved to `src/` before production.
+- `rules/`: AI compliance and behavior rules (e.g., `ai_behavior.md`).
+- `src/`: The core source code of the project. Organized by feature or module.
+- `tests/`: Unit tests mirroring the `src/` structure.
+- `.github/`: CI/CD pipelines and GitHub Actions workflows.
 """
 
 AI_BEHAVIOR_RULES = """
@@ -64,7 +72,24 @@ This document outlines the specific operational standards and behavioral expecta
 - **Node.js**: Use `community.general.npm` with `global: true` for system-wide CLI tools. Ensure `nodejs` and `npm` are installed via `apt` in the `common` role first.
 - **Verification**: After applying an Ansible role, run `ansible-playbook ansible/verify.yml` to ensure the system state matches the intended configuration.
 - **Security**: Never commit `~/.ssh/` keys or personal tokens. If a script needs to check for them, it should do so without exposing contents.
-- **Git Tracking**: All changes must be committed. Use branches for risky or complex changes to facilitate rollbacks. Never commit directly to `main` without testing.
+- **Git Tracking & Branching**:
+    - **NO DIRECT WORK ON MAIN/MASTER**. This branch is for production releases only.
+    - **Chores**: Minor maintenance or documentation ("chore" work) may be done directly on the `develop` branch.
+    - **Features/Bugs**: ALL other work (features, bug fixes, refactors) MUST be done on a new branch (e.g., `feat/...`, `fix/...`) created from `develop`.
+    - Always merge `develop` into your feature branch before requesting a merge back.
+
+## 8. Feature Implementation Workflow
+When given a directive to work through a feature, follow these steps strictly:
+0.  **Create Feature Document**: Create a new file in `docs/features/` using the content from `docs/feature_template.md`. This MUST be the first step to define the feature scope.
+1.  **Create a Branch**: Create a new git branch to do the work (e.g., `git checkout -b feat/feature-name`).
+2.  **Do the Work**: Implement the changes, following all coding standards and guardrails.
+3.  **Test the Work**: Run standard tests (`pytest`, `flake8`) and add new tests as required. Ensure all pass.
+4.  **Document the Work**: Update relevant documentation (README, feature docs, walkthrough).
+5.  **Commit, Merge, and Push**:
+    - Commit changes with conventional messages.
+    - Switch to the main development branch (e.g., `develop`).
+    - Merge the feature branch.
+    - Push the updated branch to the remote.
 """
 
 FEATURE_TEMPLATE = """
