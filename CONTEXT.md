@@ -1,24 +1,27 @@
 # Project Context & Coding Standards
 
 > **[IMPORTANCE: CRITICAL] AI AGENT DIRECTIVE**:
-> You MUST read and adhere to [rules/ai_behavior.md](rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.
+> You MUST read and adhere to [.agent/rules/ai_behavior.md](.agent/rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.
 
 ## Project Overview
 This is a production-grade AI engineering project. 
 
 ## Coding Standards
+
 1. **Unit Tests**: ALL changes must have accompanying unit tests in the `tests/` directory.
 2. **Modular Code**: Do not put business logic in notebooks. Move logic to `src/` modules.
 3. **Type Hinting**: Use Python type hints for all function definitions.
 4. **Documentation**: All public functions must have docstrings (Google style).
 
 ## Git Workflow
+
 1. We use Git Flow.
 2. Direct commits to `main` are forbidden. 
 3. Work on feature branches off `develop`.
 4. Ensure `git init` and `.gitignore` are respected.
 
 ## File Structure
+
 - `data/`: Contains raw and processed data. **Ignored by git** to prevent leaking sensitive information.
 - `docs/`: Project documentation, including feature specs (in `features/`) and architectural decisions.
 - `models/`: Binary model files and weights. **Ignored by git**.

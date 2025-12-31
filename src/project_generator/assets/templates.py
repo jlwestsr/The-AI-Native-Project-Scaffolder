@@ -4,7 +4,7 @@ AIDER_CONTEXT = """
 # Project Context & Coding Standards
 
 > **[IMPORTANCE: CRITICAL] AI AGENT DIRECTIVE**:
-> You MUST read and adhere to [rules/ai_behavior.md](rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.
+> You MUST read and adhere to [.agent/rules/ai_behavior.md](.agent/rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.
 
 ## Project Overview
 This is a production-grade AI engineering project. 
@@ -26,7 +26,7 @@ This is a production-grade AI engineering project.
 - `docs/`: Project documentation, including feature specs (in `features/`) and architectural decisions.
 - `models/`: Binary model files and weights. **Ignored by git**.
 - `notebooks/`: Jupyter notebooks for experimentation and analysis. Logic MUST be moved to `src/` before production.
-- `rules/`: AI compliance and behavior rules (e.g., `ai_behavior.md`).
+- `.agent/rules/`: AI compliance and behavior rules (e.g., `ai_behavior.md`).
 - `src/`: The core source code of the project. Organized by feature or module.
 - `tests/`: Unit tests mirroring the `src/` structure.
 - `.github/`: CI/CD pipelines and GitHub Actions workflows.
@@ -131,7 +131,7 @@ Follow the AI Behavior strict workflow:
 AIDER_CONFIG = """
 # .aider.conf.yml
 read:
-  - rules/ai_behavior.md
+  - .agent/rules/ai_behavior.md
   - CONTEXT.md
 
 auto-commits: false  # We want manual control over commits to review them

@@ -12,14 +12,14 @@ PROJECT_STRUCTURE = [
     "src/models",
     "src/visualization",
     "tests",
-    "rules",
+    ".agent/rules",
     ".github/workflows"
 ]
 
 FILES_TO_CREATE = {
     "README.md": "README.md.j2",
     "CONTEXT.md": "CONTEXT.md.j2",
-    "rules/ai_behavior.md": "rules/ai_behavior.md.j2",
+    ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior.md.j2",
     "docs/feature_template.md": "docs/feature_template.md.j2",
     "docs/features/stub.txt": "",
     ".aider.conf.yml": ".aider.conf.yml.j2",

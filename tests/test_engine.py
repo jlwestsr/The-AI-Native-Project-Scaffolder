@@ -49,6 +49,7 @@ class TestEngine(unittest.TestCase):
             assert os.path.exists(os.path.join(tmpdirname, "mkdocs.yml"))
             assert os.path.exists(os.path.join(tmpdirname, "docs/index.md"))
             assert os.path.exists(os.path.join(tmpdirname, ".github/workflows/docs.yml"))
+            assert os.path.exists(os.path.join(tmpdirname, ".agent/rules/ai_behavior.md"))
             
             # Check content
             with open(dockerfile_path, 'r') as f:
