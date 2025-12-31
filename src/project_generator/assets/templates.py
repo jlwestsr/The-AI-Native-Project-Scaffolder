@@ -86,10 +86,7 @@ When given a directive to work through a feature, follow these steps strictly:
 3.  **Test the Work**: Run standard tests (`pytest`, `flake8`) and add new tests as required. Ensure all pass.
 4.  **Document the Work**: Update relevant documentation (README, feature docs, walkthrough).
 5.  **Commit, Merge, and Push**:
-6.  **Commit changes with conventional messages.
-7.  **Switch to the main development branch (e.g., `develop`).
-8.  **Merge the feature branch.
-9.  **Push the updated branch to the remote.
+
     - Commit changes with conventional messages.
     - Switch to the main development branch (e.g., `develop`).
     - Merge the feature branch.
