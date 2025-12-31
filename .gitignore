@@ -27,9 +27,11 @@ models/
 
 # IDE Specific
 *.code-workspace
+.obsidian/
 
 # Aider / LLM tools
 .aider*
 !.aider.conf.yml
 !.aider.chat.history.md
+!.agent/rules/ai_behavior.md
 !src/project_generator/templates/.aider.conf.yml.j2
