@@ -67,3 +67,8 @@ When given a directive to work through a feature, follow these steps strictly:
     - Switch to the main development branch (e.g., `develop`).
     - Merge the feature branch.
     - Push the updated branch to the remote.
+
+## 9. Project Structure & Agent Configuration
+- **.agent Directory**: This directory holds agent-specific configuration and rules. It is the single source of truth for agent behavior within the project scope.
+- **Rule Location**: All AI behavior rules MUST be located in `.agent/rules/`. The primary rule file is `ai_behavior.md`.
+- **Workflows**: Agent workflows (e.g., specific multi-step tasks) should be stored in `.agent/workflows/`.
