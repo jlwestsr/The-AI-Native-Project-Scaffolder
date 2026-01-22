@@ -2,6 +2,7 @@ import os
 import tempfile
 import sys
 import unittest
+from unittest.mock import patch
 
 # Add src to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
@@ -10,6 +11,14 @@ from project_generator import engine  # noqa: E402
 
 
 class TestEngine(unittest.TestCase):
+    def setUp(self):
+        # Patch setup_virtualenv to prevent actual venv creation
+        self.venv_patcher = patch('project_generator.engine.setup_virtualenv')
+        self.mock_setup_venv = self.venv_patcher.start()
+
+    def tearDown(self):
+        self.venv_patcher.stop()
+
     def test_check_greenfield_valid(self):
         """Test greenfield check passes on empty dir."""
         with tempfile.TemporaryDirectory() as tmpdirname:
@@ -37,6 +46,8 @@ class TestEngine(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdirname:
             # Create structure
             engine.create_structure(tmpdirname)
+            # Verify venv setup was called
+            self.mock_setup_venv.assert_called_with(tmpdirname, "pip")
 
             # Check files exist
             dockerfile_path = os.path.join(tmpdirname, "Dockerfile")
@@ -59,6 +70,7 @@ class TestEngine(unittest.TestCase):
         with tempfile.TemporaryDirectory() as web_dir:
             context = {"__PROFILE__": "web"}
             engine.create_structure(web_dir, context=context)
+            self.mock_setup_venv.assert_called_with(web_dir, "pip")
 
             # Check for Gantry-like structure
             assert os.path.exists(os.path.join(web_dir, "src/backend"))
@@ -129,6 +141,9 @@ class TestEngine(unittest.TestCase):
                 "__PACKAGE_MANAGER__": "poetry"
             }
             engine.create_structure(tmpdirname, context=context)
+
+            # venv should NOT be called for poetry
+            self.mock_setup_venv.assert_called_with(tmpdirname, "poetry")
 
             # requirements.txt should NOT exist
             assert not os.path.exists(os.path.join(tmpdirname, "requirements.txt"))

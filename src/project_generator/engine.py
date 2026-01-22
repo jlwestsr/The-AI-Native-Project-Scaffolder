@@ -1,6 +1,6 @@
-"""Core scaffolding engine."""
 import os
 import sys
+import subprocess
 from jinja2 import Environment, PackageLoader, select_autoescape
 from .assets import configs
 
@@ -86,3 +86,54 @@ def create_structure(base_path, update=False, context=None):
 
         with open(file_path, 'w') as f:
             f.write(content.strip())
+
+    # Setup Virtualenv (if using pip)
+    setup_virtualenv(base_path, jinja_context["package_manager"])
+
+
+def setup_virtualenv(base_path, package_manager):
+    """Sets up a virtual environment and installs dependencies."""
+    if package_manager != "pip":
+        return
+
+    print("\n📦 Setting up virtual environment (venv)...")
+    venv_path = os.path.join(base_path, "venv")
+
+    # 1. Create venv
+    try:
+        subprocess.run(
+            ["python3", "-m", "venv", venv_path],
+            check=True,
+            capture_output=True
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Error creating venv: {e}")
+        return
+
+    # Pip path
+    pip_cmd = os.path.join(venv_path, "bin", "pip")
+
+    # 2. Upgrade pip
+    print("   Upgrading pip...")
+    try:
+        subprocess.run(
+            [pip_cmd, "install", "--upgrade", "pip"],
+            check=True,
+            capture_output=True
+        )
+    except subprocess.CalledProcessError:
+        print("   ⚠️ Warning: Failed to upgrade pip.")
+
+    # 3. Install requirements
+    for req_file in ["requirements.txt", "requirements-dev.txt"]:
+        req_path = os.path.join(base_path, req_file)
+        if os.path.exists(req_path):
+            print(f"   Installing {req_file}...")
+            proc = subprocess.run(
+                [pip_cmd, "install", "-r", req_path],
+                capture_output=True,
+                text=True
+            )
+            if proc.returncode != 0:
+                print(f"   ⚠️ Warning: Failed to install {req_file}.")
+                print(f"   Output: {proc.stderr}")
