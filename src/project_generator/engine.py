@@ -10,18 +10,6 @@ env = Environment(
     autoescape=select_autoescape()
 )
 
-# Raw content mappings for non-template files
-RAW_CONTENT = {
-    "requirements.txt": "numpy\npandas\nscikit-learn\n",
-    "requirements-dev.txt": (
-        "pytest\nblack\nflake8\npre-commit\naider-chat\nmkdocs-material\n"
-    ),
-    "tests/test_initial.py": """
-def test_sanity():
-    assert True
-"""
-}
-
 
 def check_greenfield(path):
     """Ensures the directory is empty (ignoring the script itself)."""
@@ -87,17 +75,14 @@ def create_structure(base_path, update=False, context=None):
 
         content = ""
 
-        # Check if it's a raw content file
-        if filename in RAW_CONTENT:
-            content = RAW_CONTENT[filename]
-        # Otherwise render from template
-        elif template_name:
+        # Use Jinja2 template if defined
+        if template_name:
             try:
                 template = env.get_template(template_name)
                 content = template.render(**jinja_context)
             except Exception as e:
                 print(f"Error rendering {template_name}: {e}")
-                # Fallbck or re-raise?
                 continue
+
         with open(file_path, 'w') as f:
             f.write(content.strip())

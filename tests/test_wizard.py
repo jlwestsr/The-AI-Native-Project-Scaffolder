@@ -13,7 +13,7 @@ class TestWizard(unittest.TestCase):
     @patch('project_generator.wizard.config_manager.get_setting')
     @patch('project_generator.wizard.questionary.text')
     @patch('project_generator.wizard.questionary.select')
-    @patch('project_generator.wizard.console')
+    @patch('project_generator.wizard.Console')
     def test_run_wizard(self, mock_console, mock_select, mock_text, mock_config):
         """Test wizard collects inputs correctly."""
         # Setup mocks
@@ -40,7 +40,7 @@ class TestWizard(unittest.TestCase):
     @patch('project_generator.wizard.config_manager.get_setting')
     @patch('project_generator.wizard.questionary.text')
     @patch('project_generator.wizard.questionary.select')
-    @patch('project_generator.wizard.console')
+    @patch('project_generator.wizard.Console')
     def test_run_wizard_defaults(self, mock_console, mock_select, mock_text, mock_cfg):
         """Test wizard handles defaults/empty input."""
         mock_cfg.return_value = "DefaultVal"
