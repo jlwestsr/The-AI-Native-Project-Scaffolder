@@ -30,3 +30,11 @@ This is a production-grade AI engineering project.
 - `src/`: The core source code of the project. Organized by feature or module.
 - `tests/`: Unit tests mirroring the `src/` structure.
 - `.github/`: CI/CD pipelines and GitHub Actions workflows.
+
+## Reference Directories (READ-ONLY)
+
+The following directories are symbolic links to other projects for reference purposes only. **Do NOT modify content within these folders unless explicitly approved by the user.**
+
+- `reference_gantry/`
+- `reference_nebulus/`
+- `reference_shurtugal-lnx/`

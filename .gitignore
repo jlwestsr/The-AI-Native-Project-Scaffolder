@@ -35,3 +35,7 @@ models/
 !.aider.chat.history.md
 !.agent/rules/ai_behavior.md
 !src/project_generator/templates/.aider.conf.yml.j2
+# Reference Directories
+reference_gantry
+reference_nebulus
+reference_shurtugal-lnx
