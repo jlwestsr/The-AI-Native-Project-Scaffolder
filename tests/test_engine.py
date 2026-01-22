@@ -75,7 +75,10 @@ class TestEngine(unittest.TestCase):
             self.mock_setup_venv.assert_called_with(web_dir, "pip")
 
             # Check for Gantry-like structure
-            assert os.path.exists(os.path.join(web_dir, "src/backend"))
+            assert os.path.exists(os.path.join(web_dir, "src/backend/app/models"))
+            assert os.path.exists(os.path.join(web_dir, "src/backend/app/routers"))
+            assert os.path.exists(os.path.join(web_dir, "src/backend/app/services"))
+            assert os.path.exists(os.path.join(web_dir, "src/backend/core"))
             assert os.path.exists(os.path.join(web_dir, "src/frontend/static"))
             # Should NOT have src/models from fullstack
             assert not os.path.exists(os.path.join(web_dir, "src/models"))
