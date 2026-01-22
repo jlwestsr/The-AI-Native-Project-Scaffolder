@@ -68,6 +68,7 @@ forge [TARGET_DIR] [OPTIONS]
 | :--- | :--- | :--- |
 | `--update` | `-u` | **Safe Update**: Adds missing files (e.g., `Dockerfile`, `rules/`) without overwriting existing content. |
 | `--manager` | | Choose package manager: `pip` (default), `poetry`, or `uv`. |
+| `--profile` | | Choose archetype: `fullstack` (default), `web`, or `system`. |
 | `--config-list` | | Display global configuration settings. |
 | `--config-set` | | Set global defaults (e.g., `--config-set author_name="Jane Doe"`). |
 
@@ -77,10 +78,10 @@ forge [TARGET_DIR] [OPTIONS]
 forge
 
 # Non-Interactive Customization
-forge my-project --manager poetry
+forge my-project --manager poetry --profile web
 
 # Update Legacy Project
-forge . --update
+forge . --update --profile system
 ```
 
 ## 6. Coding Standards
