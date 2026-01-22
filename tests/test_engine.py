@@ -66,6 +66,13 @@ class TestEngine(unittest.TestCase):
             # Should NOT have src/models from fullstack
             assert not os.path.exists(os.path.join(web_dir, "src/models"))
 
+            # Check AI Rules content
+            rules_path = os.path.join(web_dir, ".agent/rules/ai_behavior.md")
+            with open(rules_path, "r") as f:
+                content = f.read()
+                assert "Reference: Gantry" in content
+                assert "Gantry Architect" in content
+
         # 2. System Profile
         with tempfile.TemporaryDirectory() as sys_dir:
             context = {"__PROFILE__": "system"}
@@ -76,6 +83,13 @@ class TestEngine(unittest.TestCase):
             assert os.path.exists(os.path.join(sys_dir, "scripts/bootstrap.sh"))
             # Should NOT have web backend
             assert not os.path.exists(os.path.join(sys_dir, "src/backend"))
+
+            # Check AI Rules content
+            rules_path = os.path.join(sys_dir, ".agent/rules/ai_behavior.md")
+            with open(rules_path, "r") as f:
+                content = f.read()
+                assert "Reference: Shurtugal-LNX" in content
+                assert "Ansible-First" in content
 
     def test_create_structure_with_context(self):
         """Test file creation with context replacement (Jinja2)."""

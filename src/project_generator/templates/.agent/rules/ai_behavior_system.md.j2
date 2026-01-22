@@ -1,0 +1,65 @@
+---
+trigger: always_on
+---
+
+# AI Development Rules for {{ project_name }}
+
+**Type:** System Automation (Reference: Shurtugal-LNX)
+
+## 0. Agent Configuration & Rule Hierarchy
+
+When opening this project, the Google Antigravity IDE looks first for rules in the local workspace folder before falling back to global system-wide rules.
+
+### Rule Locations
+
+| Type | Default File Path | Use Case |
+|------|-------------------|----------|
+| **Workspace Rule** | `.agent/rules/` | Project-specific coding standards (Ansible, Bash). |
+| **Global Rule** | `~/.gemini/GEMINI.md` | Universal behavior guidelines across all projects. |
+
+## 1. Discovery-Driven Development
+- **Ground Truth**: Always run `./scripts/discovery.sh` (if available) before proposing new automation.
+- **Ansible-First**: Do not run manual `apt install`, `pip install`, or configuration edits unless experimenting. Once confirmed, IMMEDIATELY port the change to an Ansible role.
+
+## 2. APT & Repository Management
+- **Keyrings**: Always store GPG keys in `/usr/share/keyrings/`. Prefer the `.asc` (armored) extension.
+- **Signed-By**: When adding a repository, ALWAYS specify the `signed-by` attribute in the `repo` string pointing to the exact keyring path.
+- **Conflicts**: Always include a step to remove existing auto-generated repository files before adding our own via Ansible.
+
+## 3. Shell & Env
+- **Idempotency**: Use the `creates` parameter in `ansible.builtin.shell` tasks to prevent re-installation.
+- **Mandatory Local Venv**: ALWAYS use the project's local `./venv` for development. Do NOT use the global `python_venv`. Activate it immediately when opening a terminal: `source ./venv/bin/activate`.
+
+## 4. Services & Sudo
+- **Elevation**: Always assume `become: true` for system-level roles (docker, nvidia, common).
+- **User Services**: Use `systemctl --user` for user-specific services like Ulauncher.
+- **Interactive Sudo**: Always instruct the user to use the `-K` flag when running the playbook: `ansible-playbook ... -K`.
+
+## 5. Testing & Quality Assurance
+- **Mandatory Unit Tests**: All new Python scripts OR significant functional changes to existing ones MUST include unit tests (using `pytest`) in the `tests/` directory.
+- **System Verification**: New system configurations must be added to the `ansible/verify.yml` playbook.
+- **Test Runner**: Always run `./scripts/run_tests.sh` before finalizing work.
+- **Comprehensive Linting**: Ensure ZERO warnings for `ansible-lint`, `flake8`, `yamllint`, and `markdownlint`.
+
+## 6. Development Workflow
+- **Conventional Commits**: Use `feat:`, `fix:`, `docs:`, or `chore:` prefixes.
+- **Python Environment (PEP 668)**: On Ubuntu 24.04, always use `--user --break-system-packages` for persistent system-level Python tool/dependency installation, OR use the project's `./venv/`.
+- **Git Tracking & Branching**:
+    - **NO DIRECT WORK ON MAIN/MASTER**. This branch is for production releases only.
+    - **Strict Local Branch Policy**: `feat`, `fix`, `docs`, and `chore` branches are **LOCAL ONLY**. Never push them to origin. Only `develop` and `main` branches are allowed on the remote.
+    - **Push Authorization**: All pushes to `origin` require explicit, just-in-time user approval.
+
+## 7. Workflows by Commit Type
+
+### 7.1 Feature (`feat`)
+1.  **Docs**: Create `docs/features/name.md` from template.
+2.  **Branch**: `git checkout -b feat/feature-name`
+3.  **Work**: Implement changes.
+4.  **Verify**: Run `scripts/run_tests.sh`.
+5.  **Merge**: `git merge feat/feature-name` into `develop`.
+6.  **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+## 8. Agentic Artifact Protocol
+- **Task Tracking**: For multi-step complex tasks, maintain a `task.md` artifact to track progress across tool boundaries.
+- **Planning**: Before "Doing the Work" (Step 2 of Feature Workflow), create an `implementation_plan.md` for user approval.
+- **Walkthrough**: Upon completion of significant features, create `walkthrough.md` to demonstrate verification results and user guides.

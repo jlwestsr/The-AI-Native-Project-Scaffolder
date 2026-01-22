@@ -4,7 +4,6 @@
 COMMON_FILES = {
     "README.md": "README.md.j2",
     "CONTEXT.md": "CONTEXT.md.j2",
-    ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior.md.j2",
     "docs/feature_template.md": "docs/feature_template.md.j2",
     "docs/features/stub.txt": "",
     ".aider.conf.yml": ".aider.conf.yml.j2",
@@ -34,6 +33,7 @@ PROFILES = {
         ],
         "files": {
             **COMMON_FILES,
+            ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior_fullstack.md.j2",
             ".flake8": ".flake8.j2",
             "pyproject.toml": "pyproject.toml.j2",
             ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
@@ -61,6 +61,7 @@ PROFILES = {
         ],
         "files": {
             **COMMON_FILES,
+            ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior_web.md.j2",
             ".flake8": ".flake8.j2",
             "pyproject.toml": "pyproject.toml.j2",
             ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
@@ -87,6 +88,7 @@ PROFILES = {
         ],
         "files": {
             **COMMON_FILES,
+            ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior_system.md.j2",
             "ansible/site.yml": "",
             "ansible/verify.yml": "",
             "scripts/bootstrap.sh": "",
