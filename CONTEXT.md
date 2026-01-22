@@ -48,21 +48,57 @@ Quickly orient yourself by connecting directories to responsible personas:
 | `.agent/rules/` | **All** | AI constraints and coding standards. |
 | `docs/` | **Release Mgr** | Project documentation. |
 
-## 5. Coding Standards
+
+## 5. 💻 CLI Reference
+
+**Forge** is a command-line tool. The primary entry point is `forge` (or `python -m src.project_generator.cli`).
+
+### Usage
+```bash
+forge [TARGET_DIR] [OPTIONS]
+```
+
+### Arguments
+| Argument | Description |
+| :--- | :--- |
+| `TARGET_DIR` | Directory to initialize. Defaults to current directory (`.`). |
+
+### Options
+| Option | Short | Description |
+| :--- | :--- | :--- |
+| `--update` | `-u` | **Safe Update**: Adds missing files (e.g., `Dockerfile`, `rules/`) without overwriting existing content. |
+| `--manager` | | Choose package manager: `pip` (default), `poetry`, or `uv`. |
+| `--config-list` | | Display global configuration settings. |
+| `--config-set` | | Set global defaults (e.g., `--config-set author_name="Jane Doe"`). |
+
+### Examples
+```bash
+# Interactive Wizard (Default)
+forge
+
+# Non-Interactive Customization
+forge my-project --manager poetry
+
+# Update Legacy Project
+forge . --update
+```
+
+## 6. Coding Standards
+
 
 1. **Unit Tests**: ALL changes must have accompanying unit tests in the `tests/` directory.
 2. **Modular Code**: Do not put business logic in notebooks. Move logic to `src/` modules.
 3. **Type Hinting**: Use Python type hints for all function definitions.
 4. **Documentation**: All public functions must have docstrings (Google style).
 
-## 6. Git Workflow
+## 7. Git Workflow
 
 1. We use Git Flow.
 2. Direct commits to `main` are forbidden. 
 3. Work on feature branches off `develop`.
 4. Ensure `git init` and `.gitignore` are respected.
 
-## 7. File Structure
+## 8. File Structure
 
 - `data/`: Contains raw and processed data. **Ignored by git**.
 - `docs/`: Project documentation.
