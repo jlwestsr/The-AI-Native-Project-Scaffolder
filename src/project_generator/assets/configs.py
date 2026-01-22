@@ -1,5 +1,4 @@
 """Configuration for the project generator."""
-from . import templates
 
 PROJECT_STRUCTURE = [
     "data/raw",
@@ -27,11 +26,11 @@ FILES_TO_CREATE = {
     ".flake8": ".flake8.j2",
     "pyproject.toml": "pyproject.toml.j2",
     ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
-    "requirements.txt": "requirements.txt", # String content, not template
-    "requirements-dev.txt": "requirements-dev.txt", # String content
+    "requirements.txt": "requirements.txt",  # String content, not template
+    "requirements-dev.txt": "requirements-dev.txt",  # String content
     "src/__init__.py": "",
     "tests/__init__.py": "",
-    "tests/test_initial.py": "tests/test_initial.py", # String content
+    "tests/test_initial.py": "tests/test_initial.py",  # String content
     ".gitignore": ".gitignore.j2",
     "Dockerfile": "Dockerfile.j2",
     "docker-compose.yml": "docker-compose.yml.j2",

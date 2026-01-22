@@ -13,33 +13,42 @@ env = Environment(
 # Raw content mappings for non-template files
 RAW_CONTENT = {
     "requirements.txt": "numpy\npandas\nscikit-learn\n",
-    "requirements-dev.txt": "pytest\nblack\nflake8\npre-commit\naider-chat\nmkdocs-material\n",
+    "requirements-dev.txt": (
+        "pytest\nblack\nflake8\npre-commit\naider-chat\nmkdocs-material\n"
+    ),
     "tests/test_initial.py": """
 def test_sanity():
     assert True
 """
 }
 
+
 def check_greenfield(path):
     """Ensures the directory is empty (ignoring the script itself)."""
     # Filter out common files like .git or this tool's files if they exist
-    existing_items = [f for f in os.listdir(path) if f not in [".git", "init_project.py"]]
+    existing_items = [
+        f for f in os.listdir(path) if f not in [".git", "init_project.py"]
+    ]
     if existing_items:
-        print(f"❌ Error: Directory '{path}' is not empty. Please run this in a greenfield folder.")
+        print(
+            f"❌ Error: Directory '{path}' is not empty. "
+            "Please run this in a greenfield folder."
+        )
         print(f"   Found: {existing_items}")
         sys.exit(1)
 
+
 def create_structure(base_path, update=False, context=None):
     """Creates folders and files.
-    
+
     Args:
         base_path: The root directory for the project.
-        update: If True, do not verify directory is empty and do not overwrite existing files.
-        context: Dictionary of placeholders to replace in templates (e.g., {"project_name": "MyProject"}).
+        update: If True, do not verify directory is empty and no overwrite.
+        context: Dictionary of placeholders to replace in templates.
     """
     if context is None:
         context = {}
-        
+
     # Standardize context keys (remove dunders if present)
     # The wizard returns __PROJECT_NAME__, but jinja expects project_name
     jinja_context = {
@@ -51,27 +60,29 @@ def create_structure(base_path, update=False, context=None):
     }
 
     print("...Scaffolding folder structure...")
-    
+
     # Create Directories
     for folder in configs.PROJECT_STRUCTURE:
         os.makedirs(os.path.join(base_path, folder), exist_ok=True)
-    
+
     # Create Files
     for filename, template_name in configs.FILES_TO_CREATE.items():
         # Package Manager Logic: Skip requirements.txt if not using pip
-        if filename in ["requirements.txt", "requirements-dev.txt"] and jinja_context["package_manager"] != "pip":
+        if filename in ["requirements.txt", "requirements-dev.txt"] and jinja_context[
+            "package_manager"
+        ] != "pip":
             continue
-            
+
         file_path = os.path.join(base_path, filename)
         # Ensure directory exists for nested files (like workflows)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        
+
         if update and os.path.exists(file_path):
             print(f"   [SKIP] {filename} (Exists)")
             continue
-            
+
         content = ""
-        
+
         # Check if it's a raw content file
         if filename in RAW_CONTENT:
             content = RAW_CONTENT[filename]
@@ -84,7 +95,5 @@ def create_structure(base_path, update=False, context=None):
                 print(f"Error rendering {template_name}: {e}")
                 # Fallbck or re-raise?
                 continue
-            
         with open(file_path, 'w') as f:
             f.write(content.strip())
-

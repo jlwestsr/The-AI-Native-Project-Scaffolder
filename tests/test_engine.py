@@ -1,15 +1,14 @@
 import os
-import shutil
 import tempfile
 import sys
 import unittest
-from unittest.mock import patch
 
 # Add src to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from project_generator import engine
-from project_generator.assets import templates
+from project_generator import engine  # noqa: E402
+from project_generator.assets import templates  # noqa: E402
+
 
 class TestEngine(unittest.TestCase):
     def test_check_greenfield_valid(self):
@@ -17,7 +16,7 @@ class TestEngine(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdirname:
             # Should not raise
             engine.check_greenfield(tmpdirname)
-            
+
     def test_check_greenfield_valid_with_git(self):
         """Test greenfield check ignores .git."""
         with tempfile.TemporaryDirectory() as tmpdirname:
@@ -30,7 +29,7 @@ class TestEngine(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdirname:
             with open(os.path.join(tmpdirname, "random.txt"), "w") as f:
                 f.write("data")
-            
+
             with self.assertRaises(SystemExit):
                 engine.check_greenfield(tmpdirname)
 
@@ -39,23 +38,27 @@ class TestEngine(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdirname:
             # Create structure
             engine.create_structure(tmpdirname)
-            
+
             # Check files exist
             dockerfile_path = os.path.join(tmpdirname, "Dockerfile")
             compose_path = os.path.join(tmpdirname, "docker-compose.yml")
-            
+
             assert os.path.exists(dockerfile_path)
             assert os.path.exists(compose_path)
             assert os.path.exists(os.path.join(tmpdirname, "mkdocs.yml"))
             assert os.path.exists(os.path.join(tmpdirname, "docs/index.md"))
-            assert os.path.exists(os.path.join(tmpdirname, ".github/workflows/docs.yml"))
-            assert os.path.exists(os.path.join(tmpdirname, ".agent/rules/ai_behavior.md"))
-            
+            assert os.path.exists(
+                os.path.join(tmpdirname, ".github/workflows/docs.yml")
+            )
+            assert os.path.exists(
+                os.path.join(tmpdirname, ".agent/rules/ai_behavior.md")
+            )
+
             # Check content
             with open(dockerfile_path, 'r') as f:
                 content = f.read()
                 assert content.strip() == templates.DOCKERFILE_CONTENT.strip()
-                
+
             with open(compose_path, 'r') as f:
                 content = f.read()
                 assert content.strip() == templates.DOCKER_COMPOSE_CONTENT.strip()
@@ -69,19 +72,22 @@ class TestEngine(unittest.TestCase):
                 "__LICENSE__": "MIT"
             }
             engine.create_structure(tmpdirname, context=context)
-            
+
             # Check README
             readme_path = os.path.join(tmpdirname, "README.md")
             with open(readme_path, "r") as f:
                 content = f.read()
                 assert "# MyAIProject" in content
-                
+
             # Check pyproject.toml
             toml_path = os.path.join(tmpdirname, "pyproject.toml")
             with open(toml_path, "r") as f:
                 content = f.read()
                 assert 'name = "MyAIProject"' in content
-                assert 'authors = [{name = "Alice", email = "labs@example.com"}]' in content
+                assert (
+                    'authors = [{name = "Alice", email = "labs@example.com"}]'
+                    in content
+                )
                 assert 'license = {text = "MIT"}' in content
 
     def test_create_structure_poetry(self):
@@ -92,14 +98,15 @@ class TestEngine(unittest.TestCase):
                 "__PACKAGE_MANAGER__": "poetry"
             }
             engine.create_structure(tmpdirname, context=context)
-            
+
             # requirements.txt should NOT exist
             assert not os.path.exists(os.path.join(tmpdirname, "requirements.txt"))
-            
+
             # pyproject.toml should contain poetry section
             with open(os.path.join(tmpdirname, "pyproject.toml"), "r") as f:
                 content = f.read()
                 assert "[tool.poetry]" in content
+
 
 if __name__ == '__main__':
     unittest.main()

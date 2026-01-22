@@ -4,28 +4,28 @@ AIDER_CONTEXT = """
 # Project Context & Coding Standards
 
 > **[IMPORTANCE: CRITICAL] AI AGENT DIRECTIVE**:
-> You MUST read and adhere to [.agent/rules/ai_behavior.md](.agent/rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.
+> You MUST read and adhere to [.agent/rules/ai_behavior.md](.agent/rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.  # noqa: E501
 
 ## Project Overview
-This is a production-grade AI engineering project. 
+This is a production-grade AI engineering project.
 
 ## Coding Standards
-1. **Unit Tests**: ALL changes must have accompanying unit tests in the `tests/` directory.
-2. **Modular Code**: Do not put business logic in notebooks. Move logic to `src/` modules.
+1. **Unit Tests**: ALL changes must have accompanying unit tests in the `tests/` directory.  # noqa: E501
+2. **Modular Code**: Do not put business logic in notebooks. Move logic to `src/` modules.  # noqa: E501
 3. **Type Hinting**: Use Python type hints for all function definitions.
 4. **Documentation**: All public functions must have docstrings (Google style).
 
 ## Git Workflow
 1. We use Git Flow.
-2. Direct commits to `main` are forbidden. 
+2. Direct commits to `main` are forbidden.
 3. Work on feature branches off `develop`.
 4. Ensure `git init` and `.gitignore` are respected.
 
 ## File Structure
-- `data/`: Contains raw and processed data. **Ignored by git** to prevent leaking sensitive information.
-- `docs/`: Project documentation, including feature specs (in `features/`) and architectural decisions.
+- `data/`: Contains raw and processed data. **Ignored by git** to prevent leaking sensitive information.  # noqa: E501
+- `docs/`: Project documentation, including feature specs (in `features/`) and architectural decisions.  # noqa: E501
 - `models/`: Binary model files and weights. **Ignored by git**.
-- `notebooks/`: Jupyter notebooks for experimentation and analysis. Logic MUST be moved to `src/` before production.
+- `notebooks/`: Jupyter notebooks for experimentation and analysis. Logic MUST be moved to `src/` before production.  # noqa: E501
 - `.agent/rules/`: AI compliance and behavior rules (e.g., `ai_behavior.md`).
 - `src/`: The core source code of the project. Organized by feature or module.
 - `tests/`: Unit tests mirroring the `src/` structure.
@@ -35,56 +35,56 @@ This is a production-grade AI engineering project.
 AI_BEHAVIOR_RULES = """
 # AI Agent Behavior & Operational Rules
 
-This document outlines the specific operational standards and behavioral expectations for AI agents working on this project.
+This document outlines the specific operational standards and behavioral expectations for AI agents working on this project.  # noqa: E501
 
 ## 1. Operational Guardrails
-- **Pre-Commit Verification**: Before marking any task as complete, the agent MUST run `pytest` and ensure all tests pass.
-- **Linting Compliance**: All code must pass `flake8` checks. If new code introduces linting errors, the agent must fix them immediately.
-- **No Shadow Logic**: Do not implement business logic that isn't requested in requirements. If a logic choice is ambiguous, use `notify_user` to clarify.
-- **Ansible-First**: Do not run manual `apt install`, `pip install`, or configuration edits unless experimenting. Once confirmed, IMMEDIATELY port the change to an Ansible role.
+- **Pre-Commit Verification**: Before marking any task as complete, the agent MUST run `pytest` and ensure all tests pass.  # noqa: E501
+- **Linting Compliance**: All code must pass `flake8` checks. If new code introduces linting errors, the agent must fix them immediately.  # noqa: E501
+- **No Shadow Logic**: Do not implement business logic that isn't requested in requirements. If a logic choice is ambiguous, use `notify_user` to clarify.  # noqa: E501
+- **Ansible-First**: Do not run manual `apt install`, `pip install`, or configuration edits unless experimenting. Once confirmed, IMMEDIATELY port the change to an Ansible role.  # noqa: E501
 
 ## 2. Research & Discovery
-- **Codebase Awareness**: Before creating a new utility function or module, the agent MUST search `src/` to check for existing implementations.
-- **Dependency Check**: Before adding new libraries to `requirements.txt`, the agent must verify if the functionality is already provided by existing dependencies (numpy, pandas, etc.).
+- **Codebase Awareness**: Before creating a new utility function or module, the agent MUST search `src/` to check for existing implementations.  # noqa: E501
+- **Dependency Check**: Before adding new libraries to `requirements.txt`, the agent must verify if the functionality is already provided by existing dependencies (numpy, pandas, etc.).  # noqa: E501
 
 ## 3. Communication Standards
-- **Task Transparency**: Use `TaskSummary` to explain the *why* behind technical decisions, not just the *what*.
-- **Plan Approval**: For any change affecting more than 2 files or introducing new architecture, an `implementation_plan.md` must be created and approved via `notify_user`.
+- **Task Transparency**: Use `TaskSummary` to explain the *why* behind technical decisions, not just the *what*.  # noqa: E501
+- **Plan Approval**: For any change affecting more than 2 files or introducing new architecture, an `implementation_plan.md` must be created and approved via `notify_user`.  # noqa: E501
 
 ## 4. Coding Style (AI-Specific)
-- **Type Hinting**: Mandatory for all new functions. Proactively add hints to existing code when modified.
-- **Docstring Standard**: Use Google Style docstrings. Include "Args", "Returns", and "Raises" sections where applicable.
-- **Refactoring**: When editing a file, small improvements to readability or standards (like removing unused imports) in that file are encouraged.
+- **Type Hinting**: Mandatory for all new functions. Proactively add hints to existing code when modified.  # noqa: E501
+- **Docstring Standard**: Use Google Style docstrings. Include "Args", "Returns", and "Raises" sections where applicable.  # noqa: E501
+- **Refactoring**: When editing a file, small improvements to readability or standards (like removing unused imports) in that file are encouraged.  # noqa: E501
 
 ## 5. Tool Usage
-- **Terminal Execution**: Use the terminal to verify file existence and state before making assumptions.
-- **Browser Research**: Use the browser tool to look up documentation for specific library versions used in the project.
+- **Terminal Execution**: Use the terminal to verify file existence and state before making assumptions.  # noqa: E501
+- **Browser Research**: Use the browser tool to look up documentation for specific library versions used in the project.  # noqa: E501
 
 ## 6. Testing & Quality Assurance
-- **Mandatory Unit Tests**: All new Python scripts OR significant functional changes to existing ones MUST include unit tests (using `pytest`) in the `tests/` directory.
-- **System Verification**: New Ulauncher extensions or major system configurations (desktop entries, services) MUST be added to the `ansible/verify.yml` playbook.
-- **Test Runner**: Always run `./scripts/run_tests.sh` before finalizing work to ensure no regressions in linting, unit tests, or system state.
-- **Ansible Lint**: While some pre-existing debt exists, all *new* Ansible code should aim for zero legacy warnings. Use specific tasks instead of generic `shell` where possible.
+- **Mandatory Unit Tests**: All new Python scripts OR significant functional changes to existing ones MUST include unit tests (using `pytest`) in the `tests/` directory.  # noqa: E501
+- **System Verification**: New Ulauncher extensions or major system configurations (desktop entries, services) MUST be added to the `ansible/verify.yml` playbook.  # noqa: E501
+- **Test Runner**: Always run `./scripts/run_tests.sh` before finalizing work to ensure no regressions in linting, unit tests, or system state.  # noqa: E501
+- **Ansible Lint**: While some pre-existing debt exists, all *new* Ansible code should aim for zero legacy warnings. Use specific tasks instead of generic `shell` where possible.  # noqa: E501
 
 ## 7. Development Workflow
 - **Conventional Commits**: Use `feat:`, `fix:`, `docs:`, or `chore:` prefixes.
-- **Python Environment (PEP 668)**: On Ubuntu 24.04, always use `--user --break-system-packages` for persistent system-level Python tool/dependency installation, OR use the project's `./venv/`.
-- **Node.js**: Use `community.general.npm` with `global: true` for system-wide CLI tools. Ensure `nodejs` and `npm` are installed via `apt` in the `common` role first.
-- **Verification**: After applying an Ansible role, run `ansible-playbook ansible/verify.yml` to ensure the system state matches the intended configuration.
-- **Security**: Never commit `~/.ssh/` keys or personal tokens. If a script needs to check for them, it should do so without exposing contents.
+- **Python Environment (PEP 668)**: On Ubuntu 24.04, always use `--user --break-system-packages` for persistent system-level Python tool/dependency installation, OR use the project's `./venv/`.  # noqa: E501
+- **Node.js**: Use `community.general.npm` with `global: true` for system-wide CLI tools. Ensure `nodejs` and `npm` are installed via `apt` in the `common` role first.  # noqa: E501
+- **Verification**: After applying an Ansible role, run `ansible-playbook ansible/verify.yml` to ensure the system state matches the intended configuration.  # noqa: E501
+- **Security**: Never commit `~/.ssh/` keys or personal tokens. If a script needs to check for them, it should do so without exposing contents.  # noqa: E501
 - **Git Tracking & Branching**:
     - **NO DIRECT WORK ON MAIN/MASTER**. This branch is for production releases only.
-    - **Chores**: Minor maintenance or documentation ("chore" work) may be done directly on the `develop` branch.
-    - **Features/Bugs**: ALL other work (features, bug fixes, refactors) MUST be done on a new branch (e.g., `feat/...`, `fix/...`) created from `develop`.
+    - **Chores**: Minor maintenance or documentation ("chore" work) may be done directly on the `develop` branch.  # noqa: E501
+    - **Features/Bugs**: ALL other work (features, bug fixes, refactors) MUST be done on a new branch (e.g., `feat/...`, `fix/...`) created from `develop`.  # noqa: E501
     - Always merge `develop` into your feature branch before requesting a merge back.
 
 ## 8. Feature Implementation Workflow
 When given a directive to work through a feature, follow these steps strictly:
-0.  **Create Feature Document**: Create a new file in `docs/features/` using the content from `docs/feature_template.md`. This MUST be the first step to define the feature scope.
-1.  **Create a Branch**: Create a new git branch to do the work (e.g., `git checkout -b feat/feature-name`).
-2.  **Do the Work**: Implement the changes, following all coding standards and guardrails.
-3.  **Test the Work**: Run standard tests (`pytest`, `flake8`) and add new tests as required. Ensure all pass.
-4.  **Document the Work**: Update relevant documentation (README, feature docs, walkthrough).
+0.  **Create Feature Document**: Create a new file in `docs/features/` using the content from `docs/feature_template.md`. This MUST be the first step to define the feature scope.  # noqa: E501
+1.  **Create a Branch**: Create a new git branch to do the work (e.g., `git checkout -b feat/feature-name`).  # noqa: E501
+2.  **Do the Work**: Implement the changes, following all coding standards and guardrails.  # noqa: E501
+3.  **Test the Work**: Run standard tests (`pytest`, `flake8`) and add new tests as required. Ensure all pass.  # noqa: E501
+4.  **Document the Work**: Update relevant documentation (README, feature docs, walkthrough).  # noqa: E501
 5.  **Commit, Merge, and Push**:
 
     - Commit changes with conventional messages.
@@ -93,9 +93,9 @@ When given a directive to work through a feature, follow these steps strictly:
     - Push the updated branch to the remote.
 
 ## 9. Project Structure & Agent Configuration
-- **.agent Directory**: This directory holds agent-specific configuration and rules. It is the single source of truth for agent behavior within the project scope.
-- **Rule Location**: All AI behavior rules MUST be located in `.agent/rules/`. The primary rule file is `ai_behavior.md`.
-- **Workflows**: Agent workflows (e.g., specific multi-step tasks) should be stored in `.agent/workflows/`.
+- **.agent Directory**: This directory holds agent-specific configuration and rules. It is the single source of truth for agent behavior within the project scope.  # noqa: E501
+- **Rule Location**: All AI behavior rules MUST be located in `.agent/rules/`. The primary rule file is `ai_behavior.md`.  # noqa: E501
+- **Workflows**: Agent workflows (e.g., specific multi-step tasks) should be stored in `.agent/workflows/`.  # noqa: E501
 """
 
 FEATURE_TEMPLATE = """
@@ -252,7 +252,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
@@ -268,7 +267,7 @@ jobs:
     - name: Lint with flake8
       run: |
         flake8 src tests --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics  # noqa: E501
 
     - name: Test with pytest
       run: |
@@ -346,7 +345,7 @@ Provide instructions and examples for using the project.
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.  # noqa: E501
 
 ## License
 

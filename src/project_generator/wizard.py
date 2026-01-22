@@ -7,29 +7,30 @@ from . import config_manager
 
 console = Console()
 
+
 def run_wizard():
     """Runs the interactive wizard to gather project details."""
     console.print(Panel.fit("🧙 Forge Project Wizard", style="bold blue"))
-    
+
     # Defaults
     default_name = os.path.basename(os.getcwd())
-    
+
     # 1. Project Name
     project_name = questionary.text(
-        "Project Name:", 
+        "Project Name:",
         default=default_name
     ).ask()
-    
+
     if not project_name:
         project_name = default_name
-        
+
     # 2. Author Name
     default_author = config_manager.get_setting("author_name", "User")
     author_name = questionary.text(
         "Author Name:",
         default=default_author
     ).ask()
-    
+
     # 3. Python Version
     default_python = config_manager.get_setting("python_version", "3.10")
     python_version = questionary.select(
@@ -58,14 +59,13 @@ def run_wizard():
         ],
         default=default_license
     ).ask()
-    
     # 5. Success
-    console.print(f"[green]Configuration captured![/green]")
+    console.print("[green]Configuration captured![/green]")
     console.print(f"Name: [bold]{project_name}[/bold]")
     console.print(f"Author: [bold]{author_name}[/bold]")
     console.print(f"Package Manager: [bold]{package_manager}[/bold]")
     console.print(f"License: [bold]{license_type}[/bold]")
-    
+
     return {
         "__PROJECT_NAME__": project_name,
         "__AUTHOR_NAME__": author_name,
