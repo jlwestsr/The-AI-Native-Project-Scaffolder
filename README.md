@@ -24,11 +24,16 @@ Traditional scaffolding tools (like Cookiecutter) focus on file organization. **
 | Feature | Description |
 | :--- | :--- |
 | **Agentic Rules** | Dedicated `rules/ai_behavior.md` to define operational guardrails for AI agents. |
+| **Universal Ansible** | Production-ready `ansible/` scaffold with `setup_workstation.yml` for instant environment bootstrapping. |
+| **Strict Quality** | Enforced `pre-commit` hooks for `pytest`, `flake8`, `yamllint`, and `ansible-lint`. |
 | **Aider Integration** | Pre-configured `.aider.conf.yml` forces auto-reading of context and rules. |
 | **Git Flow Automation** | Initializes a repo with `main` and `develop` branches out of the box. |
-| **Modular CI/CD** | Production-ready GitHub Actions for testing and linting (Black, Flake8). |
+| **Modular CI/CD** | Production-ready GitHub Actions for testing and linting. |
 | **Feature Tracking** | Structured `docs/features/` system with a ready-to-use template. |
 | **Standardized Layout** | Clean separation of `src/`, `data/`, `models/`, and `notebooks/`. |
+| **MVC Architecture** | Web profile enforces `models/routers/services` pattern for clear separation of concerns. |
+
+[View full Changelog](CHANGELOG.md)
 
 ---
 
