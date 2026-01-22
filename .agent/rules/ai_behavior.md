@@ -6,6 +6,26 @@ trigger: always_on
 
 This document outlines the specific operational standards and behavioral expectations for AI agents working on this project.
 
+## 0. Agent Configuration & Rule Hierarchy
+
+When opening a project, the Google Antigravity IDE looks first for rules in the local workspace folder before falling back to global system-wide rules.
+
+### Rule Locations
+
+- **Workspace Rules**: The IDE first checks the project's local directory at `your-workspace/.agent/rules/`. It may also load configuration from files like `.cursorrules` or `.antigravity/rules.md` within the workspace root.
+- **Global Rules**: If no workspace-specific rules are found, the IDE uses the global rule file at `~/.gemini/GEMINI.md`.
+
+### Directory Structure & Use Cases
+
+| Type | Default File Path | Use Case |
+|------|-------------------|----------|
+| **Workspace Rule** | `your-workspace/.agent/rules/` | Project-specific coding standards or restrictions. |
+| **Global Rule** | `~/.gemini/GEMINI.md` | Universal behavior guidelines across all projects. |
+| **Workspace Workflow** | `your-workspace/agent/workflows/` | On-demand tasks (e.g., `/generate-unit-tests`). |
+| **Global Workflow** | `~/.gemini/antigravity/global_workflows/` | Reusable prompts available in every workspace. |
+
+Rules control the autonomous agent's behavior. They can enforce coding styles or require documentation. The Customizations panel in the IDE's menu allows managing these settings.
+
 ## 1. Operational Guardrails
 
 - **Pre-Commit Verification**: Before marking any task as complete, the agent MUST run `pytest` and ensure all tests pass.
@@ -50,9 +70,48 @@ This document outlines the specific operational standards and behavioral expecta
 - **Security**: Never commit `~/.ssh/` keys or personal tokens. If a script needs to check for them, it should do so without exposing contents.
 - **Git Tracking & Branching**:
     - **NO DIRECT WORK ON MAIN/MASTER**. This branch is for production releases only.
-    - **Chores**: Minor maintenance or documentation ("chore" work) may be done directly on the `develop` branch.
-    - **Features/Bugs**: ALL other work (features, bug fixes, refactors) MUST be done on a new branch (e.g., `feat/...`, `fix/...`) created from `develop`.
+    - **Strict Local Branch Policy**: `feat`, `fix`, `docs`, and `chore` branches are **LOCAL ONLY**. Never push them to origin. Only `develop` and `main` branches are allowed on the remote.
+    - **Push Authorization**: All pushes to `origin` require explicit, just-in-time user approval.
     - Always merge `develop` into your feature branch before requesting a merge back.
+    - Always merge `develop` into your feature branch before requesting a merge back.
+
+### 7.3 Workflows by Commit Type
+
+Adhere to the specific strict workflow for each commit type:
+
+#### 7.1.1 Feature (`feat`)
+
+1. **Docs**: Create `docs/features/name.md` from template.
+2. **Branch**: `git checkout -b feat/feature-name`
+3. **Work**: Implement changes.
+4. **Verify**: Run `scripts/run_tests.sh`.
+5. **Merge**: `git merge feat/feature-name` into `develop`.
+6. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+#### 7.1.2 Bug Fix (`fix`)
+
+1. **Reproduce**: Create failing test/script.
+2. **Branch**: `git checkout -b fix/issue-description`
+3. **Fix**: Implement fix.
+4. **Verify**: Pass reproduction script AND `scripts/run_tests.sh`.
+5. **Merge**: `git merge fix/issue-description` into `develop`.
+6. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+#### 7.1.3 Documentation (`docs`)
+
+1. **Branch**: `git checkout -b docs/description`
+2. **Work**: Update `README.md`, `docs/`, or artifacts.
+3. **Verify**: Check rendering and links.
+4. **Merge**: `git merge docs/description` into `develop`.
+5. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+#### 7.1.4 Maintenance (`chore`)
+
+1. **Branch**: `git checkout -b chore/description`
+2. **Work**: Update configs, dependencies, or gitignore.
+3. **Verify**: Run `scripts/run_tests.sh`.
+4. **Merge**: `git merge chore/description` into `develop`.
+5. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
 
 ## 8. Feature Implementation Workflow
 When given a directive to work through a feature, follow these steps strictly:
@@ -68,7 +127,7 @@ When given a directive to work through a feature, follow these steps strictly:
     - Merge the feature branch.
     - Push the updated branch to the remote.
 
-## 9. Project Structure & Agent Configuration
-- **.agent Directory**: This directory holds agent-specific configuration and rules. It is the single source of truth for agent behavior within the project scope.
-- **Rule Location**: All AI behavior rules MUST be located in `.agent/rules/`. The primary rule file is `ai_behavior.md`.
-- **Workflows**: Agent workflows (e.g., specific multi-step tasks) should be stored in `.agent/workflows/`.
+## 9. Agentic Artifact Protocol
+- **Task Tracking**: For multi-step complex tasks, maintain a `task.md` artifact to track progress across tool boundaries.
+- **Planning**: Before "Doing the Work" (Step 2 of Feature Workflow), create an `implementation_plan.md` for user approval.
+- **Walkthrough**: Upon completion of significant features, create `walkthrough.md` to demonstrate verification results and user guides.
