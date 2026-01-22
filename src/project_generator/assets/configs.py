@@ -11,6 +11,7 @@ COMMON_FILES = {
     ".gitignore": ".gitignore.j2",
     "docs/index.md": "docs/index.md.j2",
     ".github/workflows/docs.yml": ".github/workflows/docs.yml.j2",
+    ".flake8": ".flake8.j2",
 }
 
 # Profile Definitions
@@ -34,7 +35,6 @@ PROFILES = {
         "files": {
             **COMMON_FILES,
             ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior_fullstack.md.j2",
-            ".flake8": ".flake8.j2",
             "pyproject.toml": "pyproject.toml.j2",
             ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
             "requirements.txt": "requirements.txt.j2",
@@ -62,7 +62,6 @@ PROFILES = {
         "files": {
             **COMMON_FILES,
             ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior_web.md.j2",
-            ".flake8": ".flake8.j2",
             "pyproject.toml": "pyproject.toml.j2",
             ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
             "requirements.txt": "requirements.txt.j2",

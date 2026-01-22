@@ -84,6 +84,9 @@ class TestEngine(unittest.TestCase):
             # Should NOT have web backend
             assert not os.path.exists(os.path.join(sys_dir, "src/backend"))
 
+            # Check for Flake8 (via COMMON_FILES)
+            assert os.path.exists(os.path.join(sys_dir, ".flake8"))
+
             # Check AI Rules content
             rules_path = os.path.join(sys_dir, ".agent/rules/ai_behavior.md")
             with open(rules_path, "r") as f:
