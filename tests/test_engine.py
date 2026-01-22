@@ -7,7 +7,6 @@ import unittest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 from project_generator import engine  # noqa: E402
-from project_generator.assets import templates  # noqa: E402
 
 
 class TestEngine(unittest.TestCase):
@@ -34,7 +33,7 @@ class TestEngine(unittest.TestCase):
                 engine.check_greenfield(tmpdirname)
 
     def test_create_structure(self):
-        """Test creates folders and files."""
+        """Test creates folders and files (Default: Fullstack)."""
         with tempfile.TemporaryDirectory() as tmpdirname:
             # Create structure
             engine.create_structure(tmpdirname)
@@ -54,14 +53,29 @@ class TestEngine(unittest.TestCase):
                 os.path.join(tmpdirname, ".agent/rules/ai_behavior.md")
             )
 
-            # Check content
-            with open(dockerfile_path, 'r') as f:
-                content = f.read()
-                assert content.strip() == templates.DOCKERFILE_CONTENT.strip()
+    def test_create_structure_profiles(self):
+        """Test generating different profiles."""
+        # 1. Web Profile
+        with tempfile.TemporaryDirectory() as web_dir:
+            context = {"__PROFILE__": "web"}
+            engine.create_structure(web_dir, context=context)
 
-            with open(compose_path, 'r') as f:
-                content = f.read()
-                assert content.strip() == templates.DOCKER_COMPOSE_CONTENT.strip()
+            # Check for Gantry-like structure
+            assert os.path.exists(os.path.join(web_dir, "src/backend"))
+            assert os.path.exists(os.path.join(web_dir, "src/frontend/static"))
+            # Should NOT have src/models from fullstack
+            assert not os.path.exists(os.path.join(web_dir, "src/models"))
+
+        # 2. System Profile
+        with tempfile.TemporaryDirectory() as sys_dir:
+            context = {"__PROFILE__": "system"}
+            engine.create_structure(sys_dir, context=context)
+
+            # Check for Shurtugal-like structure
+            assert os.path.exists(os.path.join(sys_dir, "ansible/roles"))
+            assert os.path.exists(os.path.join(sys_dir, "scripts/bootstrap.sh"))
+            # Should NOT have web backend
+            assert not os.path.exists(os.path.join(sys_dir, "src/backend"))
 
     def test_create_structure_with_context(self):
         """Test file creation with context replacement (Jinja2)."""

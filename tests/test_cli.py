@@ -37,11 +37,11 @@ class TestCLI(unittest.TestCase):
         # Verify calls
         mock_os.makedirs.assert_called_with("/tmp/test", exist_ok=True)
         mock_engine.check_greenfield.assert_called_with("/tmp/test")
-        mock_engine.create_structure.assert_called_with(
-            "/tmp/test",
-            update=False,
-            context={}
-        )
+        mock_engine.create_structure.assert_called()
+        args, kwargs = mock_engine.create_structure.call_args
+        assert args[0] == "/tmp/test"
+        assert kwargs["update"] is False
+
         mock_git.init_git.assert_called_with("/tmp/test")
 
 

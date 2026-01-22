@@ -20,6 +20,7 @@ class TestWizard(unittest.TestCase):
         mock_config.return_value = "DefaultVal"
         mock_text.return_value.ask.side_effect = ["MyProject", "Alice"]
         mock_select.return_value.ask.side_effect = [
+            "fullstack",  # Profile
             "3.10",    # Python
             "poetry",  # Package Manager
             "MIT"      # License
@@ -34,6 +35,7 @@ class TestWizard(unittest.TestCase):
         assert context["__PYTHON_VERSION__"] == "3.10"
         assert context["__PACKAGE_MANAGER__"] == "poetry"
         assert context["__LICENSE__"] == "MIT"
+        assert context["__PROFILE__"] == "fullstack"
 
     @patch('project_generator.wizard.config_manager.get_setting')
     @patch('project_generator.wizard.questionary.text')
@@ -45,6 +47,7 @@ class TestWizard(unittest.TestCase):
         # Setup mocks: Return empty string for name to trigger default logic
         mock_text.return_value.ask.side_effect = ["", "User"]
         mock_select.return_value.ask.side_effect = [
+            "fullstack",  # Profile
             "3.10",  # Python Version
             "pip",   # Package Manager
             "MIT"    # License
@@ -60,6 +63,7 @@ class TestWizard(unittest.TestCase):
         assert context["__PYTHON_VERSION__"] == "3.10"
         assert context["__PACKAGE_MANAGER__"] == "pip"
         assert context["__LICENSE__"] == "MIT"
+        assert context["__PROFILE__"] == "fullstack"
 
 
 if __name__ == '__main__':

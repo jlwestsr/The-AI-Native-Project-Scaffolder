@@ -26,6 +26,12 @@ def main():
         default=None,
         help="Package manager to use"
     )
+    parser.add_argument(
+        "--profile",
+        choices=["fullstack", "web", "system"],
+        default=None,
+        help="Project profile to use (fullstack, web, system)"
+    )
     # Global Config Arguments
     parser.add_argument(
         "--config-set",
@@ -65,7 +71,8 @@ def main():
     if args.target_dir == os.getcwd() and not args.update and sys.stdin.isatty():
         try:
             from . import wizard
-            context = wizard.run_wizard()
+            # Pass defaults from CLI args if provided
+            context = wizard.run_wizard(default_profile=args.profile)
         except ImportError:
             print("Warning: fit/questionary not found. Skipping interactive mode.")
 
@@ -81,6 +88,8 @@ def main():
     # 2. Build Structure
     if args.manager:
         context["__PACKAGE_MANAGER__"] = args.manager
+    if args.profile:
+        context["__PROFILE__"] = args.profile
 
     engine.create_structure(target_path, update=args.update, context=context)
 
