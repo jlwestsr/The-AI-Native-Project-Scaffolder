@@ -63,6 +63,8 @@ class TestEngine(unittest.TestCase):
             assert os.path.exists(
                 os.path.join(tmpdirname, ".agent/rules/ai_behavior.md")
             )
+            # Verify Ansible Common
+            assert os.path.exists(os.path.join(tmpdirname, "ansible/setup_workstation.yml"))
 
     def test_create_structure_profiles(self):
         """Test generating different profiles."""
@@ -84,6 +86,9 @@ class TestEngine(unittest.TestCase):
                 content = f.read()
                 assert "Reference: Gantry" in content
                 assert "Gantry Architect" in content
+
+            # Verify Ansible exists here too
+            assert os.path.exists(os.path.join(web_dir, "ansible/roles"))
 
         # 2. System Profile
         with tempfile.TemporaryDirectory() as sys_dir:

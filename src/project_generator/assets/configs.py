@@ -12,6 +12,10 @@ COMMON_FILES = {
     "docs/index.md": "docs/index.md.j2",
     ".github/workflows/docs.yml": ".github/workflows/docs.yml.j2",
     ".flake8": ".flake8.j2",
+    ".yamllint": ".yamllint.j2",
+    "ansible/ansible.cfg": "ansible/ansible.cfg.j2",
+    "ansible/inventory.ini": "ansible/inventory.ini.j2",
+    "ansible/setup_workstation.yml": "ansible/setup_workstation.yml.j2",
 }
 
 # Profile Definitions
@@ -19,6 +23,9 @@ PROFILES = {
     "fullstack": {
         "description": "General purpose AI system (Reference: Nebulus)",
         "structure": [
+            "ansible/roles",
+            "ansible/group_vars",
+            "ansible/host_vars",
             "data/raw",
             "data/processed",
             "docs/features",
@@ -50,6 +57,9 @@ PROFILES = {
     "web": {
         "description": "Python Backend + HTML/JS Frontend (Reference: Gantry)",
         "structure": [
+            "ansible/roles",
+            "ansible/group_vars",
+            "ansible/host_vars",
             "docs/features",
             "src/backend",
             "src/frontend/static/css",
@@ -79,6 +89,8 @@ PROFILES = {
         "structure": [
             "ansible/roles/common",
             "ansible/roles/desktop",
+            "ansible/group_vars",
+            "ansible/host_vars",
             "docs/features",
             "scripts",
             "tests",
