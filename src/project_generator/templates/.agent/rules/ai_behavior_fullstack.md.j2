@@ -7,73 +7,22 @@ trigger: always_on
 **Project:** {{ project_name }}
 **Type:** Full Stack AI System (Reference: Nebulus)
 
-## 0. Agent Configuration & Rule Hierarchy
+{% include '.agent/rules/partials/_core_rules.md.j2' %}
 
-When opening this project, the Google Antigravity IDE looks first for rules in the local workspace folder before falling back to global system-wide rules.
+## 4. Fullstack Specific Guidelines
 
-### Rule Locations
-
-| Type | Default File Path | Use Case |
-|------|-------------------|----------|
-| **Workspace Rule** | `.agent/rules/` | Project-specific coding standards (Strict Venv, Docker). |
-| **Global Rule** | `~/.gemini/GEMINI.md` | Universal behavior guidelines across all projects. |
-
-## 1. Operational Guardrails
-
-- **Pre-Commit Verification**: Before marking any task as complete, the agent MUST run `pytest` and ensure all tests pass.
-- **Linting Compliance**: All code must pass `flake8` checks. If new code introduces linting errors, the agent must fix them immediately.
-- **No Shadow Logic**: Do not implement business logic that isn't requested in requirements. If a logic choice is ambiguous, use `notify_user` to clarify.
-- **Ansible-First**: Do not run manual `apt install`, `pip install`, or configuration edits unless experimenting. Once confirmed, IMMEDIATELY port the change to an Ansible role.
-- **Push Authorization**: All `git push` commands to `origin` require explicit, just-in-time user approval.
-
-## 2. Research & Discovery
-
+### Research & Discovery
 - **Codebase Awareness**: Before creating a new utility function or module, the agent MUST search `src/` to check for existing implementations.
-- **Dependency Check**: Before adding new libraries to `requirements.txt`, the agent must verify if the functionality is already provided by existing dependencies (numpy, pandas, etc.).
+- **Dependency Check**: Before adding new libraries to `requirements.txt`, verify if standard library tools (like `json`, `sqlite3`, `pathlib`) suffice.
 
-## 3. Communication Standards
+### Coding Style (Python)
+- **Type Hinting**: Mandatory for all new functions.
+- **Docstring Standard**: Google Style.
+- **Service Layer Pattern**: Business logic MUST reside in `src/`.
 
-- **Task Transparency**: Use `TaskSummary` to explain the *why* behind technical decisions, not just the *what*.
-- **Plan Approval**: For any change affecting more than 2 files or introducing new architecture, an `implementation_plan.md` must be created and approved via `notify_user`.
+### Testing & Quality Assurance
+- **Mandatory Unit Tests**: All new Python scripts must include unit tests in `tests/`.
+- **System Verification**: Run `./scripts/run_tests.sh` before finalizing work.
 
-## 4. Coding Style (AI-Specific)
-
-- **Type Hinting**: Mandatory for all new functions. Proactively add hints to existing code when modified.
-- **Docstring Standard**: Use Google Style docstrings. Include "Args", "Returns", and "Raises" sections where applicable.
-- **Refactoring**: When editing a file, small improvements to readability or standards (like removing unused imports) in that file are encouraged.
-
-## 5. Tool Usage
-
-- **Terminal Execution**: Use the terminal to verify file existence and state before making assumptions.
-- **Browser Research**: Use the browser tool to look up documentation for specific library versions used in the project.
-
-## 6. Testing & Quality Assurance
-
-- **Mandatory Unit Tests**: All new Python scripts OR significant functional changes to existing ones MUST include unit tests (using `pytest`) in the `tests/` directory.
-- **System Verification**: New system configurations must be added to the `ansible/verify.yml` playbook.
-- **Test Runner**: Always run `./scripts/run_tests.sh` before finalizing work.
-- **Strict Linting**: ALL code (Python, Markdown, YAML, JS, CSS, etc.) MUST be linted via `pre-commit run --all-files` or `scripts/run_tests.sh`.
-
-## 7. Development Workflow
-
-- **Conventional Commits**: Use `feat:`, `fix:`, `docs:`, or `chore:` prefixes.
-- **Python Environment**: **MANDATORY**. You must use the project's local virtual environment (`venv/`). Do NOT use global system packages.
-- **Git Tracking & Branching**:
-  - **NO DIRECT WORK ON MAIN/MASTER**.
-  - **Strict Local Branch Policy**: `feat`, `fix`, `docs`, and `chore` branches are **LOCAL ONLY**.
-  - Always merge `develop` into your feature branch before requesting a merge back.
-
-### 7.3 Workflows by Commit Type
-
-#### 7.1.1 Feature (`feat`)
-1. **Docs**: Create `docs/features/name.md`.
-2. **Branch**: `git checkout -b feat/feature-name`
-3. **Work**: Implement changes.
-4. **Verify**: Run `scripts/run_tests.sh`.
-5. **Merge**: `git merge feat/feature-name` into `develop`.
-6. **Push**: Ask for permission -> `git push origin develop`.
-
-## 8. Agentic Artifact Protocol
-- **Task Tracking**: For multi-step complex tasks, maintain a `task.md` artifact.
-- **Planning**: Before "Doing the Work", create an `implementation_plan.md` for user approval.
-- **Walkthrough**: Upon completion, create `walkthrough.md`.
+### Agent Persona: "The Architect"
+- **Mindset**: You prioritize long-term stability and clean architecture.

@@ -1,0 +1,60 @@
+## 0. Agent Configuration & Rule Hierarchy
+
+When opening this project, the Google Antigravity IDE looks first for rules in the local workspace folder before falling back to global system-wide rules.
+
+### Rule Locations
+
+| Type | Default File Path | Use Case |
+|------|-------------------|----------|
+| **Workspace Rule** | `.agent/rules/` | Project-specific coding standards. |
+| **Global Rule** | `~/.gemini/GEMINI.md` | Universal behavior guidelines across all projects. |
+
+## 1. Operational Guardrails
+
+- **Pre-Commit Verification**: Before marking any task as complete, the agent MUST run `pytest` (or project equivalent) and ensure all tests pass.
+- **Linting Compliance**: All code must pass project linters (flake8, eslint, etc.). If new code introduces linting errors, the agent must fix them immediately.
+- **No Shadow Logic**: Do not implement business logic that isn't requested in requirements. If a logic choice is ambiguous, use `notify_user` to clarify.
+- **Push Authorization**: All `git push` commands to `origin` require explicit, just-in-time user approval.
+
+## 2. Git Tracking & Branching
+
+- **NO DIRECT WORK ON MAIN/MASTER**. This branch is for production releases only.
+- **Strict Local Branch Policy**: `feat`, `fix`, `docs`, and `chore` branches are **LOCAL ONLY**. Never push them to origin. Only `develop` and `main` branches are allowed on the remote.
+- Always merge `develop` into your feature branch before requesting a merge back.
+
+### Workflows by Commit Type
+
+#### Feature (`feat`)
+1. **Docs**: Create `docs/features/name.md` (if applicable).
+2. **Branch**: `git checkout -b feat/feature-name`
+3. **Work**: Implement changes.
+4. **Verify**: Run tests.
+5. **Merge**: `git merge feat/feature-name` into `develop`.
+6. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+#### Bug Fix (`fix`)
+1. **Reproduce**: Create failing test/script.
+2. **Branch**: `git checkout -b fix/issue-description`
+3. **Fix**: Implement fix.
+4. **Verify**: Pass reproduction script AND test suite.
+5. **Merge**: `git merge fix/issue-description` into `develop`.
+6. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+#### Documentation (`docs`)
+1. **Branch**: `git checkout -b docs/description`
+2. **Work**: Update `README.md`, `docs/`, or artifacts.
+3. **Verify**: Check rendering and links.
+4. **Merge**: `git merge docs/description` into `develop`.
+5. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+#### Maintenance (`chore`)
+1. **Branch**: `git checkout -b chore/description`
+2. **Work**: Update configs, dependencies, or gitignore.
+3. **Verify**: Run tests.
+4. **Merge**: `git merge chore/description` into `develop`.
+5. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
+
+## 3. Agentic Artifact Protocol
+- **Task Tracking**: For multi-step complex tasks, maintain a `task.md` artifact to track progress across tool boundaries.
+- **Planning**: Before "Doing the Work" (Step 2 of Feature Workflow), create an `implementation_plan.md` for user approval.
+- **Walkthrough**: Upon completion of significant features, create `walkthrough.md` to demonstrate verification results and user guides.

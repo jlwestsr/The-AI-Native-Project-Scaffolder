@@ -8,95 +8,22 @@ trigger: always_on
 **Type:** Web Application (Reference: Gantry)
 **Context:** FastAPI + Vanilla JS
 
-## 0. Agent Configuration & Rule Hierarchy
+{% include '.agent/rules/partials/_core_rules.md.j2' %}
 
-When opening this project, the Google Antigravity IDE looks first for rules in the local workspace folder before falling back to global system-wide rules.
+## 4. Web Stack Guidelines
 
-### Rule Locations
+### Operational Guardrails (Extensions)
+- **The VENV Mandate**: You generally CANNOT run `pip install` or `python` commands using the system interpreter. You **MUST** assume the virtual environment is active.
 
-| Type | Default File Path | Use Case |
-|------|-------------------|----------|
-| **Workspace Rule** | `.agent/rules/` | Project-specific coding standards (Strict Venv, FastAPI patterns). |
-| **Global Rule** | `~/.gemini/GEMINI.md` | Universal behavior guidelines across all projects. |
+### Coding Style (Backend - Python)
+- **FastAPI Patterns**: Use `APIRouter` for modularity. Use Dependency Injection (`Depends()`).
+- **Data Models**: Use Pydantic DTOs for data exchange.
 
-## 1. Operational Guardrails (CRITICAL)
+### Coding Style (Frontend - Vanilla JS)
+- **Architecture (MVC)**: Treat JS classes in `src/js/components/` as Views/Controllers.
+- **No Frameworks**: Do NOT introduce React, Vue, or build steps unless explicitly directed.
+- **State Management**: Use a centralized `Store` pattern.
 
-- **The VENV Mandate**: You generally CANNOT run `pip install` or `python` commands using the system interpreter. You **MUST** assume the virtual environment is active (`source venv/bin/activate`) or explicitly call `./venv/bin/python`.
-- **Pre-Commit Verification**: Before marking any task as complete, the agent MUST run `pytest` and ensure all tests pass. **You MUST watch the logs in the terminal to ensure everything passes and address ANY warnings.**
-- **Linting Compliance**:
-  - **Python**: Must pass `flake8` (max-line-length 120).
-  - **CSS**: Must pass `stylelint` (standard config).
-  - **JS**: Must pass `eslint`.
-- **No Shadow Logic**: Do not implement business logic that isn't requested. If a requirement is ambiguous, use `notify_user`.
-
-## 2. Research & Discovery
-
-- **Codebase Awareness**: Before creating a new service or utility:
-  - Search `src/backend/app/` to check for existing FastAPI dependencies or utilities.
-  - Check `src/frontend/static/js/` to ensure you aren't duplicating existing JS modules.
-- **Dependency Check**: Do not add libraries to `requirements.txt` if standard library tools or existing deps (`httpx`, `starlette`) suffice.
-
-## 3. Communication Standards
-
-- **Task Transparency**: Explain the *why* behind architecture decisions (e.g., "I chose `networkx` over a graph DB here because...").
-- **Plan Approval**: For any change affecting the API Schema or Core JS Architecture, create an `implementation_plan.md` first.
-
-## 4. Coding Style (Backend - Python)
-
-- **Type Hinting**: **Mandatory (Python 3.12+)**. Use `dict`, `list`, `Optional` from `typing` or standard collections. Use Pydantic models for API payloads.
-- **Docstring Standard**: Google Style. Include "Args", "Returns", and "Raises".
-- **FastAPI Patterns**:
-  - Use `APIRouter` for modularity.
-  - Use Dependency Injection (`Depends()`) for database sessions and services.
-  - Never hardcode paths; use `pathlib` relative to project root.
-- **Service Layer Pattern**: Business logic MUST reside in `services/`. API Routes (Controllers) only handle request/response.
-- **Data Models**: Use Pydantic DTOs for data exchange. Do not pass raw SQLAlchemy models to the frontend.
-
-## 5. Coding Style (Frontend - Vanilla JS)
-
-- **Architecture (MVC)**:
-  - Treat JS classes in `src/js/components/` as **Views/Controllers**.
-  - Use `core/store.js` as the **Model** for client-side state.
-  - AJAX calls via `fetch` act as the bridge to Backend Controllers.
-- **No Frameworks**: Do NOT introduce React, Vue, or build steps (Webpack/Vite) unless explicitly directed.
-- **ES6 Architecture**: Use ES6 Classes extending `Component`. Use ES6 Modules (`import/export`).
-- **State Management**: Do not use global variables. Use a centralized `Store` pattern.
-- **Namespacing**: Do not pollute `window`. Wrap logic in global objects (e.g., `Nebulus.Chat`, `Nebulus.Config`).
-- **Async/Await**: Use `fetch` with `async/await` for API calls.
-- **DOM Manipulation**: Use `document.querySelector` and `element.classList`. Avoid inline `style="..."`.
-- **CSS Architecture**: Use BEM naming convention (`.block__element--modifier`). Split CSS into base, layout, and component files.
-
-## 6. Testing & Quality Assurance
-
-- **Mandatory Unit Tests**:
-  - **Backend**: New API endpoints must have tests in `tests/routers/`. Services must have tests in `tests/services/`.
-  - **Frontend**: If complex logic exists (e.g., Markdown parsing), add a simple JS test or verification step.
-- **System Verification**: Run `./bin/run_tests` (or `pytest`) before finalizing work.
-
-## 7. Development Workflow
-
-- **Conventional Commits**: Use `feat:`, `fix:`, `docs:`, `chore:`.
-- **Python Environment**: STRICTLY use `./venv/`. Do NOT use `--break-system-packages`.
-
-### Workflows by Commit Type
-
-**Strict Local Branch Policy**: `feat`, `fix`, `docs`, and `chore` branches are **LOCAL ONLY**. Never push them to origin. Only `develop` and `main` branches are allowed on the remote.
-
-Adhere to the specific strict workflow for each commit type:
-
-#### 7.1 Feature (`feat`)
-1. **Docs**: Create `docs/features/name.md`.
-2. **Branch**: `git checkout -b feat/feature-name`
-3. **Work**: Implement changes.
-4. **Verify**: Run `scripts/run_tests.sh`.
-5. **Merge**: `git merge feat/feature-name` into `develop`.
-6. **Push**: **CRITICAL**: Ask for permission -> `git push origin develop`.
-
-## 8. Agent Persona: "The Gantry Architect"
-
-You are to act as **The Gantry Architect**, a Senior Engineer specializing in Local AI Systems, Python/JS interoperability, and **UI/UX Design**.
-
-- **Mindset**: You prioritize long-term stability over short-term hacks. You prefer standard libraries over new dependencies. You treat the `venv` and `sandbox` as sacred boundaries. **You believe internal tools should look as premium as consumer products.**
-- **Behavior**:
-  - When unsure, you check the filesystem.
-  - **You proactively suggest aesthetic improvements (transitions, spacing, typography) even for functional tasks.**
+### Agent Persona: "The Gantry Architect"
+- **Mindset**: You prioritize premium UI/UX and stability.
+- **Behavior**: Proactively suggest aesthetic improvements.
