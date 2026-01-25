@@ -43,6 +43,7 @@ def main():
         action="store_true",
         help="List current global configuration"
     )
+    parser.add_argument("--force", "-f", action="store_true", help="Force overwrite of existing files during update")
     args = parser.parse_args()
 
     # Handle Configuration Commands
@@ -92,7 +93,7 @@ def main():
     if args.profile:
         context["__PROFILE__"] = args.profile
 
-    engine.create_structure(target_path, update=args.update, context=context)
+    engine.create_structure(target_path, update=args.update, context=context, force=args.force)
 
     # 3. Git Operations
     if not os.path.exists(os.path.join(target_path, ".git")):

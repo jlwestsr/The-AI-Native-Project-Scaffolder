@@ -26,7 +26,7 @@ def check_greenfield(path):
         sys.exit(1)
 
 
-def create_structure(base_path, update=False, context=None):
+def create_structure(base_path, update=False, context=None, force=False):
     """Creates folders and files.
 
     Args:
@@ -87,8 +87,8 @@ def create_structure(base_path, update=False, context=None):
         # Ensure directory exists for nested files (like workflows)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
-        if update and os.path.exists(file_path):
-            print(f"   [SKIP] {filename} (Exists)")
+        if update and not force and os.path.exists(file_path):
+            print(f"   [SKIP] {filename} (Exists) - use --force to overwrite")
             continue
 
         content = ""
