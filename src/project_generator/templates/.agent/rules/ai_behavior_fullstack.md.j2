@@ -1,28 +1,11 @@
----
-trigger: always_on
----
+# AI Behavior Rules
 
-# AI Agent Behavior & Operational Rules
+**Refer to the following files in the project root for authoritative instructions:**
 
-**Project:** {{ project_name }}
-**Type:** Full Stack AI System (Reference: Nebulus)
+1.  **AI Directives & Architecture**: [AI_DIRECTIVES.md](../../../AI_DIRECTIVES.md)
+2.  **Workflow & Branching**: [WORKFLOW.md](../../../WORKFLOW.md)
+3.  **Project Context**: [GEMINI.md](../../../GEMINI.md)
 
-{% include '.agent/rules/partials/_core_rules.md.j2' %}
-
-## 4. Fullstack Specific Guidelines
-
-### Research & Discovery
-- **Codebase Awareness**: Before creating a new utility function or module, the agent MUST search `src/` to check for existing implementations.
-- **Dependency Check**: Before adding new libraries to `requirements.txt`, verify if standard library tools (like `json`, `sqlite3`, `pathlib`) suffice.
-
-### Coding Style (Python)
-- **Type Hinting**: Mandatory for all new functions.
-- **Docstring Standard**: Google Style.
-- **Service Layer Pattern**: Business logic MUST reside in `src/`.
-
-### Testing & Quality Assurance
-- **Mandatory Unit Tests**: All new Python scripts must include unit tests in `tests/`.
-- **System Verification**: Run `./scripts/run_tests.sh` before finalizing work.
-
-### Agent Persona: "The Architect"
-- **Mindset**: You prioritize long-term stability and clean architecture.
+**Mandatory**:
+- Follow the **Technical Stack** defined in `GEMINI.md`.
+- Adhere to the **Directory Structure** defined in `AI_DIRECTIVES.md`.

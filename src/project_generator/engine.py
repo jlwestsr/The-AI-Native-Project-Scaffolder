@@ -38,8 +38,26 @@ def create_structure(base_path, update=False, context=None):
         context = {}
 
     # Get Profile Config
+    import copy
+    # Get Profile Config
     profile_name = context.get("__PROFILE__", "fullstack")
-    profile = configs.get_profile(profile_name)
+    profile = copy.deepcopy(configs.get_profile(profile_name))
+
+    # AI Persona Logic
+    persona = context.get("__AI_PERSONA__", "standard")
+
+    # Map 'standard' to use the default template without suffix
+    # For others, appending _{persona} to the template name
+    behavior_file = ".agent/rules/ai_behavior.md"
+    if persona != "standard" and behavior_file in profile["files"]:
+        original_template = profile["files"][behavior_file]
+        # Expecting: .agent/rules/ai_behavior_{profile}.md.j2
+        # Target: .agent/rules/ai_behavior_{profile}_{persona}.md.j2
+        if original_template.endswith(".md.j2"):
+            prefix = original_template.replace(".md.j2", "")
+            new_template = f"{prefix}_{persona}.md.j2"
+            profile["files"][behavior_file] = new_template
+            print(f"   ℹ️  AI Persona '{persona}' active. Using template: {new_template}")
 
     # Standardize context keys (remove dunders if present)
     jinja_context = {
@@ -113,7 +131,6 @@ def setup_virtualenv(base_path, package_manager):
     # Pip path
     pip_cmd = os.path.join(venv_path, "bin", "pip")
 
-    # 2. Upgrade pip
     print("   Upgrading pip...")
     try:
         subprocess.run(
@@ -123,6 +140,17 @@ def setup_virtualenv(base_path, package_manager):
         )
     except subprocess.CalledProcessError:
         print("   ⚠️ Warning: Failed to upgrade pip.")
+
+    # 2.5 Ensure build tools
+    print("   Ensuring build tools (setuptools, wheel)...")
+    try:
+        subprocess.run(
+            [pip_cmd, "install", "--upgrade", "setuptools", "wheel"],
+            check=True,
+            capture_output=True
+        )
+    except subprocess.CalledProcessError:
+        print("   ⚠️ Warning: Failed to install build tools.")
 
     # 3. Install requirements
     for req_file in ["requirements.txt", "requirements-dev.txt"]:

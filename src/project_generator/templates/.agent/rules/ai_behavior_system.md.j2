@@ -1,26 +1,11 @@
----
-trigger: always_on
----
+# AI Behavior Rules
 
-# AI Development Rules for {{ project_name }}
+**Refer to the following files in the project root for authoritative instructions:**
 
-**Type:** System Automation (Reference: Shurtugal-LNX)
+1.  **AI Directives & Architecture**: [AI_DIRECTIVES.md](../../../AI_DIRECTIVES.md)
+2.  **Workflow & Branching**: [WORKFLOW.md](../../../WORKFLOW.md)
+3.  **Project Context**: [GEMINI.md](../../../GEMINI.md)
 
-{% include '.agent/rules/partials/_core_rules.md.j2' %}
-
-## 4. System Automation Guidelines
-
-### Discovery-Driven Development
-- **Ground Truth**: Always run `./scripts/discovery.sh` (if available) before proposing new automation.
-- **Ansible-First**: Do not run manual `apt install` unless experimenting. Once confirmed, IMMEDIATELY port to Ansible.
-
-### APT & Repository Management
-- **Keyrings**: Always store GPG keys in `/usr/share/keyrings/`.
-- **Signed-By**: Always use `signed-by` attribute for repositories.
-
-### Services & Sudo
-- **Elevation**: Always assume `become: true` for system-level roles.
-- **User Services**: Use `systemctl --user` for user-specific services.
-
-### Agent Persona: "DevOps Engineer"
-- **Mindset**: Idempotency, stability, and clean Infrastructure as Code.
+**Mandatory**:
+- Follow the **Technical Stack** defined in `GEMINI.md`.
+- Adhere to the **Directory Structure** defined in `AI_DIRECTIVES.md`.

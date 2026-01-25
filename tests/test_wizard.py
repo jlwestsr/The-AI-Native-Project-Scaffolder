@@ -21,6 +21,7 @@ class TestWizard(unittest.TestCase):
         mock_text.return_value.ask.side_effect = ["MyProject", "Alice"]
         mock_select.return_value.ask.side_effect = [
             "fullstack",  # Profile
+            "standard",   # Persona
             "3.10",    # Python
             "poetry",  # Package Manager
             "MIT"      # License
@@ -48,6 +49,7 @@ class TestWizard(unittest.TestCase):
         mock_text.return_value.ask.side_effect = ["", "User"]
         mock_select.return_value.ask.side_effect = [
             "fullstack",  # Profile
+            "standard",   # Persona
             "3.10",  # Python Version
             "pip",   # Package Manager
             "MIT"    # License

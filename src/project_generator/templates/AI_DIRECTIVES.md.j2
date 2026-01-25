@@ -1,0 +1,38 @@
+# AI Directives for {{ project_name }}
+
+1. **Commit Messages**: Use Conventional Commits.
+2. **Branching**: All work happens on `develop`. `main` is for stable releases.
+3. **Coding Style**: Python {{ python_version }}+ with Type Hinting.
+4. **Testing**: `pytest` for unit tests.
+5. **Linting**: `flake8` is enforced via pre-commit.
+
+# Architecture Standards
+
+{% if profile == "mvc" %}
+We adhere to the **MVC (Model-View-Controller)** pattern.
+
+## Directory Structure
+- **src/app/models/**: Data structures.
+- **src/app/views/**: UI/Presentation logic.
+- **src/app/controllers/**: Orchestration logic.
+{% elif profile == "web" %}
+We adhere to a standard Web Application structure.
+
+## Directory Structure
+- **src/backend/**: API and server logic.
+- **src/frontend/**: Static assets and templates.
+{% elif profile == "system" %}
+We adhere to an Ansible-First automation structure.
+
+## Directory Structure
+- **ansible/roles/**: Reusable logic units.
+- **scripts/**: Helper scripts.
+{% endif %}
+
+## Coding Standards
+- **Type Hints**: Mandatory for all function signatures.
+- **Configuration**: Use environment variables or config files.
+
+## Source Control Standards
+- **Strict Branching**: Always create a specific branch (`feat/`, `fix/`, `docs/`, `chore/`) for your work.
+- **Commit Messages**: Strictly follow [Conventional Commits](https://www.conventionalcommits.org/).

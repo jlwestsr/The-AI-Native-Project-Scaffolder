@@ -50,15 +50,39 @@ class Wizard:
             ))
 
         current_profile = default_profile if default_profile else "fullstack"
-        current_desc = configs.get_profile(current_profile).get('description', '')
+
+        # Find the matching choice object
+        default_choice = next(
+            (c for c in profile_choices if c.value == current_profile),
+            profile_choices[0]
+        )
 
         return questionary.select(
             "Project Architecture:",
             choices=profile_choices,
-            default=questionary.Choice(
-                title=f"{current_profile}: {current_desc}",
-                value=current_profile
-            )
+            default=default_choice
+        ).ask()
+
+    def ask_ai_persona(self):
+        """Prompts for AI Persona."""
+        from .assets import configs
+        choices = []
+        for key, desc in configs.AI_PERSONAS.items():
+            choices.append(questionary.Choice(
+                title=desc,
+                value=key
+            ))
+
+        # Find the matching choice object
+        default_choice = next(
+            (c for c in choices if c.value == "standard"),
+            choices[0]
+        )
+
+        return questionary.select(
+            "AI Agent Persona:",
+            choices=choices,
+            default=default_choice
         ).ask()
 
     def run(self, default_profile=None):
@@ -75,6 +99,9 @@ class Wizard:
 
         # 3. Profile
         profile_type = self.ask_profile(default_profile)
+
+        # 3b. AI Persona
+        ai_persona = self.ask_ai_persona()
 
         # 4. Tech Stack (Simplified for now, assuming standard defaults per profile)
         # But we still let user choose Python/Manager/License universally
@@ -107,7 +134,8 @@ class Wizard:
             "__PYTHON_VERSION__": python_version,
             "__PACKAGE_MANAGER__": package_manager,
             "__LICENSE__": license_type,
-            "__PROFILE__": profile_type
+            "__PROFILE__": profile_type,
+            "__AI_PERSONA__": ai_persona
         }
 
 

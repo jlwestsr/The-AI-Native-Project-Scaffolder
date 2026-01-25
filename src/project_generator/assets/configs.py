@@ -2,6 +2,9 @@
 
 # Common files shared across all profiles
 COMMON_FILES = {
+    "WORKFLOW.md": "WORKFLOW.md.j2",
+    "GEMINI.md": "GEMINI.md.j2",
+    "AI_DIRECTIVES.md": "AI_DIRECTIVES.md.j2",
     "README.md": "README.md.j2",
     "CONTEXT.md": "CONTEXT.md.j2",
     "docs/feature_template.md": "docs/feature_template.md.j2",
@@ -16,6 +19,13 @@ COMMON_FILES = {
     "ansible/ansible.cfg": "ansible/ansible.cfg.j2",
     "ansible/inventory.ini": "ansible/inventory.ini.j2",
     "ansible/setup_workstation.yml": "ansible/setup_workstation.yml.j2",
+}
+
+# AI Personas (Behavior Profiles)
+AI_PERSONAS = {
+    "standard": "Standard (Adheres to profile defaults)",
+    "architect": "Architect (Strict planning & governance)",
+    "developer": "Developer (Focused on implementation)",
 }
 
 # Profile Definitions
@@ -111,6 +121,39 @@ PROFILES = {
             "scripts/run_tests.sh": "",
             ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
             "tests/test_initial.py": "tests/test_initial.py.j2",
+        }
+    },
+    "mvc": {
+        "description": "Python MVC Architecture (Reference: Desktop/CLI App)",
+        "structure": [
+            "ansible/roles",
+            "ansible/group_vars",
+            "ansible/host_vars",
+            "docs/features",
+            "src/app/controllers",
+            "src/app/models",
+            "src/app/views",
+            "tests/controllers",
+            "tests/models",
+            "tests/views",
+            ".agent/rules",
+            ".github/workflows"
+        ],
+        "files": {
+            **COMMON_FILES,
+            ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior_system.md.j2",
+            "pyproject.toml": "pyproject.toml.j2",
+            ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
+            "requirements.txt": "requirements.txt.j2",
+            "requirements-dev.txt": "requirements-dev.txt.j2",
+            "src/__init__.py": "",
+            "src/app/__init__.py": "",
+            "src/app/main.py": "",
+            "tests/__init__.py": "",
+            "tests/test_initial.py": "tests/test_initial.py.j2",
+            "Dockerfile": "Dockerfile.j2",
+            "docker-compose.yml": "docker-compose.yml.j2",
+            "mkdocs.yml": "mkdocs.yml.j2",
         }
     }
 }

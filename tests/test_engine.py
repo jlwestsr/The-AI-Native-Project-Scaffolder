@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch
 
 # Add src to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
 from project_generator import engine  # noqa: E402
 
@@ -13,7 +13,7 @@ from project_generator import engine  # noqa: E402
 class TestEngine(unittest.TestCase):
     def setUp(self):
         # Patch setup_virtualenv to prevent actual venv creation
-        self.venv_patcher = patch('project_generator.engine.setup_virtualenv')
+        self.venv_patcher = patch("project_generator.engine.setup_virtualenv")
         self.mock_setup_venv = self.venv_patcher.start()
 
     def tearDown(self):
@@ -114,6 +114,24 @@ class TestEngine(unittest.TestCase):
                 assert "Reference: Shurtugal-LNX" in content
                 assert "Ansible-First" in content
 
+        # 3. MVC Profile
+        with tempfile.TemporaryDirectory() as mvc_dir:
+            context = {"__PROFILE__": "mvc"}
+            engine.create_structure(mvc_dir, context=context)
+
+            # Check for MVC structure
+            assert os.path.exists(os.path.join(mvc_dir, "src/app/controllers"))
+            assert os.path.exists(os.path.join(mvc_dir, "src/app/models"))
+            assert os.path.exists(os.path.join(mvc_dir, "src/app/views"))
+            assert os.path.exists(os.path.join(mvc_dir, "src/app/main.py"))
+
+            # Should have tests structure
+            assert os.path.exists(os.path.join(mvc_dir, "tests/controllers"))
+            assert os.path.exists(os.path.join(mvc_dir, "tests/models"))
+
+            # Verify Ansible exists
+            assert os.path.exists(os.path.join(mvc_dir, "ansible/roles"))
+
     def test_create_structure_with_context(self):
         """Test file creation with context replacement (Jinja2)."""
         with tempfile.TemporaryDirectory() as tmpdirname:
@@ -134,12 +152,12 @@ class TestEngine(unittest.TestCase):
             toml_path = os.path.join(tmpdirname, "pyproject.toml")
             with open(toml_path, "r") as f:
                 content = f.read()
-                assert 'name = "MyAIProject"' in content
+                assert "name = \"MyAIProject\"" in content
                 assert (
-                    'authors = [{name = "Alice", email = "labs@example.com"}]'
+                    "authors = [{name = \"Alice\", email = \"labs@example.com\"}]"
                     in content
                 )
-                assert 'license = {text = "MIT"}' in content
+                assert "license = {text = \"MIT\"}" in content
 
     def test_create_structure_poetry(self):
         """Test poetry validation (requirements.txt skipped)."""
@@ -162,5 +180,5 @@ class TestEngine(unittest.TestCase):
                 assert "[tool.poetry]" in content
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

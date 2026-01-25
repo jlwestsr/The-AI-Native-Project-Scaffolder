@@ -28,9 +28,9 @@ def main():
     )
     parser.add_argument(
         "--profile",
-        choices=["fullstack", "web", "system"],
+        choices=["fullstack", "web", "system", "mvc"],
         default=None,
-        help="Project profile to use (fullstack, web, system)"
+        help="Project profile to use (fullstack, web, system, mvc)"
     )
     # Global Config Arguments
     parser.add_argument(
@@ -68,7 +68,8 @@ def main():
 
     # Interactive Mode Check
     # If no target specified (uses default), update flag is strict False, and TTY
-    if args.target_dir == os.getcwd() and not args.update and sys.stdin.isatty():
+    # Fix: Compare absolute paths to handle '.' correctly
+    if os.path.abspath(args.target_dir) == os.getcwd() and not args.update and sys.stdin.isatty():
         try:
             from . import wizard
             # Pass defaults from CLI args if provided

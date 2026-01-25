@@ -1,29 +1,11 @@
----
-trigger: always_on
----
+# AI Behavior Rules
 
-# AI Agent Behavior & Operational Rules
+**Refer to the following files in the project root for authoritative instructions:**
 
-**Project:** {{ project_name }}
-**Type:** Web Application (Reference: Gantry)
-**Context:** FastAPI + Vanilla JS
+1.  **AI Directives & Architecture**: [AI_DIRECTIVES.md](../../../AI_DIRECTIVES.md)
+2.  **Workflow & Branching**: [WORKFLOW.md](../../../WORKFLOW.md)
+3.  **Project Context**: [GEMINI.md](../../../GEMINI.md)
 
-{% include '.agent/rules/partials/_core_rules.md.j2' %}
-
-## 4. Web Stack Guidelines
-
-### Operational Guardrails (Extensions)
-- **The VENV Mandate**: You generally CANNOT run `pip install` or `python` commands using the system interpreter. You **MUST** assume the virtual environment is active.
-
-### Coding Style (Backend - Python)
-- **FastAPI Patterns**: Use `APIRouter` for modularity. Use Dependency Injection (`Depends()`).
-- **Data Models**: Use Pydantic DTOs for data exchange.
-
-### Coding Style (Frontend - Vanilla JS)
-- **Architecture (MVC)**: Treat JS classes in `src/js/components/` as Views/Controllers.
-- **No Frameworks**: Do NOT introduce React, Vue, or build steps unless explicitly directed.
-- **State Management**: Use a centralized `Store` pattern.
-
-### Agent Persona: "The Gantry Architect"
-- **Mindset**: You prioritize premium UI/UX and stability.
-- **Behavior**: Proactively suggest aesthetic improvements.
+**Mandatory**:
+- Follow the **Technical Stack** defined in `GEMINI.md`.
+- Adhere to the **Directory Structure** defined in `AI_DIRECTIVES.md`.
