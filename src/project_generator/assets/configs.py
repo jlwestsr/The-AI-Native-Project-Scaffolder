@@ -19,6 +19,7 @@ COMMON_FILES = {
     "ansible/ansible.cfg": "ansible/ansible.cfg.j2",
     "ansible/inventory.ini": "ansible/inventory.ini.j2",
     "ansible/setup_workstation.yml": "ansible/setup_workstation.yml.j2",
+    "docs/AI_INSIGHTS.md": "docs/AI_INSIGHTS.md.j2",
 }
 
 # AI Personas (Behavior Profiles)
@@ -46,12 +47,11 @@ PROFILES = {
             "src/models",
             "src/visualization",
             "tests",
-            ".agent/rules",
+            "tests",
             ".github/workflows"
         ],
         "files": {
             **COMMON_FILES,
-            ".agent/rules/ai_behavior.md": ".agent/rules/ai_behavior_fullstack.md.j2",
             "pyproject.toml": "pyproject.toml.j2",
             ".github/workflows/unittests.yml": ".github/workflows/unittests.yml.j2",
             "requirements.txt": "requirements.txt.j2",
@@ -81,7 +81,7 @@ PROFILES = {
             "tests",
             "tests/backend/routers",
             "tests/backend/services",
-            ".agent/rules",
+            "tests",
             ".github/workflows"
         ],
         "files": {
@@ -109,7 +109,7 @@ PROFILES = {
             "docs/features",
             "scripts",
             "tests",
-            ".agent/rules",
+            "tests",
             ".github/workflows"
         ],
         "files": {
@@ -136,7 +136,7 @@ PROFILES = {
             "tests/controllers",
             "tests/models",
             "tests/views",
-            ".agent/rules",
+            "tests",
             ".github/workflows"
         ],
         "files": {

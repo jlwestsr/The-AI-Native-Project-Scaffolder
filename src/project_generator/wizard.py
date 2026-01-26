@@ -85,6 +85,20 @@ class Wizard:
             default=default_choice
         ).ask()
 
+    def ask_project_description(self, ai_persona):
+        """Prompts for project description based on persona."""
+        defaults = {
+            "standard": "A production-grade AI engineering project.",
+            "architect": "A highly structured, scalable AI system with strict governance.",
+            "developer": "A rapid-prototyping AI project focused on execution."
+        }
+        default_desc = defaults.get(ai_persona, defaults["standard"])
+
+        return questionary.text(
+            "Project Description:",
+            default=default_desc
+        ).ask()
+
     def run(self, default_profile=None):
         """Main entry point for the wizard."""
         self.console.print(Panel.fit("🧙 Forge Project Wizard", style="bold blue"))
@@ -102,6 +116,9 @@ class Wizard:
 
         # 3b. AI Persona
         ai_persona = self.ask_ai_persona()
+
+        # 3c. Project Description
+        project_description = self.ask_project_description(ai_persona)
 
         # 4. Tech Stack (Simplified for now, assuming standard defaults per profile)
         # But we still let user choose Python/Manager/License universally
@@ -135,7 +152,8 @@ class Wizard:
             "__PACKAGE_MANAGER__": package_manager,
             "__LICENSE__": license_type,
             "__PROFILE__": profile_type,
-            "__AI_PERSONA__": ai_persona
+            "__AI_PERSONA__": ai_persona,
+            "__PROJECT_DESCRIPTION__": project_description
         }
 
 

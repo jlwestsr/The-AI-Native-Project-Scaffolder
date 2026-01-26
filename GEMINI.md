@@ -1,4 +1,4 @@
-# GEMINI Project Context for The-AI-Native-Project-Scaffolder
+# GEMINI Project Context
 
 ## Project Overview
 This project is the source code for **Forge**, a production-grade AI Project Scaffolder.
@@ -9,9 +9,10 @@ This project is the source code for **Forge**, a production-grade AI Project Sca
 - **Dependencies**: rich, questionary, jinja2, platformdirs
 
 ## Agent Instructions
-- Always work on the `develop` branch.
-- Follow the directives in `AI_DIRECTIVES.md` (includes strict behavior mandates).
-- The main entry point is defined in `src/project_generator/cli.py`.
+- **Directives**: Follow the rules in [AI_DIRECTIVES.md](AI_DIRECTIVES.md).
+- **Workflow**: Adhere to the process in [WORKFLOW.md](WORKFLOW.md).
+- **Context**: Refer to [CONTEXT.md](CONTEXT.md) for deeper architectural details.
+- **Entry Point**: The main entry point is `src/project_generator/cli.py`.
 
 ## Project Influences
 - **Forge**: This project *is* Forge.

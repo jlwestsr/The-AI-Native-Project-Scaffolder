@@ -1,0 +1,21 @@
+# Project AI Insights (Long-Term Memory)
+
+## Purpose
+This document serves as the **Long-Term Memory** for AI agents working on **{{ project_name }}**. It captures project-specific behavioral nuances, recurring pitfalls, and architectural decisions that are not strictly "rules" (in `AI_DIRECTIVES.md`) but are critical for maintaining continuity.
+
+## 1. Architectural Patterns
+{% if profile == "mvc" %}
+*   **MVC Strictness**: Do not leak SQL queries into Views or Controller logic into Models.
+{% elif profile == "web" %}
+*   **API Design**: Ensure all API endpoints in `src/backend` have corresponding Pydantic models.
+{% elif profile == "system" %}
+*   **Ansible-First**: We strictly avoid manual configuration. If a tool needs installing, it must be added to a role in `ansible/roles/`.
+{% endif %}
+*   **Artifacts**: Always update `task.md` before tool calls when starting a new phase.
+
+## 2. Recurring Pitfalls
+*   **Testing**: Do not assume tests pass; always checking logs.
+*   **Dependencies**: Check `requirements.txt` before adding new libraries.
+
+## 3. Workflow Nuances
+*   **Verification**: Trust the test runner (`pytest` or `verify.yml`) over your assumptions.

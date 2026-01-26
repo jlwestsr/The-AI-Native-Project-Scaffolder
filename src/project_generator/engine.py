@@ -45,19 +45,7 @@ def create_structure(base_path, update=False, context=None, force=False):
 
     # AI Persona Logic
     persona = context.get("__AI_PERSONA__", "standard")
-
-    # Map 'standard' to use the default template without suffix
-    # For others, appending _{persona} to the template name
-    behavior_file = ".agent/rules/ai_behavior.md"
-    if persona != "standard" and behavior_file in profile["files"]:
-        original_template = profile["files"][behavior_file]
-        # Expecting: .agent/rules/ai_behavior_{profile}.md.j2
-        # Target: .agent/rules/ai_behavior_{profile}_{persona}.md.j2
-        if original_template.endswith(".md.j2"):
-            prefix = original_template.replace(".md.j2", "")
-            new_template = f"{prefix}_{persona}.md.j2"
-            profile["files"][behavior_file] = new_template
-            print(f"   ℹ️  AI Persona '{persona}' active. Using template: {new_template}")
+    project_description = context.get("__PROJECT_DESCRIPTION__", "A production-grade AI project.")
 
     # Standardize context keys (remove dunders if present)
     jinja_context = {
@@ -67,6 +55,8 @@ def create_structure(base_path, update=False, context=None, force=False):
         "python_version": context.get("__PYTHON_VERSION__", "3.10"),
         "package_manager": context.get("__PACKAGE_MANAGER__", "pip"),
         "profile": profile_name,
+        "ai_persona": persona,
+        "project_description": project_description,
     }
 
     print(f"...Scaffolding folder structure for profile: {profile_name}...")
