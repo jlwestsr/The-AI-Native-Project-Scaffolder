@@ -90,7 +90,7 @@ Enable the "Update" feature to add missing standard files (like `Dockerfile` or 
 
 ```bash
 # Update existing project (safe, idempotent)
-forge . --update
+forge . --update --profile fullstack
 ```
 
 ### How to use with AI Agents

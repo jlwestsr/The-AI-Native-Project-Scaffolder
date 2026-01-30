@@ -64,6 +64,11 @@ def main():
                 print(f"❌ Invalid format: {setting}. Use key=value.")
         return
 
+    # Enforce profile when updating
+    if args.update and not args.profile:
+        print("❌ Error: You must specify a --profile when updating (e.g., --profile fullstack)")
+        sys.exit(1)
+
     target_path = os.path.abspath(args.target_dir)
     context = {}
 
