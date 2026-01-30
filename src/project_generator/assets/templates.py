@@ -4,7 +4,7 @@ AIDER_CONTEXT = """
 # Project Context & Coding Standards
 
 > **[IMPORTANCE: CRITICAL] AI AGENT DIRECTIVE**:
-> You MUST read and adhere to [.agent/rules/ai_behavior.md](.agent/rules/ai_behavior.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.  # noqa: E501
+> You MUST read and adhere to [AI_DIRECTIVES.md](AI_DIRECTIVES.md) at the start of every session. It contains strict operational guardrails, "Ansible-First" policies, and Git branching rules that supersede general instructions.  # noqa: E501
 
 ## Project Overview
 This is a production-grade AI engineering project.

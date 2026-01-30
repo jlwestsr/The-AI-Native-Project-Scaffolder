@@ -5,7 +5,7 @@
 
 ## 2. 🚨 MANDATORY: AI Behavior & Rules
 **CRITICAL**: Before proposing any changes or running commands, you MUST review and adhere to the rules defined in:
-👉 **[.agent/rules/ai_behavior.md](.agent/rules/ai_behavior.md)**
+👉 **[AI_DIRECTIVES.md](AI_DIRECTIVES.md)**
 
 Key constraints from these rules include:
 *   **Agentic Artifacts**: Use `task.md` and `implementation_plan.md` for state tracking.
