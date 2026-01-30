@@ -9,7 +9,6 @@ COMMON_FILES = {
     "CONTEXT.md": "CONTEXT.md.j2",
     "docs/feature_template.md": "docs/feature_template.md.j2",
     "docs/features/stub.txt": "",
-    ".aider.conf.yml": ".aider.conf.yml.j2",
     ".pre-commit-config.yaml": ".pre-commit-config.yaml.j2",
     ".gitignore": ".gitignore.j2",
     "docs/index.md": "docs/index.md.j2",

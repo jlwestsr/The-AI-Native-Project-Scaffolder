@@ -10,7 +10,7 @@
 
 ## 🚀 Why Forge?
 
-Traditional scaffolding tools (like Cookiecutter) focus on file organization. **Forge** focuses on **Agentic Governance**. It prepares your workspace to be understood and respected by AI tools (like Aider, Gemini Code Assist, or Cursor) the moment you run the first commit.
+Traditional scaffolding tools (like Cookiecutter) focus on file organization. **Forge** focuses on **Agentic Governance**. It prepares your workspace to be understood and respected by AI tools (like Gemini Code Assist or Cursor) the moment you run the first commit.
 
 ### Core Philosophy
 - **AI-Native Context**: Every project ships with `CONTEXT.md` and `rules/ai_behavior.md` to ground your AI agent.
@@ -26,7 +26,6 @@ Traditional scaffolding tools (like Cookiecutter) focus on file organization. **
 | **Agentic Rules** | Dedicated `rules/ai_behavior.md` to define operational guardrails for AI agents. |
 | **Universal Ansible** | Production-ready `ansible/` scaffold with `setup_workstation.yml` for instant environment bootstrapping. |
 | **Strict Quality** | Enforced `pre-commit` hooks for `pytest`, `flake8`, `yamllint`, and `ansible-lint`. |
-| **Aider Integration** | Pre-configured `.aider.conf.yml` forces auto-reading of context and rules. |
 | **Git Flow Automation** | Initializes a repo with `main` and `develop` branches out of the box. |
 | **Modular CI/CD** | Production-ready GitHub Actions for testing and linting. |
 | **Feature Tracking** | Structured `docs/features/` system with a ready-to-use template. |
@@ -70,13 +69,13 @@ If you want to contribute to Forge or customize the templates locally:
 3. (Optional) Create a global alias for quick access:
    Add this to your `~/.zshrc` or `~/.bashrc`:
    ```bash
-   alias forge="$(pwd)/.venv/bin/forge-project"
+   alias forge="$(pwd)/.venv/bin/forge"
    ```
 
 ---
 
 ### Forge a New Project
-Forge can be invoked as `forge-project` or via your `forge` alias (recommended).
+Forge can be invoked as `forge` (via alias or pipx).
 
 ```bash
 # Forge in the current directory
@@ -97,7 +96,7 @@ forge . --update
 ### How to use with AI Agents
 1. **Define Features**: Use `docs/feature_template.md` to describe your feature.
 2. **Review Rules**: Ensure `rules/ai_behavior.md` matches your team's specific requirements.
-3. **Collaborate**: Launch Aider/Cursor. The pre-configured context will ensure the agent respects your architecture from the first prompt.
+3. **Collaborate**: Launch your AI Agent (e.g. Cursor, Gemini). The pre-configured context will ensure the agent respects your architecture from the first prompt.
 
 ---
 

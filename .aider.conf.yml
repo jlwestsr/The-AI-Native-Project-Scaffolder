@@ -1,7 +1,0 @@
-# .aider.conf.yml
-read:
-  - rules/ai_behavior.md
-  - CONTEXT.md
-
-auto-commits: false
-dirty-commits: false

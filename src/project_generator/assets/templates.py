@@ -1,6 +1,6 @@
 """Large string constants for project templates."""
 
-AIDER_CONTEXT = """
+PROJECT_CONTEXT = """
 # Project Context & Coding Standards
 
 > **[IMPORTANCE: CRITICAL] AI AGENT DIRECTIVE**:
@@ -132,16 +132,6 @@ Follow the AI Behavior strict workflow:
 - [ ] **Test**: All tests pass (`pytest`)?
 - [ ] **Doc**: Updated `README.md` and `walkthrough.md`?
 - [ ] **Data**: `git add .`, `git commit`, `git push`?
-"""
-
-AIDER_CONFIG = """
-# .aider.conf.yml
-read:
-  - .agent/rules/ai_behavior.md
-  - CONTEXT.md
-
-auto-commits: false  # We want manual control over commits to review them
-dirty-commits: false # Ensure working directory is clean before coding
 """
 
 PRE_COMMIT_CONFIG = """
@@ -279,7 +269,7 @@ GITIGNORE_CONTENT = """
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*$py.class
+*.class
 
 # C extensions
 *.so
@@ -301,10 +291,6 @@ models/
 *.h5
 *.pt
 *.pth
-
-# Aider / LLM tools
-.aider*
-!.aider.conf.yml
 """
 
 README_MD_CONTENT = """
