@@ -14,3 +14,21 @@ This document serves as the **Long-Term Memory** for AI agents working on **Forg
 ## 3. Workflow Nuances
 *   **Verification**: `pytest` is the baseline, but manual inspection of generated output (using `forge . --update --dry-run` or similar) is often necessary to catch template errors.
 *   **Dependencies**: When adding a dependency, check if it's needed for the *Generator* (add to `pyproject.toml`) or the *Generated Project* (add to `configs.py` templates).
+
+## 4. v2 Rewrite — Architectural Decisions (2026-02-03)
+
+### What changed
+v1's MVC architecture (`configs.py` / `engine.py` / `wizard.py`) was replaced with a **profile-driven pipeline** architecture. Key modules: `models.py`, `profile_loader.py`, `renderer.py`, `applier.py`, `lockfile.py`, `pipeline.py`, `cli.py`, `wizard.py`.
+
+### Lessons learned
+*   **Profiles as data, not code**: Moving from 375-line Python dicts (`configs.py`) to TOML files (`profile.toml` + `structure.toml`) per profile makes adding new profiles a zero-Python task. This was the single biggest architectural win.
+*   **Pipeline stages must be pure functions**: `render_templates()` returns `RenderedFile` objects in memory — no disk I/O. `apply_to_disk()` handles all writing. This separation makes every stage independently testable.
+*   **Lock file hashing**: SHA-256 truncated to 16 hex chars is sufficient for content-change detection in `.forge.lock`. Full SHA would be overkill for this use case.
+*   **Profile inheritance is shallow merge**: Child overrides parent for variables/files/conditionals; directories are unioned. Template lookup walks `template_dirs` child-first. Circular inheritance is detected eagerly.
+*   **Typer + Pydantic + Jinja2 is a strong stack**: Typer handles CLI, Pydantic validates at boundaries, Jinja2 renders. Each library stays in its lane — no overlap.
+*   **Worktree isolation works well**: Using `.worktrees/` for the rewrite kept `develop` clean throughout the multi-commit implementation.
+
+### What to watch for
+*   **v1 code still exists** in `src/project_generator/`. It will need to be removed or deprecated once v2 is validated against reference projects.
+*   **Template porting**: v1 templates were copied to `profiles/base/templates/` and `profiles/fullstack/templates/`. Some may need Jinja2 variable name adjustments as v2 context variables differ slightly from v1.
+*   **Entry point**: v2 uses `forge = "forge.cli:app"` (Typer). v1 used `forge = "project_generator.cli:main"`. Both are in `pyproject.toml` — only one can be active.
