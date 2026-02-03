@@ -49,7 +49,7 @@ forge [TARGET_DIR] [OPTIONS]
 - **No Shadow Logic**: Do not hardcode file structures in the pipeline; read them from profiles.
 
 ## Git Workflow
-- **Branching**: Gitflow-lite — `main` (production), `develop` (integration).
+- **Branching**: Gitflow-lite — `develop` (default branch, integration), `main` (stable releases only).
 - **NO direct commits to `main` or `develop`** without verification.
 - **Feature branches are LOCAL ONLY**: `feat/`, `fix/`, `docs/`, `chore/` — do not push unless collaborative.
 - **Conventional Commits**: Use `feat:`, `fix:`, `docs:`, `chore:` prefixes.
