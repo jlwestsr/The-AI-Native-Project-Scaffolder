@@ -30,7 +30,7 @@ We follow a strict **Gitflow-lite** workflow.
 **Trigger**: User requests a new feature or reports a bug.
 **Agent Action**:
 1.  **READS** `docs/AI_INSIGHTS.md` to recall project caveats.
-2.  Checks `src/project_generator/assets/` and Reference Projects.
+2.  Checks `profiles/` and Reference Projects.
 3.  Produces a `task.md` breaking down the work.
 
 ### Phase 2: Proposal (The "Green Light")

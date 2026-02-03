@@ -18,14 +18,14 @@ To effectively contribute to this project, adopt the following personas based on
 ### 1. Scaffolding Architect (Primary)
 *   **Focus**: System Design, Template Structure, Governance.
 *   **Responsibilities**:
-    *   Designing the folder structure in `src/project_generator/assets/configs.py`.
-    *   Maintaining Jinja2 templates in `src/project_generator/assets/templates.py`.
+    *   Designing profile definitions in `profiles/` (TOML configs + templates).
+    *   Maintaining Jinja2 templates in `profiles/*/templates/`.
     *   Ensuring generated projects comply with "AI-Native" standards.
 
 ### 2. Python Tool Developer
 *   **Focus**: CLI Logic, File I/O, Testing.
 *   **Responsibilities**:
-    *   Implementing core logic in `engine.py` and `git_ops.py`.
+    *   Implementing core logic in `src/forge/` modules.
     *   Writing `pytest` cases in `tests/`.
     *   Managing dependencies in `pyproject.toml`.
 
@@ -41,8 +41,8 @@ Quickly orient yourself by connecting directories to responsible personas:
 
 | Directory/File | Primary Persona | Purpose |
 | :--- | :--- | :--- |
-| `src/project_generator/assets/` | **Architect** | Templates and directory configurations. |
-| `src/project_generator/` | **Tool Dev** | Core application logic (CLI, Engine, Wizard). |
+| `profiles/` | **Architect** | Profile definitions (TOML configs + Jinja2 templates). |
+| `src/forge/` | **Tool Dev** | Core application logic (CLI, Pipeline, Renderer, Wizard). |
 | `tests/` | **Tool Dev** | Unit tests for valid verification. |
 | `scripts/` | **Release Mgr** | Test runners and utility scripts. |
 | `.agent/rules/` | **All** | AI constraints and coding standards. |
@@ -51,7 +51,7 @@ Quickly orient yourself by connecting directories to responsible personas:
 
 ## 5. 💻 CLI Reference
 
-**Forge** is a command-line tool. The primary entry point is `forge` (or `python -m src.project_generator.cli`).
+**Forge** is a command-line tool. The primary entry point is `forge` (or `python -m forge.cli`).
 
 ### Usage
 ```bash

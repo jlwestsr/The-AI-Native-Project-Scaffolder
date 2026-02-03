@@ -12,7 +12,7 @@ This project is the source code for **Forge**, a production-grade AI Project Sca
 - **Directives**: Follow the rules in [AI_DIRECTIVES.md](AI_DIRECTIVES.md).
 - **Workflow**: Adhere to the process in [WORKFLOW.md](WORKFLOW.md).
 - **Context**: Refer to [CONTEXT.md](CONTEXT.md) for deeper architectural details.
-- **Entry Point**: The main entry point is `src/project_generator/cli.py`.
+- **Entry Point**: The main entry point is `src/forge/cli.py`.
 
 ## Project Influences
 - **Forge**: This project *is* Forge.

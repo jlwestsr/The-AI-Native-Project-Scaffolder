@@ -4,7 +4,7 @@ These rules are critical for any AI agent "loading" this project. They encode th
 
 ## 1. Discovery-Driven Development
 - **Ground Truth**: Before proposing any changes, you MUST check:
-    -   `src/project_generator/assets/` for existing templates/configs.
+    -   `profiles/` for existing profile definitions, templates, and configs.
     -   `reference_shurtugal-lnx/`, `reference_gantry/`, etc., for the "Target State" of generated code.
 - **Reference Awareness**: If the reference project implementation differs from our template, **the template is wrong**.
 - **No Assumptions**: Do not implement features based on "general knowledge"; implement them based on the **Reference Projects**.

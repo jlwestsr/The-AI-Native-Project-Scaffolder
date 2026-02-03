@@ -9,7 +9,7 @@ This document serves as the **Long-Term Memory** for AI agents working on **Forg
 
 ## 2. Recurring Pitfalls
 *   **Template Shadow Logic**: Avoid putting complex `{% if %}` logic in Jinja2 templates. Pre-calculate boolean flags in `engine.py` and pass them as context.
-*   **Config Drift**: If you change a file in a reference project, you MUST update the corresponding template in `src/project_generator/assets/templates/` immediately.
+*   **Config Drift**: If you change a file in a reference project, you MUST update the corresponding template in `profiles/*/templates/` immediately.
 
 ## 3. Workflow Nuances
 *   **Verification**: `pytest` is the baseline, but manual inspection of generated output (using `forge . --update --dry-run` or similar) is often necessary to catch template errors.
@@ -29,6 +29,6 @@ v1's MVC architecture (`configs.py` / `engine.py` / `wizard.py`) was replaced wi
 *   **Worktree isolation works well**: Using `.worktrees/` for the rewrite kept `develop` clean throughout the multi-commit implementation.
 
 ### What to watch for
-*   **v1 code still exists** in `src/project_generator/`. It will need to be removed or deprecated once v2 is validated against reference projects.
+*   **v1 code has been removed** from `src/project_generator/`. All source and bytecode were deleted after v2 was validated.
 *   **Template porting**: v1 templates were copied to `profiles/base/templates/` and `profiles/fullstack/templates/`. Some may need Jinja2 variable name adjustments as v2 context variables differ slightly from v1.
 *   **Entry point**: v2 uses `forge = "forge.cli:app"` (Typer). v1 used `forge = "project_generator.cli:main"`. Both are in `pyproject.toml` — only one can be active.

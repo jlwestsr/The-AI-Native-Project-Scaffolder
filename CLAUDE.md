@@ -5,25 +5,29 @@
 
 ## Technical Stack
 - **Language**: Python 3.10+
-- **Project Type**: CLI Application (MVC Architecture)
-- **Dependencies**: rich, questionary, jinja2, platformdirs
-- **Entry Point**: `src/project_generator/cli.py`
+- **Project Type**: CLI Application (Profile-driven Pipeline Architecture)
+- **Dependencies**: rich, questionary, jinja2, platformdirs, typer, pydantic
+- **Entry Point**: `src/forge/cli.py`
 
 ## Key Directories
 | Directory | Purpose |
 |:---|:---|
-| `src/project_generator/` | Core application logic (CLI, Engine, Wizard) |
-| `src/project_generator/assets/` | Templates and directory configurations |
+| `src/forge/` | Core application logic (CLI, Pipeline, Renderer, Wizard) |
+| `profiles/` | Profile definitions (TOML configs + Jinja2 templates) |
 | `tests/` | Unit tests mirroring `src/` structure |
 | `scripts/` | Test runners and utility scripts |
 | `.agent/rules/` | AI constraints and coding standards |
 | `docs/` | Project documentation |
 | `reference_*/` | READ-ONLY symlinked reference projects |
 
-## Architecture (MVC)
-- **Model** (`configs.py`): Data structures defining project profiles and file mappings. Minimal logic.
-- **View** (`templates/` & `wizard.py`): Jinja2 templates and interactive prompts. Minimal logic.
-- **Controller** (`engine.py` & `cli.py`): Orchestration. No hardcoded file structures; read from the Model.
+## Architecture (v2 — Profile-driven Pipeline)
+- **Models** (`models.py`): Pydantic data structures for profiles, rendered files, lock entries.
+- **Profile Loader** (`profile_loader.py`): Reads TOML configs, resolves inheritance.
+- **Renderer** (`renderer.py`): Jinja2 template rendering (pure, no I/O).
+- **Applier** (`applier.py`): Writes rendered files to disk.
+- **Pipeline** (`pipeline.py`): Orchestrates load → render → apply stages.
+- **CLI** (`cli.py`): Typer-based entry point.
+- **Wizard** (`wizard.py`): Interactive prompts for profile variables.
 
 ## Build & Test
 ```bash
@@ -40,9 +44,9 @@ forge [TARGET_DIR] [OPTIONS]
 ## Coding Standards
 - **Type Hints**: Mandatory for all new functions.
 - **Linting**: `flake8` with zero errors.
-- **Unit Tests**: All changes to `engine.py` or `configs.py` must have accompanying tests in `tests/`.
+- **Unit Tests**: All changes must have accompanying tests in `tests/`.
 - **Docstrings**: Google style for all public functions.
-- **No Shadow Logic**: Do not hardcode file structures in the engine; read them from the Model.
+- **No Shadow Logic**: Do not hardcode file structures in the pipeline; read them from profiles.
 
 ## Git Workflow
 - **Branching**: Gitflow-lite — `main` (production), `develop` (integration).
@@ -53,7 +57,7 @@ forge [TARGET_DIR] [OPTIONS]
 - **Always run `./scripts/run_tests.sh`** before any commit.
 
 ## Discovery-Driven Development
-- Check `src/project_generator/assets/` for existing templates/configs before proposing changes.
+- Check `profiles/` for existing templates/configs before proposing changes.
 - Check `reference_*/` directories for the "Target State" of generated code.
 - If the reference project differs from our template, **the template is wrong**.
 - Do not implement features based on assumptions; implement based on **Reference Projects**.
