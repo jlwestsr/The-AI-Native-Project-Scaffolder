@@ -41,6 +41,12 @@ def generate(
     profile_spec = resolve_profile(profile_name, profiles_dir)
     resolved = merge_inheritance(profile_spec, profiles_dir)
 
+    # Compute derived variables
+    if "project_name" in variables and "project_slug" not in variables:
+        variables["project_slug"] = (
+            variables["project_name"].lower().replace("-", "_").replace(" ", "_")
+        )
+
     # Step 3: Render templates
     rendered = render_templates(resolved, variables)
 
@@ -49,7 +55,7 @@ def generate(
 
     # Step 4: Apply to disk
     lock = read_lock(target) if strategy == Strategy.UPDATE else None
-    result = apply_to_disk(rendered, resolved, target, strategy, lock=lock)
+    result = apply_to_disk(rendered, resolved, target, strategy, lock=lock, variables=variables)
 
     # Step 5: Write lock file
     now = datetime.now(timezone.utc).isoformat()

@@ -4,6 +4,8 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
+from jinja2 import Environment
+
 from forge.models import (
     RenderedFile,
     ResolvedProfile,
@@ -27,6 +29,7 @@ def apply_to_disk(
     target: Path,
     strategy: Strategy,
     lock: ForgeLock | None = None,
+    variables: dict | None = None,
 ) -> ApplyResult:
     """Write rendered files to the target directory.
 
@@ -36,6 +39,7 @@ def apply_to_disk(
         target: The project root directory.
         strategy: How to handle existing files.
         lock: Existing lock file (required for UPDATE strategy).
+        variables: Template variables for rendering directory names.
 
     Returns:
         ApplyResult summarizing what happened.
@@ -45,10 +49,13 @@ def apply_to_disk(
         ValueError: If UPDATE strategy but no lock provided.
     """
     result = ApplyResult()
+    env = Environment()
+    vars_ = variables or {}
 
-    # Create profile directories
+    # Create profile directories (render Jinja2 variables in names)
     for directory in profile.directories:
-        (target / directory).mkdir(parents=True, exist_ok=True)
+        resolved_dir = env.from_string(directory).render(**vars_)
+        (target / resolved_dir).mkdir(parents=True, exist_ok=True)
 
     if strategy == Strategy.UPDATE:
         if lock is None:
