@@ -1,0 +1,26 @@
+[directories]
+root = [
+    "notebooks",
+    "models",
+    "data/raw",
+    "data/processed",
+    "ansible/roles",
+    "ansible/group_vars",
+    "ansible/host_vars",
+    "src/data",
+    "src/features",
+    "src/models",
+    "src/visualization",
+]
+
+[files]
+"Dockerfile" = "Dockerfile.j2"
+"docker-compose.yml" = "docker-compose.yml.j2"
+"mkdocs.yml" = "mkdocs.yml.j2"
+"ansible/ansible.cfg" = "ansible/ansible.cfg.j2"
+"ansible/inventory.ini" = "ansible/inventory.ini.j2"
+"ansible/setup_workstation.yml" = "ansible/setup_workstation.yml.j2"
+
+[conditionals]
+"Dockerfile" = "use_docker"
+"docker-compose.yml" = "use_docker"

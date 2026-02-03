@@ -1,0 +1,16 @@
+[profile]
+name = "fullstack"
+inherits = "base"
+description = "Full-stack AI system with notebooks, models, and Ansible"
+
+[variables]
+[variables.persona]
+prompt = "AI persona"
+type = "choice"
+choices = ["standard", "architect", "developer"]
+default = "standard"
+
+[variables.use_docker]
+prompt = "Include Docker support?"
+type = "confirm"
+default = true
