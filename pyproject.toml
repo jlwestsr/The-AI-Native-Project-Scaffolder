@@ -4,50 +4,41 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "forge-scaffolder"
-version = "0.1.0"
+version = "2.0.0"
 description = "Production-grade AI Project Scaffolder"
-authors = [{name = "JLWestSr", email = "labs@example.com"}]
 requires-python = ">=3.10"
 dependencies = [
-    "rich",
-    "questionary",
-    "jinja2",
-    "platformdirs",
-    "tomli",
-    "tomli-w",
+    "typer[all]>=0.9.0",
+    "pydantic>=2.0.0",
+    "jinja2>=3.1.0",
+    "questionary>=2.0.0",
+    "platformdirs>=3.0.0",
+    "tomli>=2.0.0;python_version<'3.11'",
+    "tomli-w>=1.0.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-tmp-files>=0.0.2",
 ]
 
 [project.scripts]
-forge = "project_generator.cli:main"
+forge = "forge.cli:app"
 
-# --- Black Configuration ---
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.black]
 line-length = 88
-target-version = ['py310', 'py311']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | models
-  | data
-)/
-'''
+target-version = ["py310", "py311", "py312"]
 
-# --- Pytest Configuration ---
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
-testpaths = [
-    "tests",
-]
-pythonpath = [
-    "src"
-]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
