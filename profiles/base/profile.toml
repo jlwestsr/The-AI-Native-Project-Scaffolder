@@ -1,0 +1,41 @@
+[profile]
+name = "base"
+description = "Common foundation for all Forge projects"
+
+[variables]
+[variables.project_name]
+prompt = "Project name"
+type = "string"
+
+[variables.author_name]
+prompt = "Author name"
+type = "string"
+default = ""
+
+[variables.author_email]
+prompt = "Author email"
+type = "string"
+default = ""
+
+[variables.description]
+prompt = "Project description"
+type = "string"
+default = ""
+
+[variables.python_version]
+prompt = "Minimum Python version"
+type = "choice"
+choices = ["3.10", "3.11", "3.12"]
+default = "3.10"
+
+[variables.manager]
+prompt = "Package manager"
+type = "choice"
+choices = ["pip", "poetry", "uv"]
+default = "pip"
+
+[variables.license]
+prompt = "License"
+type = "choice"
+choices = ["MIT", "Apache 2.0", "Proprietary", "None"]
+default = "MIT"

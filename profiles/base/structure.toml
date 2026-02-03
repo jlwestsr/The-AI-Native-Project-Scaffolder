@@ -1,0 +1,37 @@
+[directories]
+root = [
+    "src/{{ project_slug }}",
+    "tests",
+    "docs",
+    "docs/features",
+    "scripts",
+    ".agent/rules",
+    ".github/workflows",
+]
+
+[files]
+"README.md" = "README.md.j2"
+"CONTEXT.md" = "CONTEXT.md.j2"
+"AI_DIRECTIVES.md" = "AI_DIRECTIVES.md.j2"
+"WORKFLOW.md" = "WORKFLOW.md.j2"
+"GEMINI.md" = "GEMINI.md.j2"
+".gitignore" = ".gitignore.j2"
+".flake8" = ".flake8.j2"
+".yamllint" = ".yamllint.j2"
+".pre-commit-config.yaml" = ".pre-commit-config.yaml.j2"
+"docs/index.md" = "docs/index.md.j2"
+"docs/feature_template.md" = "docs/feature_template.md.j2"
+"docs/AI_INSIGHTS.md" = "docs/AI_INSIGHTS.md.j2"
+".github/workflows/docs.yml" = ".github/workflows/docs.yml.j2"
+"pyproject.toml" = "pyproject.toml.j2"
+"requirements.txt" = "requirements.txt.j2"
+"requirements-dev.txt" = "requirements-dev.txt.j2"
+"src/{{ project_slug }}/__init__.py" = "__init__.py.j2"
+"tests/__init__.py" = "__init__.py.j2"
+"tests/test_initial.py" = "tests/test_initial.py.j2"
+".agent/rules/ai_behavior.md" = ".agent/rules/ai_behavior.md.j2"
+".github/workflows/unittests.yml" = ".github/workflows/unittests.yml.j2"
+
+[conditionals]
+"requirements.txt" = "use_pip"
+"requirements-dev.txt" = "use_pip"
