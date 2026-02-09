@@ -1,0 +1,51 @@
+# OVERLORD.md — Ecosystem Manifest
+
+<!-- Schema Version: {{ manifest.schema_version }} -->
+<!-- Machine-readable manifest for Overlord's governance engine. -->
+<!-- Forge generates it; Overlord reads it as source of truth. -->
+
+## Projects
+
+<!-- Each project registered in the ecosystem. -->
+<!-- Overlord validates this against overlord.yml at startup. -->
+
+| Project | Role | Path | Remote | Depends On |
+|---------|------|------|--------|------------|
+{% for p in manifest.projects -%}
+| {{ p.name }} | {{ p.role }} | {{ p.path }} | {{ p.remote }} | {{ p.depends_on | join(", ") if p.depends_on else "—" }} |
+{% endfor %}
+## Dependency Graph
+
+```
+{{ dependency_graph }}
+```
+
+## Release Status
+
+<!-- Overlord updates this section after each release. -->
+
+| Project | Latest Release | Branch | Tests |
+|---------|---------------|--------|-------|
+{% for r in manifest.releases -%}
+| {{ r.project }} | {{ r.latest_release }} | {{ r.branch }} | {{ r.tests }} |
+{% endfor %}
+## Active Tracks
+
+<!-- Synced from conductor/tracks.md. Overlord reads this for roadmap queries. -->
+
+| Track | Status | Priority | Link |
+|-------|--------|----------|------|
+{% for t in manifest.tracks -%}
+| {{ t.track }} | {{ t.status }} | {{ t.priority }} | {{ t.link }} |
+{% endfor %}
+## Critical Path
+
+| Phase | Description | Status | Priority |
+|-------|-------------|--------|----------|
+{% for c in manifest.critical_path -%}
+| {{ c.phase }} | {{ c.description }} | {{ c.status }} | {{ c.priority }} |
+{% endfor %}
+## Governance
+
+See `BUSINESS.md` for approved tech stack and governance rules.
+Overlord enforces these rules during dispatch and code review.

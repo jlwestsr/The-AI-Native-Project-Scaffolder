@@ -1,0 +1,32 @@
+{
+  "include": [
+    {% if src_layout %}"src"{% else %}"."{% endif %}
+  ],
+  "exclude": [
+    "**/__pycache__",
+    "**/.pytest_cache",
+    "**/.mypy_cache",
+    "**/venv",
+    "**/.venv",
+    "**/dist",
+    "**/build"{% if exclude_data %},
+    "**/data",
+    "**/models"{% endif %}
+  ],
+  "typeCheckingMode": "basic",
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "pythonVersion": "{{python_version}}",
+  "pythonPlatform": "{{platform}}",
+  "executionEnvironments": [
+    {
+      "root": {% if src_layout %}"src"{% else %}"."{% endif %},
+      "pythonVersion": "{{python_version}}",
+      "extraPaths": [
+        {% if src_layout %}"src"{% else %}"."{% endif %}
+      ]
+    }
+  ],
+  "venvPath": ".",
+  "venv": "venv"
+}

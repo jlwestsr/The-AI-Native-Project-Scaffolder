@@ -1,0 +1,66 @@
+{
+  "project": "{{project_name}}",
+  "description": "{{project_description}}",
+  "mcpServers": {
+    "serena": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Navigate playbook and role structure"
+    },
+    "context7": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Live docs for Ansible modules and roles"
+    },
+    "superpowers": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Debug playbook failures"
+    },
+    "pr-review-toolkit": {
+      "disabled": false,
+      "priority": "low",
+      "reason": "YAML linting"
+    },
+    "commit-commands": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Git workflow automation"
+    },
+    "github": {
+      "disabled": false,
+      "priority": "low",
+      "reason": "Minimal GitHub needs"
+    },
+    "pyright-lsp": {
+      "disabled": true,
+      "reason": "No Python code"
+    },
+    "typescript-lsp": {
+      "disabled": true,
+      "reason": "No TypeScript"
+    },
+    "playwright": {
+      "disabled": true,
+      "reason": "No UI"
+    },
+    "feature-dev": {
+      "disabled": true,
+      "reason": "Not feature dev workflow"
+    },
+    "supabase": {
+      "disabled": true,
+      "reason": "Not using Supabase"
+    },
+    "ralph-loop": {
+      "disabled": true,
+      "reason": "No automation loops"
+    }
+  },
+  "projectSettings": {
+    "language": "YAML",
+    "type": "ansible-infrastructure",
+    "tooling": "Ansible",
+    "linters": ["ansible-lint", "yamllint"]
+  }
+}

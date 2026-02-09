@@ -1,0 +1,91 @@
+# Claude Code Configuration — {{project_name}}
+
+**Project Type:** {{project_type}}
+**Configuration Date:** {{date}}
+
+---
+
+## Overview
+
+Per-project Claude Code plugin configuration for {{project_name}}. This configuration is optimized for {{project_type_description}}.
+
+## Enabled Plugins
+
+{% for plugin, config in enabled_plugins.items() %}
+### {{config.priority|title}} Priority
+
+- ✅ **{{plugin}}** — {{config.reason}}
+{% endfor %}
+
+## Disabled Plugins
+
+{% for plugin, reason in disabled_plugins.items() %}
+- ❌ **{{plugin}}** — {{reason}}
+{% endfor %}
+
+{% if has_lsp %}
+## LSP Configuration
+
+{% if python_lsp %}
+### Pyright
+
+Configuration: `pyrightconfig.json` (project root)
+
+**Settings:**
+
+- Type checking: basic
+- Python version: {{python_version}}
+- Include: `{{python_include}}`
+- Exclude: `__pycache__`, `.pytest_cache`, etc.
+- Virtual environment: `./venv`
+{% endif %}
+
+{% if typescript_lsp %}
+### TypeScript
+
+Configuration: `{{typescript_config_path}}` (usually `tsconfig.json`)
+
+**Settings:**
+
+- Strict mode enabled
+- Auto-imports enabled
+- Path aliases configured
+{% endif %}
+{% endif %}
+
+{% if has_testing %}
+## Testing
+
+Run tests via {{test_framework}}:
+
+```bash
+{{test_command}}
+```
+{% endif %}
+
+## Workflow
+
+This project follows the develop→main git workflow:
+
+1. Branch off `develop` for new work
+2. Merge features back to `develop` with `--no-ff`
+3. Release from `develop` to `main` with version tags
+
+## Why These Plugins?
+
+{% for note in plugin_rationale %}
+**{{note.plugin}}** — {{note.explanation}}
+
+{% endfor %}
+
+## Maintenance
+
+Update this configuration when:
+
+- Adding new dependencies or components
+- Performance issues (disable low-value plugins)
+- New Claude Code plugins that benefit {{project_type}}
+
+---
+
+*Part of the West AI Labs plugin strategy. See ecosystem docs for more information.*

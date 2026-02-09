@@ -1,0 +1,40 @@
+# CLAUDE.md - {{ workspace_name }}
+
+## Overview
+
+This is the root workspace for the {{ workspace_name }} ecosystem.
+
+## Projects
+
+| Directory | Repo | Purpose |
+|-----------|------|---------|
+{% for p in manifest.projects -%}
+| `{{ p.path }}` | `{{ p.remote }}` | {{ p.role }} |
+{% endfor %}
+## Architecture
+
+See `BUSINESS.md` for strategic context and `OVERLORD.md` for the ecosystem manifest.
+
+## Development Workflow
+
+### Git Branching Model
+
+All repos follow a **develop → main** workflow:
+
+- **`main`** — Stable releases only
+- **`develop`** — Integration and daily work
+- **`feat/*`, `fix/*`, `docs/*`, `chore/*`** — Short-lived feature branches
+
+### Commit Conventions
+
+- **Conventional commits**: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:` prefixes
+- **Imperative mood** in subject line
+- **Keep subject under 72 characters**
+
+### Coding Standards
+
+- Python 3.10+ (minimum compatibility)
+- Type hints mandatory on all function signatures
+- Google-style docstrings on all public functions
+- `black` (line-length 88) + `flake8` formatting
+- `pytest` for all tests

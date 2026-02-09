@@ -1,0 +1,68 @@
+{
+  "project": "{{project_name}}",
+  "description": "{{project_description}}",
+  "mcpServers": {
+    "pyright-lsp": {
+      "disabled": false,
+      "priority": "high",
+      "reason": "Type checking for library code"
+    },
+    "serena": {
+      "disabled": false,
+      "priority": "high",
+      "reason": "Semantic code navigation"
+    },
+    "context7": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Live docs for dependencies"
+    },
+    "superpowers": {
+      "disabled": false,
+      "priority": "high",
+      "reason": "TDD and debugging workflows"
+    },
+    "pr-review-toolkit": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Code quality checks"
+    },
+    "commit-commands": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Git workflow automation"
+    },
+    "feature-dev": {
+      "disabled": false,
+      "priority": "medium",
+      "reason": "Feature development workflows"
+    },
+    "typescript-lsp": {
+      "disabled": true,
+      "reason": "No TypeScript in library"
+    },
+    "github": {
+      "disabled": true,
+      "reason": "No GitHub integration needed for library"
+    },
+    "playwright": {
+      "disabled": true,
+      "reason": "No UI testing"
+    },
+    "supabase": {
+      "disabled": true,
+      "reason": "Not using Supabase"
+    },
+    "ralph-loop": {
+      "disabled": true,
+      "reason": "No automation loops"
+    }
+  },
+  "projectSettings": {
+    "language": "Python",
+    "version": "{{python_version}}",
+    "type": "library",
+    "lsp": "pyright",
+    "testFramework": "pytest"
+  }
+}
