@@ -1,0 +1,48 @@
+# BUSINESS.md — Strategic Context for {{ workspace_name }}
+
+<!-- Schema Version: {{ business.schema_version }} -->
+<!-- This file is the single source of truth for business intent. -->
+<!-- Forge generates it; Overlord reads it to prioritize work. -->
+
+## Vision
+
+{{ business.vision }}
+
+## Business Constraints
+
+| Constraint | Value |
+|------------|-------|
+{% for c in business.constraints -%}
+| {{ c.constraint }} | {{ c.value }} |
+{% endfor %}
+## Target Hardware
+
+| Tier | Platform | Hardware | Use Case |
+|------|----------|----------|----------|
+{% for h in business.hardware_tiers -%}
+| {{ h.tier }} | {{ h.platform }} | {{ h.hardware }} | {{ h.use_case }} |
+{% endfor %}
+## Strategic Priorities
+
+<!-- Overlord uses this list to rank tracks and tasks. -->
+<!-- Priority 1 = highest. Reassign as business needs shift. -->
+
+| Priority | Goal | Key Result |
+|----------|------|------------|
+{% for p in business.priorities -%}
+| {{ p.priority }} | {{ p.goal }} | {{ p.key_result }} |
+{% endfor %}
+## Approved Tech Stack
+
+<!-- Governance: Overlord flags deviations from this list. -->
+
+| Layer | Technology | Locked? |
+|-------|-----------|---------|
+{% for t in business.tech_stack -%}
+| {{ t.layer }} | {{ t.technology }} | {{ "Yes" if t.locked else "No" }} |
+{% endfor %}
+## Governance Rules
+
+{% for rule in business.governance_rules -%}
+{{ loop.index }}. {{ rule }}
+{% endfor %}

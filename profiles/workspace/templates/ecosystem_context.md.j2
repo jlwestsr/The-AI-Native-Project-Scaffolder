@@ -1,0 +1,24 @@
+## Ecosystem Context
+
+> This section is managed by Forge. Do not edit between the sentinel markers.
+
+**Workspace**: {{ workspace_name }}
+
+**This project**: {{ project_name }} ({{ project_role }})
+
+**Depends on**: {{ depends_on | join(", ") if depends_on else "none" }}
+
+**Depended on by**: {{ depended_on_by | join(", ") if depended_on_by else "none" }}
+
+### Sibling Projects
+
+| Project | Role | Relationship |
+|---------|------|-------------|
+{% for s in siblings -%}
+| {{ s.name }} | {{ s.role }} | {{ s.relationship }} |
+{% endfor %}
+### Governance
+
+{% for rule in governance_rules -%}
+- {{ rule }}
+{% endfor %}

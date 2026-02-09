@@ -22,6 +22,9 @@ app = typer.Typer(
 profiles_app = typer.Typer(help="Manage profiles")
 app.add_typer(profiles_app, name="profiles")
 
+workspace_app = typer.Typer(help="Workspace ecosystem scaffolding")
+app.add_typer(workspace_app, name="workspace")
+
 console = Console()
 
 
@@ -228,3 +231,113 @@ def profiles_show(
             console.print(f"  {d}/")
 
     console.print(f"\n[bold]Files:[/bold] {len(spec.files)} templates")
+
+
+# --- Workspace commands ---
+
+
+@workspace_app.command("init")
+def workspace_init(
+    target: Path = typer.Argument(..., help="Directory to create workspace in"),
+    no_interactive: bool = typer.Option(
+        False, "--no-interactive", help="Skip wizard"
+    ),
+    config_file: Optional[Path] = typer.Option(
+        None, "--config", help="JSON config file instead of wizard"
+    ),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Show what would happen"),
+    force: bool = typer.Option(
+        False, "--force", "-f", help="Overwrite existing files"
+    ),
+) -> None:
+    """Initialize a new workspace with governance files."""
+    from forge.workspace import scaffold_workspace, read_workspace_lock
+    from forge.models import WorkspaceConfig
+
+    if config_file:
+        import json
+        data = json.loads(config_file.read_text(encoding="utf-8"))
+        ws_config = WorkspaceConfig(**data)
+    elif no_interactive:
+        console.print(
+            "[red]Error:[/red] --no-interactive requires --config FILE"
+        )
+        raise typer.Exit(code=1)
+    else:
+        from forge.workspace_wizard import run_workspace_wizard
+        ws_config = run_workspace_wizard()
+
+    if not force:
+        existing = read_workspace_lock(target)
+        if existing is not None:
+            console.print(
+                "[red]Error:[/red] Workspace already initialized. "
+                "Use --force to overwrite."
+            )
+            raise typer.Exit(code=1)
+
+    result = scaffold_workspace(target, ws_config, dry_run=dry_run)
+
+    if dry_run:
+        console.print("[yellow]Dry run — no files written.[/yellow]")
+
+    for path in result["created"]:
+        console.print(f"  [green]CREATE[/green] {path}")
+    for path in result["skipped"]:
+        console.print(f"  [yellow]SKIP[/yellow]   {path}")
+
+    console.print(
+        f"\n[bold green]Workspace initialized![/bold green] "
+        f"{ws_config.workspace_name} at {target}"
+    )
+
+
+@workspace_app.command("sync")
+def workspace_sync(
+    target: Path = typer.Argument(".", help="Workspace root directory"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Show what would happen"),
+    project: Optional[str] = typer.Option(
+        None, "--project", help="Sync only this project"
+    ),
+) -> None:
+    """Sync ecosystem context into sub-project CLAUDE.md/GEMINI.md files."""
+    from forge.workspace import sync_context
+
+    target = target.resolve()
+    result = sync_context(target, dry_run=dry_run, project_filter=project)
+
+    if dry_run:
+        console.print("[yellow]Dry run — no files written.[/yellow]")
+
+    for path in result["updated"]:
+        console.print(f"  [blue]SYNC[/blue]   {path}")
+    for warning in result["warnings"]:
+        console.print(f"  [yellow]WARN[/yellow]   {warning}")
+
+    if not result["updated"] and not result["warnings"]:
+        console.print("  [dim]Everything up to date.[/dim]")
+
+    console.print(f"\n[bold green]Sync complete![/bold green]")
+
+
+@workspace_app.command("info")
+def workspace_info(
+    target: Path = typer.Argument(".", help="Workspace root directory"),
+) -> None:
+    """Show info about an initialized workspace."""
+    from forge.workspace import read_workspace_lock
+
+    target = target.resolve()
+    lock = read_workspace_lock(target)
+
+    if lock is None:
+        console.print(
+            "[red]No .forge-workspace.lock found in this directory.[/red]"
+        )
+        raise typer.Exit(code=1)
+
+    console.print("[bold]Forge Workspace Info[/bold]")
+    console.print(f"  Name:       {lock.workspace_name}")
+    console.print(f"  Version:    {lock.version}")
+    console.print(f"  Generated:  {lock.generated_at}")
+    console.print(f"  Projects:   {len(lock.manifest.projects)}")
