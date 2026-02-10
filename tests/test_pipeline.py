@@ -1,6 +1,5 @@
 """Integration tests for the full Forge pipeline."""
 import pytest
-from pathlib import Path
 
 from forge.pipeline import generate
 from forge.models import Strategy, ApplyResult

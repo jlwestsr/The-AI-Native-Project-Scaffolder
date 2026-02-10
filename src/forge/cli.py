@@ -154,7 +154,7 @@ def update(
     for warning in result.warnings:
         console.print(f"  [yellow]WARN[/yellow]   {warning}")
 
-    console.print(f"\n[bold green]Update complete![/bold green]")
+    console.print("\n[bold green]Update complete![/bold green]")
 
 
 @app.command()
@@ -169,14 +169,14 @@ def info(
         console.print("[red]No .forge.lock found in this directory.[/red]")
         raise typer.Exit(code=1)
 
-    console.print(f"[bold]Forge Project Info[/bold]")
+    console.print("[bold]Forge Project Info[/bold]")
     console.print(f"  Profile:    {lock.profile}")
     console.print(f"  Version:    {lock.version}")
     console.print(f"  Generated:  {lock.generated_at}")
     console.print(f"  Files:      {len(lock.managed)} managed")
 
     if lock.variables:
-        console.print(f"\n[bold]Variables:[/bold]")
+        console.print("\n[bold]Variables:[/bold]")
         for key, val in lock.variables.items():
             console.print(f"  {key} = {val}")
 
@@ -220,13 +220,13 @@ def profiles_show(
         console.print(f"  Inherits: {spec.inherits}")
 
     if spec.variables:
-        console.print(f"\n[bold]Variables:[/bold]")
+        console.print("\n[bold]Variables:[/bold]")
         for key, var_spec in spec.variables.items():
             default = f" (default: {var_spec.default})" if var_spec.default is not None else ""
             console.print(f"  {key}: {var_spec.type}{default}")
 
     if spec.directories:
-        console.print(f"\n[bold]Directories:[/bold]")
+        console.print("\n[bold]Directories:[/bold]")
         for d in spec.directories:
             console.print(f"  {d}/")
 
@@ -317,7 +317,7 @@ def workspace_sync(
     if not result["updated"] and not result["warnings"]:
         console.print("  [dim]Everything up to date.[/dim]")
 
-    console.print(f"\n[bold green]Sync complete![/bold green]")
+    console.print("\n[bold green]Sync complete![/bold green]")
 
 
 @workspace_app.command("info")

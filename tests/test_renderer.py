@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 
 from forge.renderer import render_templates
-from forge.models import ResolvedProfile, VariableSpec, RenderedFile
+from forge.models import ResolvedProfile, RenderedFile
 
 
 @pytest.fixture

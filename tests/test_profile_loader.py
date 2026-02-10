@@ -1,6 +1,5 @@
 """Tests for profile loading from TOML files."""
 import pytest
-from pathlib import Path
 
 from forge.profile_loader import resolve_profile, list_profiles, merge_inheritance
 from forge.models import ProfileSpec

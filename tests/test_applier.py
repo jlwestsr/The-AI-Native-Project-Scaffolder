@@ -1,7 +1,6 @@
 """Tests for applying rendered files to disk."""
 import hashlib
 import pytest
-from pathlib import Path
 
 from forge.applier import apply_to_disk
 from forge.models import (

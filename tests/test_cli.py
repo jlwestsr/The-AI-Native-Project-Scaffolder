@@ -1,7 +1,6 @@
 """Tests for the Typer CLI."""
 import pytest
 from typer.testing import CliRunner
-from pathlib import Path
 
 from forge.cli import app
 

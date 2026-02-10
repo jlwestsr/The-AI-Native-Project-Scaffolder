@@ -1,7 +1,5 @@
 """Tests for workspace CLI commands."""
 import json
-import pytest
-from pathlib import Path
 from typer.testing import CliRunner
 
 from forge.cli import app
