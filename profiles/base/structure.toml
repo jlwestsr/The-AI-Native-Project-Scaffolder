@@ -15,6 +15,7 @@ root = [
 "AI_DIRECTIVES.md" = "AI_DIRECTIVES.md.j2"
 "WORKFLOW.md" = "WORKFLOW.md.j2"
 "GEMINI.md" = "GEMINI.md.j2"
+"CLAUDE.md" = "CLAUDE.md.j2"
 ".gitignore" = ".gitignore.j2"
 ".flake8" = ".flake8.j2"
 ".yamllint" = ".yamllint.j2"
