@@ -55,3 +55,19 @@ Added `forge workspace` subcommand group for scaffolding ecosystem-level workspa
 *   **Template drift**: If the ecosystem root's BUSINESS.md or OVERLORD.md format changes, the Jinja2 templates in `profiles/workspace/templates/` must be updated to match.
 *   **Governance rule parsing**: `sync_context()` extracts governance rules from BUSINESS.md using a simple regex (`^\d+\.\s+\*\*(.+?)\*\*\s*—\s*(.+)$`). If the rule format changes, the regex must be updated.
 *   **Lock file migration**: The workspace lock is v1.0 JSON. If the schema changes, a migration path will be needed.
+
+## 6. GitHub Wiki v2 Update (2026-02-10)
+
+### What changed
+All 6 GitHub wiki pages updated to reflect v2 profile-driven pipeline architecture. Zero v1 references remain (`project_generator`, `configs.py`, `engine.py`, MVC pattern all removed). All 11 v2 modules documented across Architecture and Contributing pages.
+
+### Pages updated
+- **Home** — Updated feature list to highlight profile-driven pipeline, lock files, workspace management
+- **Architecture** — Full rewrite: pipeline flow diagram, module table (all 11 modules), profile system, generated file layout, design principles
+- **User Guide** — Rewritten with profiles, package managers, safe updates, workspace management, full CLI reference
+- **Installation** — Updated repo URL to `nebulus-forge`, added pre-commit hooks step
+- **Contributing** — References `src/forge/` modules and `profiles/` directory, updated standards
+- **Troubleshooting** — Added lock file conflict resolution section
+
+### Status
+Complete. Wiki commit `b0b2b13` on the wiki repo. Source code docs were updated separately in commit `a20de54` on the main repo.
