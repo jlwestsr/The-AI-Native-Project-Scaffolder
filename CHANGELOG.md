@@ -15,8 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Dependencies**: Cleaned up `requirements.txt` to remove unused data science libraries and updated `requirements-dev.txt` to include necessary linting tools.
-- **Engine Logic**: Refactored `src/project_generator/engine.py` to fix whitespace handling and improve generation reliability.
-- **Template System**: Updated `src/project_generator/assets/configs.py` to support the new directory structures and universal Ansible inclusion.
+- **Architecture (v2 Rewrite)**: Replaced v1 MVC architecture (`src/project_generator/`) with profile-driven pipeline in `src/forge/`. Core modules: `models.py`, `profile_loader.py`, `renderer.py`, `applier.py`, `lockfile.py`, `pipeline.py`, `cli.py`, `wizard.py`.
+- **Template System**: Moved from hardcoded Python dicts to TOML-based profile definitions (`profiles/*/profile.toml` + `structure.toml`) with Jinja2 templates in `profiles/*/templates/`.
+- **Workspace Scaffolding (v0.2.0)**: Added `forge workspace` subcommand group with `workspace.py`, `workspace_wizard.py`, and governance templates (`BUSINESS.md`, `OVERLORD.md`, `CLAUDE.md`).
 
 ### Fixed
 - **Whitespace Issues**: Resolved persistent whitespace and newline errors in generated files and internal tests.

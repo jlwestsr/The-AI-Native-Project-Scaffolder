@@ -11,11 +11,11 @@ A self-contained `scripts/bootstrap.sh` script to set up the Forge development e
 - [ ] **Dependencies**: Install `requirements.txt` and `requirements-dev.txt`.
 - [ ] **Installation**: Install the package in editable mode (`pip install -e .`).
 - [ ] **Path Registration**: Symlink or place the `forge` executable in the OS PATH (e.g., `~/.local/bin` or `/usr/local/bin`).
-- [ ] **Naming**: Rename/Alias the CLI entry point to `forge` (currently `forge-project`).
+- [x] **Naming**: CLI entry point is `forge` (defined in `pyproject.toml` as `forge = "forge.cli:app"`).
 
 ## 3. Technical Implementation
 - **Script**: `scripts/bootstrap.sh`
-- **Configuration**: Update `pyproject.toml` to define `forge` script entry point.
+- **Configuration**: Entry point already defined in `pyproject.toml` (`forge = "forge.cli:app"`).
 - **Logic**:
     1. Check Python version.
     2. Create `venv`.

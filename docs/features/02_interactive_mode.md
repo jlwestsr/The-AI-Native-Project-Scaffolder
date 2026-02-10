@@ -10,11 +10,11 @@ List the specific requirements for this feature:
 - [x] Prompt for: Project Name, Author Name, Python Version (3.10/3.11), and License (MIT/Apache/Proprietary).
 - [x] Support a `--non-interactive` flag to force default behavior (for scripts).
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/cli.py`.
-- Dependencies: `rich` and `questionary` for beautiful prompts.
-- Data changes: None.
+## Technical Implementation (v2)
+- **Wizard**: `src/forge/wizard.py` — builds prompts from profile variable specs (`VariableSpec` in `models.py`).
+- **Workspace Wizard**: `src/forge/workspace_wizard.py` — interactive wizard for ecosystem-level configuration.
+- **CLI Integration**: `src/forge/cli.py` — runs wizard when no `--var` flags and not `--no-interactive`.
+- **Dependencies**: `rich` and `questionary` for beautiful prompts.
 
 ## Acceptance Criteria
 How will we know this is working correctly?

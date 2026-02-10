@@ -10,11 +10,10 @@ List the specific requirements for this feature:
 - [x] Override global defaults with CLI arguments if provided.
 - [x] Add a `forge config` command to easily set these values (implemented as `forge --config-set`).
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/config_manager.py`.
-- Dependencies: `tomli` (for read) / `tomli_w` (for write).
-- Data changes: None.
+## Technical Implementation (v2)
+- **Profile Variables**: Global defaults are resolved through the profile variable system. Profile variables define defaults in `profile.toml`, which can be overridden by CLI `--var` flags.
+- **Config Path**: Uses `platformdirs` for OS-appropriate config location.
+- **Dependencies**: `platformdirs`, `tomli` / `tomli_w`.
 
 ## Acceptance Criteria
 How will we know this is working correctly?

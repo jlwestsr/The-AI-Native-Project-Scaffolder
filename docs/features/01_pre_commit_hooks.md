@@ -10,11 +10,10 @@ List the specific requirements for this feature:
 - [x] Automatically install the hooks (run `pre-commit install`) during the `git init` phase of the generator.
 - [x] Ensure the hooks respect the project's configuration (e.g., line lengths).
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/assets/templates.py` (add config template), `src/project_generator/git_ops.py` (run install).
-- Dependencies: Add `pre-commit` to `requirements-dev.txt`.
-- Data changes: None.
+## Technical Implementation (v2)
+- **Template**: `.pre-commit-config.yaml.j2` in `profiles/base/templates/` (inherited by all profiles).
+- **Rendering**: Handled by `renderer.py` → `applier.py` pipeline.
+- **Dependencies**: `pre-commit` included in generated project's `requirements-dev.txt` template.
 
 ## Acceptance Criteria
 How will we know this is working correctly?

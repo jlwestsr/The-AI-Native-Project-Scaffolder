@@ -1,20 +1,20 @@
 # Feature Title: Variable Template System (Jinja2)
 
 ## Overview
-Templates are currently stored as hardcoded Python strings in `assets/templates.py`. This is difficult to maintain, read, and extend. We want to move these to external template files and use a proper templating engine (Jinja2) to render them with dynamic variables.
+Templates are stored as external Jinja2 `.j2` files within profile directories. The v2 architecture uses a profile-driven template system with inheritance, enabling child profiles to override parent templates.
 
 ## Requirements
-List the specific requirements for this feature:
-- [x] Move large string constants to `src/project_generator/templates/*.j2` files.
-- [x] Integrate `jinja2` to render these files.
+- [x] Templates live in `profiles/*/templates/*.j2` (per-profile, with inheritance).
+- [x] Integrate `jinja2` to render these files via `renderer.py`.
 - [x] Support dynamic variables: `{{ project_name }}`, `{{ author_name }}`, `{{ python_version }}`.
-- [x] Ensure the generator reads these files from the package resources (works when installed via `pip`).
+- [x] Custom template loader (`ProfileTemplateLoader`) searches child → parent template directories.
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/engine.py` (rendering logic).
-- Dependencies: `jinja2`.
-- Data changes: New directory `src/project_generator/templates/`.
+## Technical Implementation (v2)
+- **Renderer**: `src/forge/renderer.py` — pure in-memory rendering, returns `RenderedFile` objects (no I/O).
+- **Template Loader**: `ProfileTemplateLoader` in `renderer.py` — searches `template_dirs` in child-first order.
+- **Profiles**: Templates organized under `profiles/base/templates/`, `profiles/fullstack/templates/`, etc.
+- **Conditionals**: Files can be conditionally generated based on profile variable values (defined in `structure.toml`).
+- **Dependencies**: `jinja2`.
 
 ## Acceptance Criteria
 How will we know this is working correctly?

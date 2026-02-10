@@ -10,11 +10,11 @@ List the specific requirements for this feature:
 - [x] Add a GitHub Action workflow `docs.yml` to deploy to GitHub Pages on push to `main`.
 - [x] Include `docs/features/*` in the navigation automatically.
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/assets/templates.py`.
-- Dependencies: Add `mkdocs` and `mkdocs-material` to `requirements-dev.txt`.
-- Data changes: None.
+## Technical Implementation (v2)
+- **Templates**: `mkdocs.yml.j2` and related templates in `profiles/base/templates/` or `profiles/fullstack/templates/`.
+- **Conditionals**: Can be gated by a profile variable (e.g., `use_docs_site`) in `structure.toml`.
+- **Pipeline**: Rendered and applied through the standard `renderer.py` → `applier.py` pipeline.
+- **Dependencies**: `mkdocs` and `mkdocs-material` included in generated project's dev requirements template.
 
 ## Acceptance Criteria
 How will we know this is working correctly?

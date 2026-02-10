@@ -14,11 +14,11 @@ List the specific requirements for this feature:
     - [x] Skip `requirements.txt`.
 - [x] Update `docker-compose.yml` and `Dockerfile` to respect the chosen manager (implied by skipping file, though Docker templates might need conditional logic - kept simple for now).
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/engine.py`.
-- Dependencies: None (the generator just writes files).
-- Data changes: New templates for poetry/uv configurations.
+## Technical Implementation (v2)
+- **Profile Variables**: Package manager selection is a profile variable (choice type in `profile.toml`).
+- **Conditionals**: `structure.toml` conditionals control which files are generated (e.g., `requirements.txt` only when `use_pip == true`).
+- **Templates**: Manager-specific templates in `profiles/*/templates/` (e.g., `pyproject.toml.j2` with conditional sections).
+- **Pipeline**: Handled by `renderer.py` → `applier.py` — no special logic needed in the pipeline.
 
 ## Acceptance Criteria
 How will we know this is working correctly?
