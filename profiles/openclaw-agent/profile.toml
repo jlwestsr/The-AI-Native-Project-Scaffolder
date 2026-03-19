@@ -43,6 +43,16 @@ prompt = "Gateway port"
 type = "string"
 default = "18792"
 
+[variables.subagent_model]
+prompt = "Sub-agent LLM model"
+type = "string"
+default = "ollama/qwen2.5:14b"
+
+[variables.max_subagents]
+prompt = "Max concurrent sub-agents"
+type = "string"
+default = "2"
+
 [variables.discord_channel_id]
 prompt = "Primary Discord channel ID (agent's office)"
 type = "string"

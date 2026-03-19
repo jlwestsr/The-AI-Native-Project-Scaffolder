@@ -1,0 +1,41 @@
+# Sub-Agents — {{ agent_name }} {{ agent_emoji }}
+
+This directory contains sub-agent configurations for delegated tasks.
+
+## Model Routing
+
+| Role | Model |
+|------|-------|
+| Main agent | `{{ primary_model }}` |
+| Sub-agents (default) | `{{ fallback_model }}` |
+
+## How Sub-Agents Work
+
+{{ agent_name }} spawns sub-agents for tasks that:
+- Take more than ~2 minutes of focused work
+- Can run in parallel with the main session
+- Are well-defined enough to delegate without constant oversight
+
+## Adding a Sub-Agent Task
+
+1. Create a prompt file in `../prompts/`
+2. Spawn via `sessions_spawn` with `runtime="subagent"`
+3. Monitor via `subagents(action=list)`
+
+## Config
+
+Sub-agent model is set in `openclaw.json`:
+```json
+{
+  "agents": {
+    "defaults": {
+      "subagents": {
+        "maxConcurrent": 2,
+        "model": {
+          "primary": "{{ fallback_model }}"
+        }
+      }
+    }
+  }
+}
+```

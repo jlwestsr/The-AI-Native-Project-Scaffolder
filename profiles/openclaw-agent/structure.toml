@@ -1,0 +1,14 @@
+[directories]
+root = [
+    "subagents",
+    "prompts",
+    "memory",
+]
+
+[files]
+"subagents/README.md" = "subagents/README.md.j2"
+"prompts/README.md" = "prompts/README.md.j2"
+"IDENTITY.md" = "IDENTITY.md.j2"
+"SOUL.md" = "SOUL.md.j2"
+"AGENTS.md" = "AGENTS.md.j2"
+".gitignore" = ".gitignore.j2"

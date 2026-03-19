@@ -18,10 +18,22 @@ Write important things down. Mental notes don't survive restarts.
 - Don't kill running services without a rollback plan
 - `trash` > `rm`
 
+## Sub-Agents
+
+Tasks >1-2 min → sub-agent. Orchestrate, don't execute everything inline.
+
+- Spawn: `sessions_spawn` with `runtime="subagent"`
+- Monitor: `subagents(action=list)`
+- Steer: `subagents(action=steer, message="...")`
+- Kill: `subagents(action=kill, target="<id>")`
+- Max concurrent: {{ max_subagents }}
+- Sub-agent model: `{{ subagent_model }}`
+- Reusable prompts: `prompts/`
+
 ## Runtime
 
 - **Host:** {{ host }}
 - **Runtime:** {{ runtime }}
 - **Primary model:** {{ primary_model }}
-- **Fallback model:** {{ fallback_model }}
+- **Sub-agent model:** {{ subagent_model }}
 - **Gateway port:** {{ gateway_port }}
