@@ -16,7 +16,6 @@
 | `profiles/` | Profile definitions (TOML configs + Jinja2 templates) |
 | `tests/` | Unit tests mirroring `src/` structure |
 | `scripts/` | Test runners and utility scripts |
-| `.agent/rules/` | AI constraints and coding standards |
 | `docs/` | Project documentation |
 | `reference_*/` | READ-ONLY symlinked reference projects |
 
@@ -28,6 +27,9 @@
 - **Pipeline** (`pipeline.py`): Orchestrates load → render → apply stages.
 - **CLI** (`cli.py`): Typer-based entry point.
 - **Wizard** (`wizard.py`): Interactive prompts for profile variables.
+- **Workspace** (`workspace.py`): Workspace scaffolding and sync for ecosystem-level roots.
+- **Workspace Wizard** (`workspace_wizard.py`): Interactive wizard for workspace configuration collection.
+- **Lockfile** (`lockfile.py`): Forge lock file (`.forge.lock`) read/write operations.
 
 ## Build & Test
 ```bash
@@ -66,5 +68,4 @@ forge [TARGET_DIR] [OPTIONS]
 - **Directives**: [AI_DIRECTIVES.md](AI_DIRECTIVES.md)
 - **Workflow**: [WORKFLOW.md](WORKFLOW.md)
 - **Context**: [CONTEXT.md](CONTEXT.md)
-- **AI Behavior Rules**: [.agent/rules/ai_behavior.md](.agent/rules/ai_behavior.md)
 - **AI Insights / Long-Term Memory**: [docs/AI_INSIGHTS.md](docs/AI_INSIGHTS.md)
