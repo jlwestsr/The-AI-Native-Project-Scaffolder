@@ -1,0 +1,32 @@
+#!/bin/bash
+# guardrail-check.sh — Pre-bash safety hook for {{ project_name }}
+#
+# PURPOSE: Block Claude from running commands that touch protected paths,
+#          destructive operations, or anything requiring explicit human approval.
+#
+# TRIGGER: pre-bash
+# EXIT:    0 = proceed | 1 = block with error | 2 = block silently
+#
+# Customize the patterns below for this project.
+
+COMMAND="$1"
+
+# Block destructive root-level deletes
+if echo "$COMMAND" | grep -qE 'rm\s+-rf\s+/'; then
+    echo "ERROR: Refusing destructive root-level delete" >&2
+    exit 1
+fi
+
+# Block direct edits to secrets or core config
+if echo "$COMMAND" | grep -qE '(secrets/|\.env$|openclaw\.json)'; then
+    echo "ERROR: Secrets and config files must go through the approved change path" >&2
+    exit 1
+fi
+
+# TODO: Add project-specific protected paths below
+# if echo "$COMMAND" | grep -qE 'your-pattern-here'; then
+#     echo "ERROR: Description of why this is blocked" >&2
+#     exit 1
+# fi
+
+exit 0

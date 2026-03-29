@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **`claude-governance` profile**: New composable profile providing Claude Code enforcement layer — `.claude/hooks/` (guardrail-check + changelog-update), `.claude/skills/` (code-review, refactor, release), `docs/decisions/` (ADR template), `tools/prompts/` (versioned prompt library). All templates are Jinja2 with project_name interpolation.
+- **Governance inheritance wired to all profiles**: `fullstack`, `openclaw-agent`, and `workspace` now inherit from `claude-governance` (which inherits `base`). Chain: `base` ← `claude-governance` ← `{fullstack|openclaw-agent|workspace}`. Every project stamped with these profiles gets the full governance layer automatically.
+- **`workspace` profile.toml**: Added missing `profile.toml` to the `workspace` profile to formalize its inheritance chain.
+
+### Changed
 - **Universal Ansible Scaffolding**: All profiles (`fullstack`, `web`, `system`) now include a production-ready `ansible/` directory with `setup_workstation.yml`, `ansible.cfg`, and `inventory.ini`.
 - **Strict Code Quality Enforcement**: Integrated `pre-commit` hooks for `pytest`, `flake8`, `yamllint`, and `ansible-lint`.
 - **MVC Structure for Web Profile**: The `web` profile now enforces a strict Model-View-Controller (MVC) directory structure (`src/backend/app/{models,routers,services}`).

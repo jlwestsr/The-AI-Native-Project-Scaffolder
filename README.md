@@ -13,9 +13,9 @@
 Traditional scaffolding tools (like Cookiecutter) focus on file organization. **Forge** focuses on **Agentic Governance**. It prepares your workspace to be understood and respected by AI tools (like Gemini Code Assist or Cursor) the moment you run the first commit.
 
 ### Core Philosophy
-- **AI-Native Context**: Every project ships with `CONTEXT.md` and `rules/ai_behavior.md` to ground your AI agent.
+- **AI-Native Context**: Every project ships with `AI_DIRECTIVES.md`, `CLAUDE.md`, and `GEMINI.md` to ground your AI agent.
 - **Strict Governance**: Prevent AI "shadow logic" and reinvention of existing utilities.
-- **Production-Ready**: Enforces Type Hinting, Google-style docstrings, and 100% logic coverage in tests.
+- **Production-Ready**: Enforces Type Hinting, Google-style docstrings, and 1000gic coverage in tests.
 
 ---
 
@@ -23,14 +23,13 @@ Traditional scaffolding tools (like Cookiecutter) focus on file organization. **
 
 | Feature | Description |
 | :--- | :--- |
-| **Agentic Rules** | Dedicated `rules/ai_behavior.md` to define operational guardrails for AI agents. |
+| **Agentic Rules** | Dedicated `AI_DIRECTIVES.md` to define operational guardrails for AI agents. |
 | **Universal Ansible** | Production-ready `ansible/` scaffold with `setup_workstation.yml` for instant environment bootstrapping. |
 | **Strict Quality** | Enforced `pre-commit` hooks for `pytest`, `flake8`, `yamllint`, and `ansible-lint`. |
 | **Git Flow Automation** | Initializes a repo with `main` and `develop` branches out of the box. |
 | **Modular CI/CD** | Production-ready GitHub Actions for testing and linting. |
 | **Feature Tracking** | Structured `docs/features/` system with a ready-to-use template. |
 | **Standardized Layout** | Clean separation of `src/`, `data/`, `models/`, and `notebooks/`. |
-| **MVC Architecture** | Web profile enforces `models/routers/services` pattern for clear separation of concerns. |
 
 [View full Changelog](CHANGELOG.md)
 
@@ -42,12 +41,7 @@ Traditional scaffolding tools (like Cookiecutter) focus on file organization. **
 The easiest way to use Forge globally is with `pipx`. This installs Forge in an isolated environment and makes the `forge` command available everywhere.
 
 ```bash
-# Install pipx if you haven't already
-# brew install pipx (macOS) or sudo apt install pipx (Linux)
-pipx ensurepath
-
-# Install Forge directly from GitHub
-pipx install git+https://github.com/jlwestsr/The-AI-Native-Project-Scaffolder.git
+pipx install git+https://github.com/jlwestsr/nebulus-forge.git
 ```
 
 ### Option 2: Local Development Installation
@@ -55,8 +49,8 @@ If you want to contribute to Forge or customize the templates locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/jlwestsr/The-AI-Native-Project-Scaffolder.git
-   cd forge-scaffolder
+   git clone https://github.com/jlwestsr/nebulus-forge.git
+   cd nebulus-forge
    ```
 
 2. Create a virtual environment and install in editable mode:
@@ -64,12 +58,6 @@ If you want to contribute to Forge or customize the templates locally:
    python3 -m venv .venv
    source .venv/bin/activate
    pip install -e .
-   ```
-
-3. (Optional) Create a global alias for quick access:
-   Add this to your `~/.zshrc` or `~/.bashrc`:
-   ```bash
-   alias forge="$(pwd)/.venv/bin/forge"
    ```
 
 ---
@@ -86,17 +74,12 @@ forge ~/projects/my-new-ai-model
 ```
 
 ### Update an Existing Project
-Enable the "Update" feature to add missing standard files (like `Dockerfile` or `rules/ai_behavior.md`) without overwriting your manual changes.
+Enable the "Update" feature to add missing standard files without overwriting your manual changes.
 
 ```bash
 # Update existing project (safe, idempotent)
 forge . --update --profile fullstack
 ```
-
-### How to use with AI Agents
-1. **Define Features**: Use `docs/feature_template.md` to describe your feature.
-2. **Review Rules**: Ensure `rules/ai_behavior.md` matches your team's specific requirements.
-3. **Collaborate**: Launch your AI Agent (e.g. Cursor, Gemini). The pre-configured context will ensure the agent respects your architecture from the first prompt.
 
 ---
 
@@ -106,16 +89,14 @@ When you forge a project, you get a battle-tested structure:
 
 ```text
 .
-├── CONTEXT.md             # High-level architecture & standards for AI
-├── README.md              # Auto-generated project overview
+├── AI_DIRECTIVES.md       # Operational guardrails for AI
+├── CLAUDE.md              # Persona & project instructions
+├── GEMINI.md              # PM communication protocol
+├── WORKFLOW.md            # Git & development process
 ├── data/                  # Git-ignored (raw/processed)
 ├── docs/
 │   ├── feature_template.md # Standardized feature requirement format
 │   └── features/          # Root for all feature documentation
-├── models/                # Git-ignored model artifacts & checkpoints
-├── notebooks/             # Research, discovery, and prototyping
-├── rules/
-│   └── ai_behavior.md     # MANDATORY rules for AI agent operation
 ├── src/                   # Production-grade Python modules
 └── tests/                 # Unit & integration testing suite
 ```
@@ -129,29 +110,6 @@ Forge projects enforce the following by default:
 - **Modular Logic**: Business logic lives in `src/`, never in notebooks.
 - **Docstrings**: Google-style documentation for all public modules.
 - **Automated Verification**: CI/CD pipeline integrated into every scaffold.
-
----
-
-## ❓ Troubleshooting
-
-### Fix "Bad Interpreter" or Broken Environment
-If you move or rename your project folder, the virtual environment paths will break, causing errors like `bad interpreter: .../old-path/.venv/bin/python: no such file or directory`.
-
-**Solution:**
-Recreate the virtual environment in the new location:
-
-```bash
-# Remove the old environment
-rm -rf .venv
-
-# Create a new one
-python3 -m venv .venv
-source .venv/bin/activate
-
-# Reinstall dependencies
-pip install -r requirements.txt
-pip install -e .
-```
 
 ---
 

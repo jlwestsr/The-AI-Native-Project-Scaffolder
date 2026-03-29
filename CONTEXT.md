@@ -45,7 +45,6 @@ Quickly orient yourself by connecting directories to responsible personas:
 | `src/forge/` | **Tool Dev** | Core application logic (CLI, Pipeline, Renderer, Wizard). |
 | `tests/` | **Tool Dev** | Unit tests for valid verification. |
 | `scripts/` | **Release Mgr** | Test runners and utility scripts. |
-| `.agent/rules/` | **All** | AI constraints and coding standards. |
 | `docs/` | **Release Mgr** | Project documentation. |
 
 
@@ -66,9 +65,9 @@ forge [TARGET_DIR] [OPTIONS]
 ### Options
 | Option | Short | Description |
 | :--- | :--- | :--- |
-| `--update` | `-u` | **Safe Update**: Adds missing files (e.g., `Dockerfile`, `rules/`) without overwriting existing content. |
+| `--update` | `-u` | **Safe Update**: Adds missing files without overwriting existing content. |
 | `--manager` | | Choose package manager: `pip` (default), `poetry`, or `uv`. |
-| `--profile` | | Choose archetype: `fullstack` (default), `web`, or `system`. |
+| `--profile` | | Choose archetype: `fullstack` (default), `base`, `claude-governance`, `openclaw-agent`, `workspace`. |
 | `--config-list` | | Display global configuration settings. |
 | `--config-set` | | Set global defaults (e.g., `--config-set author_name="Jane Doe"`). |
 
@@ -78,14 +77,13 @@ forge [TARGET_DIR] [OPTIONS]
 forge
 
 # Non-Interactive Customization
-forge my-project --manager poetry --profile web
+forge my-project --manager poetry --profile fullstack
 
-# Update Legacy Project
-forge . --update --profile system
+# Update Existing Project
+forge . --update --profile openclaw-agent
 ```
 
 ## 6. Coding Standards
-
 
 1. **Unit Tests**: ALL changes must have accompanying unit tests in the `tests/` directory.
 2. **Modular Code**: Do not put business logic in notebooks. Move logic to `src/` modules.
@@ -103,14 +101,13 @@ forge . --update --profile system
 
 - `data/`: Contains raw and processed data. **Ignored by git**.
 - `docs/`: Project documentation.
-- `.agent/rules/`: AI compliance and behavior rules.
 - `src/`: The core source code of the project.
 - `tests/`: Unit tests mirroring the `src/` structure.
 
 
 ## Reference Directories (READ-ONLY)
 
-The following directories are symbolic links to other projects for reference purposes only. **Do NOT modify content within these folders unless explicitly approved by the user.**
+The following directories are symbolic links to other projects for reference purposes only. **Do NOT modify content within these folders.**
 
 - `reference_gantry/`
 - `reference_nebulus/`

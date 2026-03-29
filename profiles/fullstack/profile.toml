@@ -1,6 +1,6 @@
 [profile]
 name = "fullstack"
-inherits = "base"
+inherits = "claude-governance"
 description = "Full-stack AI system with notebooks, models, and Ansible"
 
 [variables]

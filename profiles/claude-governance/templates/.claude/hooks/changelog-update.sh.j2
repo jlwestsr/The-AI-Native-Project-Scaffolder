@@ -1,0 +1,25 @@
+#!/bin/bash
+# changelog-update.sh — Post-task CHANGELOG appender for {{ project_name }}
+#
+# PURPOSE: Append a timestamped entry to CHANGELOG.md after any significant task.
+# TRIGGER: post-task (or call manually at end of a Claude session)
+# USAGE:   ./changelog-update.sh "Short description of what changed"
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$(dirname "$0")/../../..")"
+CHANGELOG="$REPO_ROOT/CHANGELOG.md"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M %Z')
+ENTRY="${1:-No description provided}"
+
+if [ ! -f "$CHANGELOG" ]; then
+    echo "# CHANGELOG" > "$CHANGELOG"
+    echo "" >> "$CHANGELOG"
+fi
+
+{
+    echo ""
+    echo "## $TIMESTAMP"
+    echo "- $ENTRY"
+} >> "$CHANGELOG"
+
+echo "[hook] changelog-update: entry appended"
+exit 0

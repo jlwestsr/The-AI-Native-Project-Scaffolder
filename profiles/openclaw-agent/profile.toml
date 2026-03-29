@@ -1,7 +1,7 @@
 [profile]
 name = "openclaw-agent"
 description = "OpenClaw agent deployment — identity, SOUL.md, and runtime config"
-inherits = "base"
+inherits = "claude-governance"
 
 [variables.agent_name]
 prompt = "Agent name (e.g. Rook, Cael, Moto)"
