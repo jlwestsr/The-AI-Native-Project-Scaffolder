@@ -71,3 +71,35 @@ All 6 GitHub wiki pages updated to reflect v2 profile-driven pipeline architectu
 
 ### Status
 Complete. Wiki commit `b0b2b13` on the wiki repo. Source code docs were updated separately in commit `a20de54` on the main repo.
+
+## 2026-03-29 — Bug: `--no-interactive` fails when required vars not passed via `--var`
+
+**Reported by:** Moto during nebulus-conductor scaffold
+**Severity:** Medium — silent failure, confusing error message
+
+### What Happened
+Running `forge new <target> --profile fullstack --no-interactive` without explicit `--var` flags throws:
+```
+UndefinedError: 'python_version' is undefined
+```
+The error occurs in `profiles/fullstack/templates/ansible/setup_workstation.yml.j2:36` where `{{ python_version.stdout }}` is used but `python_version` was never passed as a variable.
+
+### Root Cause
+`--no-interactive` skips the wizard but does NOT apply variable defaults from `profile.yml`. Required variables with no defaults (e.g. `project_name`) and variables used in templates (e.g. `python_version`) are left undefined. Jinja2 raises `UndefinedError` at render time.
+
+### Workaround
+Pass all required variables explicitly via `--var`:
+```bash
+forge new /path/to/project --profile fullstack --no-interactive \
+  --var project_name="my-project" \
+  --var python_version="3.11" \
+  --var manager="pip" \
+  --var license="MIT" \
+  --var persona="architect" \
+  --var use_docker=true
+```
+
+### Proper Fix (future)
+`--no-interactive` should fall back to variable defaults defined in `profile.yml` when `--var` is not provided. No variables with defaults should be left undefined in non-interactive mode.
+
+**File to fix:** `src/forge/pipeline.py` — variable resolution step before rendering.
