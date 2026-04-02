@@ -1,6 +1,7 @@
 """Forge v2 CLI — Typer application."""
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 from typing import Optional
 
@@ -66,6 +67,42 @@ def _parse_vars(var_list: list[str]) -> dict[str, str | bool]:
     return variables
 
 
+def _post_scaffold(target: Path) -> None:
+    """Run post-scaffold steps: git init, chmod install-hooks.sh, pre-commit install."""
+    # git init (idempotent — safe if already a repo)
+    git_dir = target / ".git"
+    if not git_dir.exists():
+        console.print("  [dim]Initializing git repository...[/dim]")
+        subprocess.run(["git", "init", str(target)], check=True, capture_output=True)
+
+    # Make install-hooks.sh executable
+    hooks_script = target / "scripts" / "install-hooks.sh"
+    if hooks_script.exists():
+        hooks_script.chmod(0o755)
+
+    # Install pre-commit hooks if config exists and pre-commit is available
+    precommit_config = target / ".pre-commit-config.yaml"
+    if precommit_config.exists():
+        # Look for pre-commit in venv first, then system
+        venv_precommit = target / "venv" / "bin" / "pre-commit"
+        precommit_bin = str(venv_precommit) if venv_precommit.exists() else "pre-commit"
+
+        try:
+            console.print("  [dim]Installing pre-commit hooks...[/dim]")
+            subprocess.run(
+                [precommit_bin, "install"],
+                cwd=str(target),
+                check=True,
+                capture_output=True,
+            )
+            console.print("  [green]✅ pre-commit hooks installed[/green]")
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            console.print(
+                "  [yellow]⚠️  pre-commit not available — "
+                "run scripts/install-hooks.sh after setting up venv[/yellow]"
+            )
+
+
 @app.command()
 def new(
     target: Path = typer.Argument(..., help="Directory to create the project in"),
@@ -114,6 +151,10 @@ def new(
         console.print(f"  [yellow]SKIP[/yellow]   {path}")
     for warning in result.warnings:
         console.print(f"  [yellow]WARN[/yellow]   {warning}")
+
+    if not dry_run:
+        console.print("\n[dim]Running post-scaffold steps...[/dim]")
+        _post_scaffold(target.resolve())
 
     console.print(f"\n[bold green]Done![/bold green] Project at {target}")
 

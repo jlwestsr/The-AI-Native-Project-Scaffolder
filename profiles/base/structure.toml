@@ -30,6 +30,7 @@ root = [
 "src/{{ project_slug }}/__init__.py" = "__init__.py.j2"
 "tests/__init__.py" = "__init__.py.j2"
 "tests/test_initial.py" = "tests/test_initial.py.j2"
+"scripts/install-hooks.sh" = "scripts/install-hooks.sh.j2"
 ".agent/rules/ai_behavior.md" = ".agent/rules/ai_behavior.md.j2"
 ".github/workflows/unittests.yml" = ".github/workflows/unittests.yml.j2"
 
