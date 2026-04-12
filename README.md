@@ -15,7 +15,7 @@ Traditional scaffolding tools (like Cookiecutter) focus on file organization. **
 ### Core Philosophy
 - **AI-Native Context**: Every project ships with `AI_DIRECTIVES.md`, `CLAUDE.md`, and `GEMINI.md` to ground your AI agent.
 - **Strict Governance**: Prevent AI "shadow logic" and reinvention of existing utilities.
-- **Production-Ready**: Enforces Type Hinting, Google-style docstrings, and 1000gic coverage in tests.
+- **Production-Ready**: Enforces Type Hinting, Google-style docstrings, and full logic coverage in tests.
 
 ---
 
@@ -95,7 +95,8 @@ When you forge a project, you get a battle-tested structure:
 ├── WORKFLOW.md            # Git & development process
 ├── data/                  # Git-ignored (raw/processed)
 ├── docs/
-│   ├── feature_template.md # Standardized feature requirement format
+│   ├── templates/
+│   │   └── feature_template.md # Standardized feature requirement format
 │   └── features/          # Root for all feature documentation
 ├── src/                   # Production-grade Python modules
 └── tests/                 # Unit & integration testing suite
