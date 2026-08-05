@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-05
+
 ### Removed
 - Public `forge new` profiles: **`claude-governance`** (merged into `base`), **`openclaw-agent`**, **`workspace`**.
 - Only **`base`** and **`fullstack`** remain as project profiles.
