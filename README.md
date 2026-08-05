@@ -11,6 +11,10 @@ forge new   →  project tree (docs, src, AGENTS, workspace/, …)
      └─(optional)→  neo init-workspace  →  jobs/, scripts/neo, packs
 ```
 
+Cross-reference (both directions):  
+**[docs/related-projects.md](docs/related-projects.md)** ·  
+[neo-harness related projects](https://github.com/westailabs/neo-harness/blob/master/docs/related-projects.md)
+
 ---
 
 ## Install (recommended for development)
@@ -88,6 +92,7 @@ then `./scripts/neo start --task-file jobs/smoke-mock.md -p mock`.
 | Doc | Topic |
 |-----|--------|
 | **[docs/README.md](docs/README.md)** | Docs index |
+| **[docs/related-projects.md](docs/related-projects.md)** | **neo-harness** (runtime) vs Forge |
 | **[docs/creating-a-profile.md](docs/creating-a-profile.md)** | **Tutorial: write your own profile** |
 | [docs/profiles.md](docs/profiles.md) | Shipped `base` / `fullstack` |
 | [docs/reevaluation-2026-08.md](docs/reevaluation-2026-08.md) | Layout decisions, Forge vs neo |

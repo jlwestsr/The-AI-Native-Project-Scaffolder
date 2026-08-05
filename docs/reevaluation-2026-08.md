@@ -11,6 +11,9 @@ and how the tools compose.
 | **Forge** | Full project / ecosystem **scaffold** (docs, governance, layout, CI) |
 | **neo-harness** | **Runtime** for PLAN→ACT→REFLECT + thin `init-workspace` embed |
 
+Maintained cross-links: [related-projects.md](./related-projects.md) (this repo) ·
+[neo-harness related-projects](https://github.com/westailabs/neo-harness/blob/master/docs/related-projects.md).
+
 Pipeline:
 
 ```text

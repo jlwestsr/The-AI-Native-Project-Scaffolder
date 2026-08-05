@@ -367,10 +367,15 @@ forge new /tmp/t -p my-profile --no-interactive --dry-run
 Do **not** reimplement neo packs inside Forge templates unless you have a
 special case; compose with the neo post-hook instead.
 
+Full comparison and links: [related-projects.md](./related-projects.md) ·
+[neo-harness docs](https://github.com/westailabs/neo-harness/blob/master/docs/README.md).
+
 ---
 
 ## Related
 
 - [README.md](../README.md) — install and CLI  
+- [related-projects.md](./related-projects.md) — Forge vs neo-harness  
 - [reevaluation-2026-08.md](./reevaluation-2026-08.md) — base vs fullstack  
+- [neo-harness starting-a-workspace](https://github.com/westailabs/neo-harness/blob/master/docs/starting-a-workspace.md)  
 - Source: `src/forge/profile_loader.py`, `renderer.py`, `defaults.py`  
