@@ -1,6 +1,8 @@
 """Forge v2 CLI — Typer application."""
 from __future__ import annotations
 
+import os
+import subprocess
 from pathlib import Path
 from typing import Optional
 
@@ -8,6 +10,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from forge.hooks import resolve_neo_command, run_neo_init_workspace
 from forge.models import Strategy
 from forge.pipeline import generate
 from forge.profile_loader import list_profiles, resolve_profile
@@ -31,21 +34,30 @@ console = Console()
 def get_profiles_dir() -> Path:
     """Return the path to the profiles directory.
 
-    Looks for profiles/ relative to the package, falling back to CWD.
+    Order:
+      1. ``FORGE_PROFILES_DIR`` env
+      2. Repo root ``profiles/`` (editable install: …/nebulus-forge/profiles)
+      3. CWD ``profiles/``
     """
-    # Check relative to this file (installed package)
-    pkg_profiles = Path(__file__).parent.parent.parent / "profiles"
-    if pkg_profiles.is_dir():
-        return pkg_profiles
+    env = os.environ.get("FORGE_PROFILES_DIR", "").strip()
+    if env:
+        env_path = Path(env).expanduser().resolve()
+        if env_path.is_dir():
+            return env_path
 
-    # Fallback: CWD
+    # Editable: src/forge/cli.py → parents[2] = repo root
+    repo_profiles = Path(__file__).resolve().parent.parent.parent / "profiles"
+    if repo_profiles.is_dir():
+        return repo_profiles
+
     cwd_profiles = Path.cwd() / "profiles"
     if cwd_profiles.is_dir():
         return cwd_profiles
 
     raise FileNotFoundError(
         "Cannot find profiles directory. "
-        "Ensure Forge is installed correctly or run from the project root."
+        "Use an editable install (pipx install -e /path/to/nebulus-forge) "
+        "or set FORGE_PROFILES_DIR to the profiles/ folder."
     )
 
 
@@ -66,6 +78,70 @@ def _parse_vars(var_list: list[str]) -> dict[str, str | bool]:
     return variables
 
 
+def _post_scaffold(
+    target: Path,
+    *,
+    neo_mode: str = "auto",
+    neo_pack: str = "workspace",
+) -> None:
+    """Run post-scaffold steps: git init, hooks, optional neo-harness embed.
+
+    Args:
+        target: Project root.
+        neo_mode: ``auto`` (run if neo found), ``on`` (require neo), ``off``.
+        neo_pack: Pack id passed to ``neo init-workspace --pack``.
+    """
+    # git init (idempotent — safe if already a repo)
+    git_dir = target / ".git"
+    if not git_dir.exists():
+        console.print("  [dim]Initializing git repository...[/dim]")
+        subprocess.run(["git", "init", str(target)], check=True, capture_output=True)
+
+    # Make install-hooks.sh executable
+    hooks_script = target / "scripts" / "install-hooks.sh"
+    if hooks_script.exists():
+        hooks_script.chmod(0o755)
+
+    # Install pre-commit hooks if config exists and pre-commit is available
+    precommit_config = target / ".pre-commit-config.yaml"
+    if precommit_config.exists():
+        # Look for pre-commit in venv first, then system
+        venv_precommit = target / "venv" / "bin" / "pre-commit"
+        precommit_bin = str(venv_precommit) if venv_precommit.exists() else "pre-commit"
+
+        try:
+            console.print("  [dim]Installing pre-commit hooks...[/dim]")
+            subprocess.run(
+                [precommit_bin, "install"],
+                cwd=str(target),
+                check=True,
+                capture_output=True,
+            )
+            console.print("  [green]✅ pre-commit hooks installed[/green]")
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            console.print(
+                "  [yellow]⚠️  pre-commit not available — "
+                "run scripts/install-hooks.sh after setting up venv[/yellow]"
+            )
+
+    # Optional neo-harness thin embed (not a second full scaffold)
+    mode = (neo_mode or "auto").lower()
+    if mode in ("off", "false", "0", "no"):
+        console.print("  [dim]neo-harness embed skipped (--neo off)[/dim]")
+        return
+    if mode in ("on", "true", "1", "yes", "force"):
+        if resolve_neo_command() is None:
+            console.print(
+                "  [red]neo required (--neo on) but not found. "
+                "Install neo-harness or set FORGE_NEO_CMD.[/red]"
+            )
+            raise typer.Exit(code=1)
+        run_neo_init_workspace(target, pack=neo_pack, force=True)
+        return
+    # auto
+    run_neo_init_workspace(target, pack=neo_pack, force=False)
+
+
 @app.command()
 def new(
     target: Path = typer.Argument(..., help="Directory to create the project in"),
@@ -74,6 +150,16 @@ def new(
     dry_run: bool = typer.Option(False, "--dry-run", help="Show what would happen"),
     force: bool = typer.Option(False, "--force", "-f", help="Overwrite existing files"),
     var: Optional[list[str]] = typer.Option(None, "--var", help="Variable as key=value"),
+    neo: str = typer.Option(
+        "auto",
+        "--neo",
+        help="After scaffold: auto|on|off — run neo init-workspace if neo-harness is installed",
+    ),
+    neo_pack: str = typer.Option(
+        "workspace",
+        "--neo-pack",
+        help="Agent pack id for neo init-workspace",
+    ),
 ) -> None:
     """Create a new project from a profile."""
     profiles_dir = get_profiles_dir()
@@ -115,8 +201,20 @@ def new(
     for warning in result.warnings:
         console.print(f"  [yellow]WARN[/yellow]   {warning}")
 
-    console.print(f"\n[bold green]Done![/bold green] Project at {target}")
+    if not dry_run:
+        console.print("\n[dim]Running post-scaffold steps...[/dim]")
+        _post_scaffold(
+            target.resolve(),
+            neo_mode=neo,
+            neo_pack=neo_pack,
+        )
 
+    console.print(f"\n[bold green]Done![/bold green] Project at {target}")
+    if not dry_run and neo.lower() != "off":
+        console.print(
+            "[dim]Next: cd into the project, copy env.neo.example → .env if present, "
+            "then ./scripts/neo start … or see neo-harness docs/starting-a-workspace.md[/dim]"
+        )
 
 @app.command()
 def update(
@@ -154,7 +252,7 @@ def update(
     for warning in result.warnings:
         console.print(f"  [yellow]WARN[/yellow]   {warning}")
 
-    console.print(f"\n[bold green]Update complete![/bold green]")
+    console.print("\n[bold green]Update complete![/bold green]")
 
 
 @app.command()
@@ -169,14 +267,14 @@ def info(
         console.print("[red]No .forge.lock found in this directory.[/red]")
         raise typer.Exit(code=1)
 
-    console.print(f"[bold]Forge Project Info[/bold]")
+    console.print("[bold]Forge Project Info[/bold]")
     console.print(f"  Profile:    {lock.profile}")
     console.print(f"  Version:    {lock.version}")
     console.print(f"  Generated:  {lock.generated_at}")
     console.print(f"  Files:      {len(lock.managed)} managed")
 
     if lock.variables:
-        console.print(f"\n[bold]Variables:[/bold]")
+        console.print("\n[bold]Variables:[/bold]")
         for key, val in lock.variables.items():
             console.print(f"  {key} = {val}")
 
@@ -220,13 +318,13 @@ def profiles_show(
         console.print(f"  Inherits: {spec.inherits}")
 
     if spec.variables:
-        console.print(f"\n[bold]Variables:[/bold]")
+        console.print("\n[bold]Variables:[/bold]")
         for key, var_spec in spec.variables.items():
             default = f" (default: {var_spec.default})" if var_spec.default is not None else ""
             console.print(f"  {key}: {var_spec.type}{default}")
 
     if spec.directories:
-        console.print(f"\n[bold]Directories:[/bold]")
+        console.print("\n[bold]Directories:[/bold]")
         for d in spec.directories:
             console.print(f"  {d}/")
 
@@ -317,7 +415,7 @@ def workspace_sync(
     if not result["updated"] and not result["warnings"]:
         console.print("  [dim]Everything up to date.[/dim]")
 
-    console.print(f"\n[bold green]Sync complete![/bold green]")
+    console.print("\n[bold green]Sync complete![/bold green]")
 
 
 @workspace_app.command("info")

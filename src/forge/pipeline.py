@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
 
+from forge.defaults import apply_variable_defaults
 from forge.models import (
     Strategy,
     ApplyResult,
@@ -41,11 +42,10 @@ def generate(
     profile_spec = resolve_profile(profile_name, profiles_dir)
     resolved = merge_inheritance(profile_spec, profiles_dir)
 
-    # Compute derived variables
-    if "project_name" in variables and "project_slug" not in variables:
-        variables["project_slug"] = (
-            variables["project_name"].lower().replace("-", "_").replace(" ", "_")
-        )
+    # Defaults + derived flags (use_pip, project_slug, …)
+    variables = apply_variable_defaults(
+        profile_name, profiles_dir, variables, target=target
+    )
 
     # Step 3: Render templates
     rendered = render_templates(resolved, variables)

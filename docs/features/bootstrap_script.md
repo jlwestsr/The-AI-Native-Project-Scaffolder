@@ -1,33 +1,26 @@
-# Feature: Bootstrap Script
+# Feature: Developer bootstrap
 
-## 1. Overview
-**Branch**: `feat/bootstrap-script`
+## Overview
 
-A self-contained `scripts/bootstrap.sh` script to set up the Forge development environment on macOS and Linux. It ensures `forge` is accessible in the system PATH and manages the Python environment.
+Make the `forge` CLI available for local development of this repository.
 
-## 2. Requirements
-- [ ] **Cross-Platform**: Run on macOS and Linux (Ubuntu/Debian).
-- [ ] **Environment**: Create a Python 3 `venv` in the project root.
-- [ ] **Dependencies**: Install `requirements.txt` and `requirements-dev.txt`.
-- [ ] **Installation**: Install the package in editable mode (`pip install -e .`).
-- [ ] **Path Registration**: Symlink or place the `forge` executable in the OS PATH (e.g., `~/.local/bin` or `/usr/local/bin`).
-- [ ] **Naming**: Rename/Alias the CLI entry point to `forge` (currently `forge-project`).
+## Outcome (current)
 
-## 3. Technical Implementation
-- **Script**: `scripts/bootstrap.sh`
-- **Configuration**: Update `pyproject.toml` to define `forge` script entry point.
-- **Logic**:
-    1. Check Python version.
-    2. Create `venv`.
-    3. Install deps.
-    4. Install `forge` (editable).
-    5. Symlink to `~/.local/bin` (creating if missing) or `/usr/local/bin` (prompting for sudo if needed).
+Recommended install (profiles resolve correctly):
 
-## 4. Verification Plan
-**Automated Tests**:
-- [ ] Script runs without error on the user's machine.
-- [ ] `forge --version` / `forge --help` works from a new terminal session (or after source).
+```bash
+cd /path/to/nebulus-forge
+pipx install --force --editable .
+# or
+python3 -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
+```
 
-**Manual Verification**:
-- [ ] Run `./scripts/bootstrap.sh`.
-- [ ] Check `which forge`.
+Ensure `~/.local/bin` is on `PATH` for pipx.
+
+Optional: `scripts/` may contain helpers; primary documented path is pipx/venv
+editable install per [README.md](../../README.md).
+
+## Acceptance
+
+- [x] `forge --help` / `forge profiles list` work after editable install
+- [x] Profiles load from repo `profiles/` tree

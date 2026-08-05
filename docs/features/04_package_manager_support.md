@@ -1,30 +1,30 @@
-# Feature Title: Package Manager Support
+# Feature: Package manager selection
 
 ## Overview
-The current generator defaults to `requirements.txt` / `pip`. Modern Python workflows often prefer `poetry` or `uv` for better dependency resolution and project management. We want to support these tools out of the box.
 
-## Requirements
-List the specific requirements for this feature:
-- [x] Add a `--manager` flag to the CLI (options: `pip`, `poetry`, `uv`).
-- [x] If `poetry` is selected:
-    - [x] Generate `pyproject.toml` with `[tool.poetry]` sections.
-    - [x] Skip `requirements.txt`.
-- [x] If `uv` is selected:
-    - [x] Generate standard `pyproject.toml`.
-    - [x] Skip `requirements.txt`.
-- [x] Update `docker-compose.yml` and `Dockerfile` to respect the chosen manager (implied by skipping file, though Docker templates might need conditional logic - kept simple for now).
+Generated **base**/**fullstack** projects can prefer pip, poetry, or uv via the
+`manager` profile variable (wizard or `--var manager=…`).
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/engine.py`.
-- Dependencies: None (the generator just writes files).
-- Data changes: New templates for poetry/uv configurations.
+## Outcome (current)
 
-## Acceptance Criteria
-How will we know this is working correctly?
-- [x] `forge . --manager poetry` creates a valid `pyproject.toml` that `poetry install` accepts.
-- [x] `forge . --manager uv` creates a structure compatible with `uv sync`.
-- [x] Docker builds succeed for all choices.
+Not a top-level CLI flag. Use profile variables:
 
-## Feedback/Notes
-Default to `pip` to maintain backward compatibility.
+```bash
+forge new ~/projects/app -p base --no-interactive \
+  --var project_name=app \
+  --var manager=uv
+```
+
+| `manager` | Effect (via defaults + conditionals) |
+|-----------|--------------------------------------|
+| `pip` | `use_pip=true` → `requirements.txt` / `requirements-dev.txt` rendered |
+| `poetry` / `uv` | `use_pip=false` → requirements files skipped; `pyproject.toml` still generated |
+
+## Acceptance (met)
+
+- [x] Variable-driven generation (no hard-coded manager in pipeline)
+- [x] Conditionals in `structure.toml` control requirements files
+
+## Notes
+
+Default remains `pip` for broad compatibility.

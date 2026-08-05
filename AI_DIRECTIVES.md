@@ -9,27 +9,45 @@ These rules are critical for any AI agent "loading" this project. They encode th
 - **Reference Awareness**: If the reference project implementation differs from our template, **the template is wrong**.
 - **No Assumptions**: Do not implement features based on "general knowledge"; implement them based on the **Reference Projects**.
 
-## 2. Scaffolding MVC Architecture
-We follow a strict **Model-View-Controller** pattern for the CLI:
-- **Model (`configs.py`)**:
-    -   Holds the "Truth" of what a project looks like (Profiles, File Mappings).
+## 2. Profile-Driven Pipeline Architecture (v2)
+Forge uses a **profile-driven pipeline** with clearly separated stages:
+- **Data Models** (`models.py`):
+    -   Pydantic models for profiles, rendered files, lock entries, and workspace config.
     -   Data structures only. **Minimize logic**.
-- **View (`templates/` & `wizard.py`)**:
-    -   `wizard.py`: Handles interaction/prompts.
-    -   `templates/`: Jinja2 templates. Keep logic minimal.
-    -   **Ansible Templates**:
-        -   Adhere to **Ansible-First** principles.
-        -   `become: true` where needed.
-        -   Idempotency checks/guards.
-        -   Strict YAML formatting.
-- **Controller (`engine.py` & `cli.py`)**:
-    -   Orchestrates the flow.
-    -   **No Shadow Logic**: Do not hardcode file structures in the engine; read them from the Model.
+- **Profile Loader** (`profile_loader.py`):
+    -   Reads TOML configs (`profile.toml` + `structure.toml`) from `profiles/`.
+    -   Resolves inheritance chains (child → parent → base).
+    -   Returns `ResolvedProfile` with merged variables, files, directories, and conditionals.
+- **Renderer** (`renderer.py`):
+    -   Pure Jinja2 template rendering — **no I/O**.
+    -   Returns `RenderedFile` objects in memory.
+    -   Template lookup walks `template_dirs` child-first for inheritance.
+- **Applier** (`applier.py`):
+    -   Writes rendered files to disk with strategies: CREATE, UPDATE, FORCE.
+    -   Respects lock file state for safe updates.
+- **Pipeline** (`pipeline.py`):
+    -   Orchestrates: load profile → merge inheritance → render → apply → write lock.
+    -   **No Shadow Logic**: Do not hardcode file structures in the pipeline; read them from profiles.
+- **Wizard** (`wizard.py` / `workspace_wizard.py`):
+    -   Interactive prompts for profile variables and workspace configuration.
+- **CLI** (`cli.py`):
+    -   Typer entry point. Commands: `new`, `update`, `info`, `profiles`, `workspace`.
+    -   **Current usage:** `forge new <path> -p base|fullstack|monorepo [--neo auto|on|off]`.
+    -   Do **not** document legacy `forge .` or removed profiles (`openclaw-agent`,
+        standalone `workspace` as a `forge new` profile).
+    -   Post-hook: optional `neo init-workspace` via `--neo` / `FORGE_NEO_CMD` (`hooks.py`).
+- **Defaults** (`defaults.py`):
+    -   Fills missing wizard variables for `--no-interactive` runs.
+- **Lock File** (`lockfile.py`):
+    -   `.forge.lock` tracks managed files with content hashes for safe updates.
+- **Ansible templates** (fullstack profile):
+    -   Prefer Ansible-first, idempotent roles when generating host automation.
 
 ## 3. Testing & Quality Assurance
-- **The VENV Mandate**: You generally CANNOT run `pip install` or `python` commands using the system interpreter. You **MUST** assume the virtual environment is active (`source venv/bin/activate`) or explicitly call `./venv/bin/python`.
-- **Mandatory Unit Tests**: ALL changes to `engine.py` or `configs.py` must be verified in `tests/`.
-- **Pre-Commit Verification**: Run `./scripts/run_tests.sh` before marking any task as complete.
+- **Venv**: Prefer project `.venv` (`source .venv/bin/activate` or `.venv/bin/python` / `.venv/bin/pytest`). Avoid system Python for installs.
+- **Mandatory Unit Tests**: Changes to pipeline modules (`models`, `profile_loader`, `renderer`, `applier`, `pipeline`, `workspace`, `defaults`, `hooks`) need tests under `tests/`.
+- **Pre-Commit Verification**: Run `./scripts/run_tests.sh` or `pytest -q` before marking work complete.
+- **Public profiles**: Only `base`, `fullstack`, and `monorepo` ship for `forge new`.
 - **Strict Linting**:
     -   **Python**: `flake8` (Zero errors).
     -   **Type Hints**: Mandatory for all new functions.

@@ -1,26 +1,29 @@
-# Feature Title: Global Configuration
+# Feature: Defaults and configuration
 
 ## Overview
-Users verify their `author` and `email` information frequently. They shouldn't have to provide this every time they generate a project. The tool should respect a global configuration file in the user's home directory.
 
-## Requirements
-List the specific requirements for this feature:
-- [x] Look for checking `~/.config/forge/config.toml` (or `~/.forgeconfig`).
-- [x] Read default values for: `author_name`, `author_email`, `license`, `python_version`.
-- [x] Override global defaults with CLI arguments if provided.
-- [x] Add a `forge config` command to easily set these values (implemented as `forge --config-set`).
+Users should not re-type the same author/license defaults every run.
 
-## Technical Implementation (Optional)
-If you have specific ideas about how this should be built, list them here:
-- Proposed modules: `src/project_generator/config_manager.py`.
-- Dependencies: `tomli` (for read) / `tomli_w` (for write).
-- Data changes: None.
+## Outcome (current)
 
-## Acceptance Criteria
-How will we know this is working correctly?
-- [x] Use defaults from config file if no args provided.
-- [x] `forge config --set author="Jane Doe"` updates the file (usage: `forge --config-set author_name="Jane Doe"`).
-- [x] Tests verify precedence: CLI Args > Global Config > Hardcoded Defaults.
+| Mechanism | Role |
+|-----------|------|
+| Profile `default` in `profile.toml` | Wizard + non-interactive defaults |
+| `src/forge/defaults.py` | Fills missing vars (`project_name` from target dir, `use_pip`, slug, …) |
+| CLI `--var key=value` | Highest precedence for a run |
+| `FORGE_PROFILES_DIR` / `FORGE_NEO_CMD` | Env overrides for profiles path and neo binary |
 
-## Feedback/Notes
-Use `platformdirs` to determine the correct config path for the OS.
+```bash
+forge new ~/projects/app -p base --no-interactive --var author_name="Jane Doe"
+```
+
+## Acceptance (met)
+
+- [x] Non-interactive runs succeed with target-dir project name when unset
+- [x] Explicit `--var` overrides defaults
+
+## Notes
+
+A dedicated `forge config` subcommand is **not** the current primary UX; prefer
+profile defaults and `--var`. Historical designs mentioned `~/.config/forge/` —
+treat as optional future work unless reintroduced with tests.

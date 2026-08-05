@@ -1,0 +1,45 @@
+# Prompt: Code Review v1 — {{ project_name }}
+
+**Purpose:** Standard code review
+**Target:** Claude Code (claude-sonnet-4-6+)
+**Context Required:** Root `CLAUDE.md` + sub-module `CLAUDE.md` for affected layer
+**Version:** 1.0 | Created: {{ current_date | default('YYYY-MM-DD') }}
+
+---
+
+## Prompt
+
+```
+You are reviewing a code change in {{ project_name }}.
+
+Before starting, load:
+- CLAUDE.md (root)
+- [Relevant sub-module CLAUDE.md if applicable]
+- AI_DIRECTIVES.md
+
+Review the following diff/file for:
+1. Adherence to project conventions (CLAUDE.md + AI_DIRECTIVES.md)
+2. Any writes to protected paths without hook acknowledgment
+3. Hardcoded secrets, env values, or debug flags
+4. Missing tests for new behavior
+5. Schema changes without migrations
+6. Anything warranting a new ADR in docs/decisions/
+7. CHANGELOG.md updated if significant change
+
+Output format:
+- PASS:  [item] — brief note
+- WARN:  [item] — what to watch
+- BLOCK: [item] — must fix before merge
+
+[PASTE DIFF OR FILE HERE]
+```
+
+---
+
+## Known Limitations
+
+<!-- TODO: What does this prompt miss for {{ project_name }}? -->
+
+## Version History
+
+- v1.0: Initial version, scaffolded by nebulus-forge

@@ -1,0 +1,28 @@
+# Prompt Library — {{ project_name }}
+
+Versioned prompts for repeatable Claude Code tasks on this project.
+Treat these as artifacts — commit changes, don't edit in place.
+
+## Why Version Prompts?
+
+Prompts drift. Models update. A prompt that worked last month may not work today.
+Versioning lets you catch regressions and A/B test variations.
+
+## Naming Convention
+
+`[task]-v[N].md`
+e.g., `code-review-v1.md`, `refactor-v2.md`
+
+## Using a Prompt
+
+Reference the prompt file explicitly in your Claude Code session:
+
+```
+Load tools/prompts/code-review-v1.md and run it against the following diff: [paste diff]
+```
+
+## Files
+
+- `code-review-v1.md` — Standard code review for {{ project_name }}
+
+<!-- Add new prompt files here as you develop them -->

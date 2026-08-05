@@ -1,0 +1,34 @@
+"""Smoke: monorepo required buckets exist."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+REQUIRED = [
+    "LAYOUT.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "config/workspace-layout.yaml",
+    "products",
+    "products/example-app",
+    "services",
+    "hosts",
+    "lab",
+    "docs",
+    "workspace/scratchpad",
+    "agents",
+    "scripts/print_layout.py",
+]
+
+
+def test_required_paths_exist() -> None:
+    missing = [p for p in REQUIRED if not (ROOT / p).exists()]
+    assert not missing, f"missing paths: {missing}"
+
+
+def test_no_single_package_src_spine() -> None:
+    """Monorepo profile must not use base's src/<slug> application root."""
+    src = ROOT / "src"
+    assert not src.is_dir(), "unexpected root src/ — monorepo uses products/services"

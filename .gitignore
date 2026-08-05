@@ -48,3 +48,7 @@ reference_shurtugal-lnx
 .claude/tmp/
 .claude/agents/
 # Commit: .claude/config.json, .claude/README.md
+
+# Serena
+.serena/
+build/

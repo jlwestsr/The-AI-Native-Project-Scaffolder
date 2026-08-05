@@ -1,0 +1,29 @@
+# Skill: Code Review — {{ project_name }}
+
+## Purpose
+Standard code review workflow. Run when reviewing a PR, diff, or file before merge.
+
+## Steps
+
+1. Load `CLAUDE.md` (root) and the relevant sub-module `CLAUDE.md` if applicable
+2. Check adherence to conventions defined in `CLAUDE.md` and `AI_DIRECTIVES.md`
+3. Verify no protected paths were touched without hook acknowledgment
+4. Check for hardcoded secrets, env values, or debug flags
+5. Confirm tests exist for all new behavior
+6. Check for schema changes missing a migration
+7. Flag anything warranting a new ADR in `docs/decisions/`
+8. Verify `CHANGELOG.md` was updated if significant change
+
+## Output Format
+
+```
+PASS:  [item] — note
+WARN:  [item] — what to watch
+BLOCK: [item] — must fix before merge
+```
+
+## Project-Specific Checks
+
+<!-- TODO: Add {{ project_name }}-specific things to watch during review -->
+<!-- e.g., "Check that all new FastAPI routes have auth middleware" -->
+<!-- e.g., "Ansible roles must remain idempotent" -->

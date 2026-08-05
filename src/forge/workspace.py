@@ -26,7 +26,7 @@ SENTINEL_END = "<!-- forge:ecosystem-end -->"
 def _get_template_env() -> Environment:
     """Create a Jinja2 environment for workspace templates."""
     template_dir = (
-        Path(__file__).parent.parent.parent / "profiles" / "workspace" / "templates"
+        Path(__file__).parent.parent.parent / "templates" / "workspace"
     )
     return Environment(
         loader=FileSystemLoader(str(template_dir)),
@@ -435,6 +435,25 @@ def _build_project_context(
     )
 
 
+def _parse_governance_rules(content: str) -> list[str]:
+    """Extract governance rules from BUSINESS.md content."""
+    rules: list[str] = []
+    in_gov = False
+    for line in content.split("\n"):
+        if line.strip().startswith("## Governance Rules"):
+            in_gov = True
+            continue
+        if in_gov:
+            if line.strip().startswith("## "):
+                break
+            match = re.match(
+                r"^\d+\.\s+\*\*(.+?)\*\*\s*—\s*(.+)$", line.strip()
+            )
+            if match:
+                rules.append(f"**{match.group(1)}** — {match.group(2)}")
+    return rules
+
+
 def sync_context(
     target: Path,
     dry_run: bool = False,
@@ -467,21 +486,8 @@ def sync_context(
     business_path = target / "BUSINESS.md"
     business = BusinessContext()
     if business_path.exists():
-        # Extract governance rules from BUSINESS.md (simple line parsing)
         biz_content = business_path.read_text(encoding="utf-8")
-        rules: list[str] = []
-        in_gov = False
-        for line in biz_content.split("\n"):
-            if line.strip().startswith("## Governance Rules"):
-                in_gov = True
-                continue
-            if in_gov:
-                if line.strip().startswith("## "):
-                    break
-                match = re.match(r"^\d+\.\s+\*\*(.+?)\*\*\s*—\s*(.+)$", line.strip())
-                if match:
-                    rules.append(f"**{match.group(1)}** — {match.group(2)}")
-        business.governance_rules = rules
+        business.governance_rules = _parse_governance_rules(biz_content)
 
     # Read workspace name from lock
     lock = read_workspace_lock(target)

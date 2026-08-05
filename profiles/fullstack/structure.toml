@@ -1,3 +1,6 @@
+# Optional ML / ops extras on top of base.
+# Prefer keeping product code under src/{{ project_slug }}; these dirs support
+# data science and workstation Ansible profiles — omit via a leaner profile if unused.
 [directories]
 root = [
     "notebooks",

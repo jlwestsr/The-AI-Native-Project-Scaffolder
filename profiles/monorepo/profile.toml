@@ -1,0 +1,42 @@
+[profile]
+name = "monorepo"
+description = "Multi-bucket control-plane monorepo (products/services/hosts/lab) — west_ai_labs-shaped"
+
+# Standalone: do not inherit base (avoids single-package src/<slug>/ spine)
+
+[variables]
+[variables.project_name]
+prompt = "Monorepo / ecosystem name"
+type = "string"
+
+[variables.org_name]
+prompt = "Organization name"
+type = "string"
+default = "My Org"
+
+[variables.description]
+prompt = "One-line description"
+type = "string"
+default = "Local-first AI / platform monorepo"
+
+[variables.include_hosts_bucket]
+prompt = "Include hosts/ bucket (IaC)?"
+type = "confirm"
+default = true
+
+[variables.include_lab_bucket]
+prompt = "Include lab/ bucket (experiments)?"
+type = "confirm"
+default = true
+
+[variables.default_integration_branch]
+prompt = "Integration branch name"
+type = "choice"
+choices = ["develop", "main"]
+default = "develop"
+
+[variables.python_version]
+prompt = "Python version for tooling notes"
+type = "choice"
+choices = ["3.10", "3.11", "3.12"]
+default = "3.12"

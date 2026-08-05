@@ -1,31 +1,26 @@
-# Feature Title: Modular Scaffolder Refactor
+# Feature: Modular scaffolder (v1 → v2)
+
+> Historical. Current architecture is the v2 profile-driven pipeline under `src/forge/`.
 
 ## Overview
-Transform the single-file `init_project.py` script into a modular Python application. This change improves maintainability, allows for easier extension of templates, and follows standard Python project structure conventions.
 
-## Requirements
-- [x] Extract project templates into a separate module.
-- [x] Separate Git operations from core scaffolding logic.
-- [x] Implement a CLI entry point using `argparse`.
-- [x] Support passing a target directory as a command-line argument.
-- [x] Configure `pyproject.toml` to support the tool as an installable package.
-- [x] Remove legacy single-file script.
+Replaced a single-file generator with a modular package and installable CLI
+entry point `forge` (`forge = "forge.cli:app"` in `pyproject.toml`).
 
-## Technical Implementation
-- **Module Structure**: 
-    - `src/project_generator/assets/`: Templates and configurations.
-    - `src/project_generator/engine.py`: Directory and file creation logic.
-    - `src/project_generator/git_ops.py`: Git commands and shell utilities.
-    - `src/project_generator/cli.py`: CLI orchestration.
-- **CLI**: Added argument parsing for `target_dir` with a default of the current working directory.
-- **Installation**: Defined `forge-project` script in `pyproject.toml`.
+## Outcome (current)
 
-## Acceptance Criteria
-- [x] Script can be executed via `python -m project_generator.cli`.
-- [x] Scaffolding produces identical results to the legacy script.
-- [x] Target directory check (greenfield) still prevents accidental overwrites.
-- [x] Git initialization correctly sets up `develop` branch.
-- [x] New project includes `rules/ai_behavior.md` and `.aider.conf.yml` with auto-read settings.
+| Module | Role |
+|--------|------|
+| `models.py` | Pydantic models |
+| `profile_loader.py` | TOML profiles + inheritance |
+| `renderer.py` | Jinja2 render (no I/O) |
+| `applier.py` | Write files (CREATE / UPDATE / FORCE) |
+| `pipeline.py` | Orchestration |
+| `cli.py` | Typer: `new`, `update`, `info`, `profiles`, `workspace` |
+| `wizard.py` / `defaults.py` / `hooks.py` | Interactive vars, defaults, neo post-hook |
 
-## Feedback/Notes
-This refactor serves as a baseline for future features like "Interactive Configuration" or "Custom Template Selection".
+## Acceptance (met)
+
+- [x] `forge new <target> -p base|fullstack|monorepo`
+- [x] Profile-driven output from TOML + templates
+- [x] `.forge.lock` for safe updates via `forge update`

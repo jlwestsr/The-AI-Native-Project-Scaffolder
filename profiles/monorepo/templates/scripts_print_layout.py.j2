@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+"""Print monorepo buckets from config/workspace-layout.yaml (stdlib only)."""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+try:
+    import tomllib  # py311+ unused; yaml via minimal parser fallback
+except ImportError:
+    tomllib = None  # type: ignore
+
+
+def _load_yaml_simple(path: Path) -> dict:
+    """Minimal YAML subset reader for our layout file (no PyYAML required)."""
+    # Prefer PyYAML if present
+    try:
+        import yaml  # type: ignore
+
+        return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except ImportError:
+        pass
+
+    # Fallback: parse buckets: key: value lines only
+    buckets: dict[str, str] = {}
+    in_buckets = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip().startswith("buckets:"):
+            in_buckets = True
+            continue
+        if in_buckets:
+            if line.strip() and not line.startswith(" ") and not line.startswith("\t"):
+                if not line.strip().startswith("#"):
+                    break
+            if ":" in line and not line.strip().startswith("#"):
+                key, _, val = line.partition(":")
+                key, val = key.strip(), val.strip().strip("\"'")
+                if key and val and not key.startswith("#"):
+                    buckets[key] = val
+    return {"buckets": buckets, "name": path.parent.parent.name}
+
+
+def main() -> int:
+    root = Path(__file__).resolve().parents[1]
+    layout = root / "config" / "workspace-layout.yaml"
+    if not layout.is_file():
+        print(f"missing {layout}", file=sys.stderr)
+        return 1
+    data = _load_yaml_simple(layout)
+    name = data.get("name") or root.name
+    org = data.get("org") or ""
+    print(f"Monorepo: {name}" + (f" ({org})" if org else ""))
+    print("Buckets:")
+    buckets = data.get("buckets") or {}
+    for key in sorted(buckets.keys()):
+        rel = buckets[key]
+        path = root / rel
+        mark = "ok" if path.is_dir() else "MISSING"
+        print(f"  {key:12} → {rel:16} [{mark}]")
+    trees = data.get("trees") or {}
+    if trees:
+        print("Trees:")
+        for tname, meta in trees.items():
+            if isinstance(meta, dict):
+                print(f"  {tname}: {meta.get('path', meta)}")
+            else:
+                print(f"  {tname}: {meta}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

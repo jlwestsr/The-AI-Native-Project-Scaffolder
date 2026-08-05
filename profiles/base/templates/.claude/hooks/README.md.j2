@@ -1,0 +1,28 @@
+# Claude Hooks — {{ project_name }}
+
+Hooks run automatically before or after Claude Code actions. They are enforcement — not suggestions.
+
+## Hook Types
+
+| Type | Trigger | Use For |
+|------|---------|---------|
+| `pre-bash` | Before shell command execution | Safety checks, dry-run guards |
+| `post-bash` | After shell command execution | Logging, state sync |
+| `pre-write` | Before file write | Lint, format, schema validation |
+| `post-write` | After file write | Index updates, cache invalidation |
+| `pre-task` | Before a task begins | Scope confirmation, context load |
+| `post-task` | After a task completes | CHANGELOG update, notification |
+
+## Files in This Directory
+
+- `guardrail-check.sh` — Pre-bash safety gate. Block writes to protected paths and destructive operations.
+- `changelog-update.sh` — Post-task CHANGELOG appender. Call after any significant change.
+
+## Writing a New Hook
+
+Exit codes:
+- `0` — proceed
+- `1` — block with error message to stderr
+- `2` — block silently
+
+Hooks receive the command or file path as `$1`.

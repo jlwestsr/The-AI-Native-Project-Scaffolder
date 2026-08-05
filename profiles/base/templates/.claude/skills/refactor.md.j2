@@ -1,0 +1,26 @@
+# Skill: Refactor — {{ project_name }}
+
+## Purpose
+Safe refactor workflow — scope, plan, execute, verify. No surprise rewrites.
+
+## Steps
+
+1. **Map the blast radius** — what calls this code? Use grep/AST to find all usages.
+2. **Write or verify tests BEFORE touching anything** — if tests don't exist, write them first.
+3. **Make the change in the smallest possible unit** — one function, one module at a time.
+4. **Run tests after each unit** — don't batch changes and test at the end.
+5. **Update `CLAUDE.md`** if the pattern changes.
+6. **Write an ADR** in `docs/decisions/` if this is an architectural change.
+7. **Append to `CHANGELOG.md`** via `.claude/hooks/changelog-update.sh`.
+
+## Scope Confirmation (answer before starting)
+
+- What's the goal? (performance / readability / correctness / architecture)
+- What's explicitly out of scope?
+- Is this reversible? What's the rollback?
+
+## Do Not Refactor Without Human Review
+
+<!-- TODO: List patterns in {{ project_name }} that are high-risk and need explicit approval -->
+<!-- e.g., "Auth middleware — any change here needs Jason's review" -->
+<!-- e.g., "Database migration files are immutable after merge" -->

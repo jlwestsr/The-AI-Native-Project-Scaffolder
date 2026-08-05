@@ -1,7 +1,7 @@
 [profile]
 name = "fullstack"
 inherits = "base"
-description = "Full-stack AI system with notebooks, models, and Ansible"
+description = "Full-stack AI system with notebooks, models, and Ansible (extends base)"
 
 [variables]
 [variables.persona]

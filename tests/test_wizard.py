@@ -1,7 +1,4 @@
 """Tests for the interactive wizard."""
-import pytest
-from pathlib import Path
-from unittest.mock import patch
 
 from forge.wizard import build_prompts
 from forge.models import VariableSpec

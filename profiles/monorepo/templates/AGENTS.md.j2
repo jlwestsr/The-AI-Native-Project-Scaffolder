@@ -1,0 +1,67 @@
+# AGENTS.md — {{ project_name }}
+
+## Role
+
+You are assisting engineers at **{{ org_name }}** on this monorepo. Prefer
+layout discipline, small reviewable changes, and explicit validation.
+
+## Session bootstrap (recommended)
+
+1. Read [LAYOUT.md](LAYOUT.md).  
+2. Skim this file and [CLAUDE.md](CLAUDE.md).  
+3. If shared graph/RAG (or other platform services) are configured for this lab,
+   **validate them before asserting live status** (health endpoint, MCP, or
+   documented probe). Do not invent “healthy” from memory.  
+4. Prefer work on a feature or session branch — never commit secrets.
+
+## Monorepo layout (read first)
+
+```text
+products/   → ship code
+services/   → shared platform services
+hosts/      → IaC
+lab/        → experiments (never ship as-is)
+docs/       → durable knowledge
+workspace/  → scratch only
+```
+
+```bash
+python3 scripts/print_layout.py
+```
+
+Do **not** invent top-level directories. Put durable notes in `docs/`, not
+`workspace/`.
+
+## neo-harness (if embedded)
+
+Constrained PLAN→ACT→REFLECT jobs use the workspace runner (not a global
+`neo` assumed on PATH):
+
+```bash
+./scripts/neo doctor
+./scripts/neo start --task-file jobs/<slug>.md --agent workspace -p mock
+```
+
+- Install/refresh: project `.venv-neo` + `requirements-neo.txt` (or editable neo-harness)  
+- Docs: [starting-a-workspace](https://github.com/westailabs/neo-harness/blob/master/docs/starting-a-workspace.md)  
+- Upstream: https://github.com/westailabs/neo-harness  
+
+## Shared services (generic stub)
+
+If this monorepo documents shared retrieval or knowledge-graph services:
+
+| Rule | Behavior |
+|------|----------|
+| Before asserting status | Probe health / live query |
+| If unreachable | Say so; continue only with local offline work |
+| Secrets | Env / secret store only — never commit tokens |
+
+Concrete URLs and tokens are **environment-specific** — see operator docs under
+`docs/ops/` when filled in.
+
+## Hard rules
+
+- No secrets in git (`.env`, keys, vault material)  
+- IaC for hosts lives under `hosts/` — prefer declared state over one-off shell  
+- Product code in `products/` or `services/`, not `lab/` until promoted  
+- Prefer tests for behavior changes at monorepo or package level  

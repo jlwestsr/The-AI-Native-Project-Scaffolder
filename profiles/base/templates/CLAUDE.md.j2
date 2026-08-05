@@ -1,0 +1,97 @@
+# CLAUDE.md — Project Context for Claude Code
+
+## Project Overview
+
+**{{ project_name }}** — {{ description }}
+
+## Technical Stack
+
+- **Language**: Python {{ python_version }}+
+{% if profile == "web" %}
+- **Backend**: FastAPI (Python)
+- **Frontend**: HTML/JS/CSS (Jinja2)
+{% elif profile == "mvc" %}
+- **Architecture**: MVC (Model-View-Controller)
+{% elif profile == "system" %}
+- **Focus**: Ansible / Automation
+{% endif %}
+
+## Agent Instructions
+
+- **Directives**: Follow the rules in [AI_DIRECTIVES.md](AI_DIRECTIVES.md).
+- **Workflow**: Adhere to the process in [WORKFLOW.md](WORKFLOW.md).
+- **Context**: Refer to [CONTEXT.md](CONTEXT.md) for deeper architectural details.
+- **Long-Term Memory**: Read and update [docs/AI_INSIGHTS.md](docs/AI_INSIGHTS.md).
+
+## Git Workflow
+
+### Permanent Branches (Remote)
+
+- **`main`**: Production-ready code. Releases only.
+- **`develop`**: Integration branch for the next release. All work merges here.
+
+### Temporary Branches (Local Only)
+
+**CRITICAL**: These branches exist **ONLY** on your local machine. You generally do **NOT** push them to origin unless working on a long-lived collaborative feature.
+
+- **`feat/name`**: New features (models, services, UI).
+- **`fix/description`**: Bug fixes.
+- **`docs/description`**: Documentation updates.
+- **`chore/description`**: Maintenance, config, refactoring.
+
+### Rules
+
+1. **Never commit directly to `main`** — all changes flow through `develop`.
+2. **Branch off `develop`** for all new work.
+3. **Temporary branches are LOCAL ONLY** — do NOT push them to origin. Merge locally into `develop`, then push `develop`.
+4. **Merge with `--no-ff`** to preserve branch history.
+5. **Delete feature branches** after merge — they are disposable.
+6. **Run tests before merging** any branch.
+7. **`git push origin` requires explicit user approval** — always ask first.
+
+### Workflow
+
+```bash
+# Start new work
+git checkout develop
+git pull origin develop
+git checkout -b feat/my-feature
+
+# Work, commit (conventional commits)
+git commit -m "feat: add new feature"
+
+# Merge back to develop (local only)
+git checkout develop
+git merge --no-ff feat/my-feature
+git branch -d feat/my-feature
+
+# Push develop (with approval)
+git push origin develop
+```
+
+## Commit Conventions
+
+- **Conventional commits**: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:` prefixes
+- **Imperative mood** in subject line: "add feature" not "added feature"
+- **Keep subject under 72 characters** — use the body for detail
+
+## Coding Standards
+
+- **Type hints** on all function signatures
+- **Google-style docstrings** on all public functions
+- **Formatting**: `black` (line-length 88) + `flake8`
+- **Testing**: `pytest` for all tests
+{% if profile == "system" %}
+
+## Discovery-Driven Development
+
+- Run `./scripts/discovery.sh` before proposing changes.
+- **Ansible-First**: No manual `apt`/`pip` installs. Port changes to Ansible roles.
+{% else %}
+
+## Discovery-Driven Development
+
+- Check existing code in `src/` before proposing changes.
+- Search for existing implementations before creating new utility functions.
+- Check `pyproject.toml` before adding new dependencies.
+{% endif %}

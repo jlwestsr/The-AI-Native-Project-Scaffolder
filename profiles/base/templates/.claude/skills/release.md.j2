@@ -1,0 +1,36 @@
+# Skill: Release — {{ project_name }}
+
+## Purpose
+Pre-release checklist. Run before tagging a version or merging to main.
+
+## Pre-Release Checklist
+
+- [ ] All tests passing (`./scripts/run_tests.sh` or `pytest`)
+- [ ] `CHANGELOG.md` updated with release notes
+- [ ] Version bumped in `pyproject.toml` (or equivalent)
+- [ ] No hardcoded secrets, env values, or debug flags
+- [ ] `docs/decisions/` ADRs current for this release
+- [ ] Migration scripts ready if schema changed
+- [ ] Rollback plan documented
+- [ ] Hook scripts still valid (test `.claude/hooks/guardrail-check.sh`)
+
+## Tag & Release
+
+```bash
+# Confirm on develop, tests green
+git checkout develop
+git pull origin develop
+
+# Merge to main
+git checkout main
+git merge --no-ff develop -m "release: v{{ '{{' }} version {{ '}}' }}"
+
+# Tag
+git tag -a v{{ '{{' }} version {{ '}}' }} -m "Release v{{ '{{' }} version {{ '}}' }}"
+git push origin main --tags
+```
+
+## Post-Release Verification
+
+<!-- TODO: Add {{ project_name }}-specific health checks after deploy -->
+<!-- e.g., "Hit /health endpoint", "Check service logs for errors", "Notify #releases" -->

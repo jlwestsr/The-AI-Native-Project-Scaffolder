@@ -1,26 +1,34 @@
-# Feature Title: Project Type Profiles
+# Feature: Project profiles
 
 ## Overview
-This feature introduces "Project Profiles" to Forge, allowing users to select the architecture of their new project at generation time. Instead of a single "one-size-fits-all" structure, users can choose between specialized setups.
 
-## Requirements
-- [x] Support 3 distinct profiles:
-    1. **Full Stack (Default)**: Based on `reference_nebulus`. General purpose AI system.
-    2. **Web Application**: Based on `reference_gantry`. Python backend + HTML/JS frontend.
-    3. **System Administration**: Based on `reference_shurtugal-lnx`. Ansible + IaC focused.
-- [x] Update CLI to accept profile selection via arguments (e.g., `--profile web`).
-- [x] Update Interactive Wizard to prompt for profile selection.
-- [x] Refactor `assets/configs.py` to support modular/swappable configurations.
-- [x] Ensure specific templates (like `README.md`) utilize the profile context.
+Profiles select scaffold shape at generation time via TOML + Jinja2, not
+hardcoded Python trees.
 
-## Technical Implementation
-- **Refactor Configs**: Change `assets/configs.py` to export a dictionary of profiles or a `get_config(profile_name)` function.
-- **Engine Logic**: Update `engine.create_structure` to accept a profile name and load the corresponding file list.
-- **Wizard**: Add a selection step for "Project Type".
-- **Templates**: Ensure templates are generic enough or have conditionals to handle profile differences (e.g., `cookiecutter`-like behavior).
+## Outcome (current)
 
-## Acceptance Criteria
-- [x] `forge --profile web my-web-app` creates a structure matching `reference_gantry`.
-- [x] `forge --profile system my-infra` creates a structure matching `reference_shurtugal-lnx`.
-- [x] `forge` (wizard) asks "What type of project?" and generates accordingly.
-- [x] Existing tests pass and new tests cover profile generation.
+**Shipped `forge new` profiles:**
+
+| Profile | Inherits | Shape |
+|---------|----------|--------|
+| `base` | — | Single package `src/<slug>/` + governance |
+| `fullstack` | base | + notebooks, data, ansible, docker |
+| `monorepo` | — | products/services/hosts/lab control plane |
+
+```bash
+forge profiles list
+forge profiles show monorepo
+forge new ~/projects/eco -p monorepo --no-interactive --neo auto --neo-pack workspace
+forge new ~/projects/app -p base --no-interactive
+forge new ~/projects/app -p fullstack --no-interactive
+```
+
+Implementation: `profiles/<name>/{profile.toml,structure.toml,templates/}`,
+loaded by `profile_loader.py`, documented in [creating-a-profile.md](../creating-a-profile.md).
+
+## Acceptance (met)
+
+- [x] `-p` / `--profile` selects profile
+- [x] Inheritance merges variables, files, directories
+- [x] `forge profiles list` / `show`
+- [x] Custom profiles supported under `profiles/` or `FORGE_PROFILES_DIR`

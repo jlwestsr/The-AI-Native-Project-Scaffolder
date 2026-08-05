@@ -26,7 +26,7 @@ default = ""
 prompt = "Minimum Python version"
 type = "choice"
 choices = ["3.10", "3.11", "3.12"]
-default = "3.10"
+default = "3.12"
 
 [variables.manager]
 prompt = "Package manager"

@@ -1,0 +1,27 @@
+# WORKFLOW.md — {{ project_name }}
+
+## Branching (Gitflow-lite)
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Stable / release |
+| `{{ default_integration_branch }}` | Integration branch |
+| `feat/*`, `fix/*`, `docs/*`, `chore/*` | Temporary work branches |
+
+## Practices
+
+1. Branch off `{{ default_integration_branch }}` for work.  
+2. Small PRs / merges; conventional commits.  
+3. Temporary branches are ideally **local** until ready to integrate.  
+4. Do not force-push shared integration branches without agreement.  
+
+## Delivery
+
+- Product code: `products/` or `services/` with package-level tests when present  
+- Host changes: PR to the relevant `hosts/<name>/` tree; apply via that project's control plane  
+- Docs: `docs/` with clear area (architecture, ops, product, research)  
+
+## AI-assisted work
+
+- Bounded monorepo jobs: neo-harness (`./scripts/neo`) when embedded  
+- Open design: free-form agents with LAYOUT/AGENTS loaded  
