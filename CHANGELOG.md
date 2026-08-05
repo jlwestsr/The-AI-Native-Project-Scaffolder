@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **`monorepo` profile** — west_ai_labs-shaped control plane (LAYOUT, products/services/hosts/lab, example-app, generic AGENTS services stub); neo pack default remains `workspace`.
 - **docs/creating-a-profile.md** — tutorial for authoring custom Forge profiles.
+- **Documentation review (2026-08-05)** — refreshed CONTEXT/CLAUDE/GEMINI/AI_DIRECTIVES; features/ marked historical.
+
+### Changed
+- Root agent docs no longer describe legacy `forge .` or removed profiles as current.
 - **docs/README.md**, **docs/profiles.md** — documentation index and shipped-profile overview.
 - **neo-harness post-hook**: `forge new --neo auto|on|off` runs `neo init-workspace` when neo is installed (`FORGE_NEO_CMD` / PATH / lab paths).
 - **Variable defaults** for non-interactive runs (`apply_variable_defaults`: project_name from target, use_pip, project_slug, profile defaults).

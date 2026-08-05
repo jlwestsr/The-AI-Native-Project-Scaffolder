@@ -31,19 +31,23 @@ Forge uses a **profile-driven pipeline** with clearly separated stages:
 - **Wizard** (`wizard.py` / `workspace_wizard.py`):
     -   Interactive prompts for profile variables and workspace configuration.
 - **CLI** (`cli.py`):
-    -   Typer-based entry point. Commands: `new`, `update`, `info`, `profiles`, `workspace`.
+    -   Typer entry point. Commands: `new`, `update`, `info`, `profiles`, `workspace`.
+    -   **Current usage:** `forge new <path> -p base|fullstack|monorepo [--neo auto|on|off]`.
+    -   Do **not** document legacy `forge .` or removed profiles (`openclaw-agent`,
+        standalone `workspace` as a `forge new` profile).
+    -   Post-hook: optional `neo init-workspace` via `--neo` / `FORGE_NEO_CMD` (`hooks.py`).
+- **Defaults** (`defaults.py`):
+    -   Fills missing wizard variables for `--no-interactive` runs.
 - **Lock File** (`lockfile.py`):
     -   `.forge.lock` tracks managed files with content hashes for safe updates.
-    -   **Ansible Templates** in profiles:
-        -   Adhere to **Ansible-First** principles.
-        -   `become: true` where needed.
-        -   Idempotency checks/guards.
-        -   Strict YAML formatting.
+- **Ansible templates** (fullstack profile):
+    -   Prefer Ansible-first, idempotent roles when generating host automation.
 
 ## 3. Testing & Quality Assurance
-- **The VENV Mandate**: You generally CANNOT run `pip install` or `python` commands using the system interpreter. You **MUST** assume the virtual environment is active (`source venv/bin/activate`) or explicitly call `./venv/bin/python`.
-- **Mandatory Unit Tests**: ALL changes to pipeline modules (`models.py`, `profile_loader.py`, `renderer.py`, `applier.py`, `pipeline.py`, `workspace.py`) must be verified in `tests/`.
-- **Pre-Commit Verification**: Run `./scripts/run_tests.sh` before marking any task as complete.
+- **Venv**: Prefer project `.venv` (`source .venv/bin/activate` or `.venv/bin/python` / `.venv/bin/pytest`). Avoid system Python for installs.
+- **Mandatory Unit Tests**: Changes to pipeline modules (`models`, `profile_loader`, `renderer`, `applier`, `pipeline`, `workspace`, `defaults`, `hooks`) need tests under `tests/`.
+- **Pre-Commit Verification**: Run `./scripts/run_tests.sh` or `pytest -q` before marking work complete.
+- **Public profiles**: Only `base`, `fullstack`, and `monorepo` ship for `forge new`.
 - **Strict Linting**:
     -   **Python**: `flake8` (Zero errors).
     -   **Type Hints**: Mandatory for all new functions.

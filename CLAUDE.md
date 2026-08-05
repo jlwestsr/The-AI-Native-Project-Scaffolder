@@ -1,71 +1,66 @@
-# CLAUDE.md - Project Context for Claude Code
+# CLAUDE.md — Nebulus Forge
 
-## Project Overview
-**Forge** is a production-grade AI Project Scaffolder CLI that generates opinionated project structures with built-in AI collaboration frameworks, governance, and professional engineering standards.
+## Project overview
 
-## Technical Stack
-- **Language**: Python 3.10+
-- **Project Type**: CLI Application (Profile-driven Pipeline Architecture)
-- **Dependencies**: rich, questionary, jinja2, platformdirs, typer, pydantic
-- **Entry Point**: `src/forge/cli.py`
+**Forge** is an AI-native **project scaffolder** (profile-driven pipeline).  
+It is **not** an agent runtime — see [neo-harness](https://github.com/westailabs/neo-harness).
 
-## Key Directories
+## Technical stack
+
+- **Language:** Python 3.10+ (dev often 3.12)  
+- **CLI:** Typer (`forge` entry point → `src/forge/cli.py`)  
+- **Deps:** rich, questionary, jinja2, pydantic, platformdirs  
+
+## Key directories
+
 | Directory | Purpose |
-|:---|:---|
-| `src/forge/` | Core application logic (CLI, Pipeline, Renderer, Wizard) |
-| `profiles/` | Profile definitions (TOML configs + Jinja2 templates) |
-| `tests/` | Unit tests mirroring `src/` structure |
-| `scripts/` | Test runners and utility scripts |
-| `docs/` | Project documentation |
-| `reference_*/` | READ-ONLY symlinked reference projects |
+|-----------|---------|
+| `src/forge/` | CLI, pipeline, renderer, wizard, hooks (neo), workspace |
+| `profiles/` | **base**, **fullstack**, **monorepo** (+ templates) |
+| `templates/workspace/` | `forge workspace` templates (not a new-project profile) |
+| `tests/` | Pytest |
+| `docs/` | User docs — [docs/README.md](docs/README.md) |
 
-## Architecture (v2 — Profile-driven Pipeline)
-- **Models** (`models.py`): Pydantic data structures for profiles, rendered files, lock entries.
-- **Profile Loader** (`profile_loader.py`): Reads TOML configs, resolves inheritance.
-- **Renderer** (`renderer.py`): Jinja2 template rendering (pure, no I/O).
-- **Applier** (`applier.py`): Writes rendered files to disk.
-- **Pipeline** (`pipeline.py`): Orchestrates load → render → apply stages.
-- **CLI** (`cli.py`): Typer-based entry point.
-- **Wizard** (`wizard.py`): Interactive prompts for profile variables.
-- **Workspace** (`workspace.py`): Workspace scaffolding and sync for ecosystem-level roots.
-- **Workspace Wizard** (`workspace_wizard.py`): Interactive wizard for workspace configuration collection.
-- **Lockfile** (`lockfile.py`): Forge lock file (`.forge.lock`) read/write operations.
+## Architecture (v2)
 
-## Build & Test
+Profile-driven: **load → merge inheritance → render Jinja2 → apply → `.forge.lock`**.  
+Modules: `models`, `profile_loader`, `renderer`, `applier`, `pipeline`, `cli`, `wizard`, `defaults`, `hooks`, `workspace`, `lockfile`.
+
+## Shipped profiles
+
+| Profile | Shape |
+|---------|--------|
+| `base` | Single package `src/<slug>/` + governance + Claude hooks |
+| `fullstack` | Inherits base + notebooks/data/ansible/docker |
+| `monorepo` | Standalone control plane: products/services/hosts/lab (no root `src/<pkg>`) |
+
+## Build & test
+
 ```bash
-# Activate venv first (mandatory — never use system Python)
-source venv/bin/activate
+# Prefer project venv (.venv) or: .venv/bin/pytest
+source .venv/bin/activate   # if present
+./scripts/run_tests.sh      # or: pytest -q
 
-# Run tests
-./scripts/run_tests.sh
-
-# Run CLI
-forge [TARGET_DIR] [OPTIONS]
+# CLI (editable install or PATH)
+forge profiles list
+forge new /tmp/demo -p base --no-interactive --neo off
 ```
 
-## Coding Standards
-- **Type Hints**: Mandatory for all new functions.
-- **Linting**: `flake8` with zero errors.
-- **Unit Tests**: All changes must have accompanying tests in `tests/`.
-- **Docstrings**: Google style for all public functions.
-- **No Shadow Logic**: Do not hardcode file structures in the pipeline; read them from profiles.
+## Coding standards
 
-## Git Workflow
-- **Branching**: Gitflow-lite — `develop` (default branch, integration), `main` (stable releases only).
-- **NO direct commits to `main` or `develop`** without verification.
-- **Feature branches are LOCAL ONLY**: `feat/`, `fix/`, `docs/`, `chore/` — do not push unless collaborative.
-- **Conventional Commits**: Use `feat:`, `fix:`, `docs:`, `chore:` prefixes.
-- **Always merge `develop` into feature branch** before merging back.
-- **Always run `./scripts/run_tests.sh`** before any commit.
+- Type hints on public functions  
+- Tests for pipeline/profile changes  
+- Google-style docstrings  
+- **No hardcoded file trees** in the pipeline — profiles own structure  
 
-## Discovery-Driven Development
-- Check `profiles/` for existing templates/configs before proposing changes.
-- Check `reference_*/` directories for the "Target State" of generated code.
-- If the reference project differs from our template, **the template is wrong**.
-- Do not implement features based on assumptions; implement based on **Reference Projects**.
+## Git workflow
 
-## Reference Files
-- **Directives**: [AI_DIRECTIVES.md](AI_DIRECTIVES.md)
-- **Workflow**: [WORKFLOW.md](WORKFLOW.md)
-- **Context**: [CONTEXT.md](CONTEXT.md)
-- **AI Insights / Long-Term Memory**: [docs/AI_INSIGHTS.md](docs/AI_INSIGHTS.md)
+- Gitflow-lite: `develop` integration, `main` releases  
+- Feature branches: `feat/`, `fix/`, `docs/`, `chore/`  
+- Conventional commits  
+
+## Discovery
+
+- Check `profiles/` before inventing new scaffold shapes  
+- User docs: [docs/creating-a-profile.md](docs/creating-a-profile.md), [docs/related-projects.md](docs/related-projects.md)  
+- Directives: [AI_DIRECTIVES.md](AI_DIRECTIVES.md) · [WORKFLOW.md](WORKFLOW.md) · [CONTEXT.md](CONTEXT.md)  

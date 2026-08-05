@@ -115,25 +115,44 @@ Ecosystem multi-repo helpers: `forge workspace` (templates under `templates/work
 
 ---
 
-## What a forged tree looks like (base + typical)
+## What a forged tree looks like
+
+### `base` / `fullstack` (single package)
 
 ```text
 my-app/
 ├── AGENTS.md, CLAUDE.md, GEMINI.md, AI_DIRECTIVES.md, WORKFLOW.md, CONTEXT.md
 ├── src/<slug>/
 ├── tests/
-├── docs/features/  docs/ops/
+├── docs/ …
 ├── workspace/scratchpad/
-├── agents/                 # free-form / neo packs
+├── agents/
 ├── scripts/
-├── .github/workflows/
-└── … pre-commit, pyproject, etc.
+└── .github/workflows/
+```
 
-# If neo hook ran:
+`fullstack` also adds notebooks/, data/, models/, ansible/, Docker files (when enabled).
+
+### `monorepo` (control plane)
+
+```text
+eco/
+├── LAYOUT.md, AGENTS.md, CLAUDE.md, WORKFLOW.md, BUSINESS.md, …
+├── config/workspace-layout.yaml
+├── products/example-app/
+├── services/  hosts/  lab/
+├── docs/  workspace/scratchpad/  agents/  scripts/  tests/  jobs/
+```
+
+No root `src/<package>/` on monorepo.
+
+### After `--neo auto` (any profile)
+
+```text
 ├── jobs/smoke-mock.md
 ├── scripts/neo
 ├── env.neo.example
-└── agents/workspace/       # neo pack
+└── agents/workspace/       # neo pack (default --neo-pack workspace)
 ```
 
 ---

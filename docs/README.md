@@ -12,8 +12,9 @@
 | [**monorepo-profile-scope.md**](./monorepo-profile-scope.md) | **monorepo** profile (west_ai_labs-shaped) |
 | [reevaluation-2026-08.md](./reevaluation-2026-08.md) | Layout decisions, Forge vs neo |
 | [Session notes 2026-08-05](./session-notes/2026-08-05-reeval-monorepo-and-neo-hook.md) | Decisions: profile trim, monorepo, neo hook |
-| [features/](./features/) | Historical feature notes (may be stale) |
+| [features/](./features/) | **Historical** — see [features/README.md](./features/README.md) |
 | [plans/archive/](./plans/archive/) | v2 design archive |
+| [documentation-review-2026-08-05.md](./documentation-review-2026-08-05.md) | Stale-doc audit log |
 
 ### neo-harness (runtime)
 
