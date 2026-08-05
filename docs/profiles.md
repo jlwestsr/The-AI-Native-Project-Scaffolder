@@ -1,11 +1,14 @@
 # Shipped profiles
 
-Public OSS ships **two** project profiles for `forge new`:
+Public OSS ships **two** project profiles for `forge new` today:
 
 | Name | Inherits | Adds |
 |------|----------|------|
 | **base** | — | src/tests/docs, AGENTS.md, Claude hooks/skills, CI, workspace/scratchpad, agents/ |
 | **fullstack** | base | notebooks, data/, models, ansible/, Docker, mkdocs |
+
+**Proposed:** **`monorepo`** — multi-bucket control plane (products/services/hosts/lab), modeled on `west_ai_labs`.  
+Scope: [monorepo-profile-scope.md](./monorepo-profile-scope.md).
 
 ```bash
 forge profiles list
