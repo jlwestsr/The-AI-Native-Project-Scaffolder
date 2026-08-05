@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WAL ecosystem templates live under `templates/workspace/` for `forge workspace` only.
 
 ### Added
+- **docs/creating-a-profile.md** — tutorial for authoring custom Forge profiles.
+- **docs/README.md**, **docs/profiles.md** — documentation index and shipped-profile overview.
 - **neo-harness post-hook**: `forge new --neo auto|on|off` runs `neo init-workspace` when neo is installed (`FORGE_NEO_CMD` / PATH / lab paths).
 - **Variable defaults** for non-interactive runs (`apply_variable_defaults`: project_name from target, use_pip, project_slug, profile defaults).
 - **Base layout refresh**: `AGENTS.md`, `workspace/scratchpad/`, `docs/ops/`, `agents/`.

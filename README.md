@@ -83,6 +83,15 @@ then `./scripts/neo start --task-file jobs/smoke-mock.md -p mock`.
 
 ---
 
+## Documentation
+
+| Doc | Topic |
+|-----|--------|
+| **[docs/README.md](docs/README.md)** | Docs index |
+| **[docs/creating-a-profile.md](docs/creating-a-profile.md)** | **Tutorial: write your own profile** |
+| [docs/profiles.md](docs/profiles.md) | Shipped `base` / `fullstack` |
+| [docs/reevaluation-2026-08.md](docs/reevaluation-2026-08.md) | Layout decisions, Forge vs neo |
+
 ## Profiles (public OSS)
 
 Only two project profiles ship:
@@ -92,9 +101,9 @@ Only two project profiles ship:
 | **`base`** | Foundation: src/tests/docs, AGENTS.md, Claude hooks/skills, CI, workspace/scratchpad |
 | **`fullstack`** | **base** + notebooks, data/, models, Ansible, Docker, mkdocs |
 
-Lab-only profiles (`workspace`/Overlord, `openclaw-agent`, standalone `claude-governance`) were **removed** from the public set. Ecosystem multi-repo scaffolding remains available as `forge workspace` (templates under `templates/workspace/`), not as a `forge new` profile.
+Add your own under `profiles/<name>/` — see the [profile tutorial](docs/creating-a-profile.md).
 
-See [docs/reevaluation-2026-08.md](docs/reevaluation-2026-08.md).
+Ecosystem multi-repo helpers: `forge workspace` (templates under `templates/workspace/`), not a `forge new` profile.
 
 ---
 

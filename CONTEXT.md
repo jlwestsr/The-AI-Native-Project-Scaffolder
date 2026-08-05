@@ -50,38 +50,16 @@ Quickly orient yourself by connecting directories to responsible personas:
 
 ## 5. 💻 CLI Reference
 
-**Forge** is a command-line tool. The primary entry point is `forge` (or `python -m forge.cli`).
+Primary entry point: **`forge`** (see [README.md](README.md)).
 
-### Usage
 ```bash
-forge [TARGET_DIR] [OPTIONS]
+forge new <path> -p base|fullstack [--no-interactive] [--var key=value] [--neo auto|on|off]
+forge update [path]
+forge profiles list|show
+forge workspace init|sync|info
 ```
 
-### Arguments
-| Argument | Description |
-| :--- | :--- |
-| `TARGET_DIR` | Directory to initialize. Defaults to current directory (`.`). |
-
-### Options
-| Option | Short | Description |
-| :--- | :--- | :--- |
-| `--update` | `-u` | **Safe Update**: Adds missing files without overwriting existing content. |
-| `--manager` | | Choose package manager: `pip` (default), `poetry`, or `uv`. |
-| `--profile` | | Choose archetype: `fullstack` (default) or `base`. |
-| `--config-list` | | Display global configuration settings. |
-| `--config-set` | | Set global defaults (e.g., `--config-set author_name="Jane Doe"`). |
-
-### Examples
-```bash
-# Interactive Wizard (Default)
-forge
-
-# Non-Interactive Customization
-forge my-project --manager poetry --profile fullstack
-
-# Update Existing Project
-forge update .
-```
+Profiles: only **`base`** and **`fullstack`** ship. Custom profiles: [docs/creating-a-profile.md](docs/creating-a-profile.md).
 
 ## 6. Coding Standards
 
