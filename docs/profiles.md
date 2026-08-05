@@ -1,27 +1,30 @@
 # Shipped profiles
 
-Public OSS ships **two** project profiles for `forge new` today:
+Public OSS ships **three** project profiles for `forge new`:
 
 | Name | Inherits | Adds |
 |------|----------|------|
 | **base** | — | src/tests/docs, AGENTS.md, Claude hooks/skills, CI, workspace/scratchpad, agents/ |
 | **fullstack** | base | notebooks, data/, models, ansible/, Docker, mkdocs |
+| **monorepo** | — (standalone) | products/services/hosts/lab control plane; LAYOUT; example-app; no root `src/<pkg>` |
 
-**Proposed:** **`monorepo`** — multi-bucket control plane (products/services/hosts/lab), modeled on `west_ai_labs`.  
-Scope: [monorepo-profile-scope.md](./monorepo-profile-scope.md).
+Design notes: [monorepo-profile-scope.md](./monorepo-profile-scope.md).
 
 ```bash
 forge profiles list
 forge profiles show base
 forge profiles show fullstack
+forge profiles show monorepo
 ```
 
 ## Compose with neo-harness
 
+Default neo pack: **`workspace`**.
+
 ```bash
-forge new ~/projects/app -p base --neo auto
-# or
-forge new ~/projects/app -p fullstack --neo on --neo-pack workspace
+forge new ~/projects/app -p base --neo auto --neo-pack workspace
+forge new ~/projects/app -p fullstack --neo auto --neo-pack workspace
+forge new ~/projects/eco -p monorepo --neo auto --neo-pack workspace
 ```
 
 ## Custom profiles

@@ -1,0 +1,47 @@
+# CLAUDE.md — {{ project_name }}
+
+## Overview
+
+**{{ project_name }}** — {{ description }}  
+**Org:** {{ org_name }}
+
+This is a **monorepo control plane**. Read [LAYOUT.md](LAYOUT.md) before adding
+paths. Do not treat `workspace/` as durable product documentation.
+
+## Stack (notes)
+
+- Python {{ python_version }}+ for monorepo tooling and packages  
+- Prefer package managers and language stacks declared in `BUSINESS.md`  
+- Nested product trees may use their own tooling
+
+## Agent instructions
+
+1. Orient with **LAYOUT.md** and **AGENTS.md**.  
+2. Change the **smallest** correct bucket (`products/`, `services/`, `hosts/`, …).  
+3. Follow [WORKFLOW.md](WORKFLOW.md) for branches and commits.  
+4. For host/system changes: prefer IaC under `hosts/` over ad-hoc machine edits.  
+5. If neo-harness is embedded, prefer `./scripts/neo` for bounded jobs.
+
+## Git
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Production-ready / releases |
+| `{{ default_integration_branch }}` | Integration (daily work) |
+| `feat/*`, `fix/*`, `docs/*` | Short-lived local work |
+
+- Conventional commits: `feat:`, `fix:`, `docs:`, `chore:`, …  
+- Prefer local feature branches; merge to integration with review  
+- Never commit `.env` or credentials  
+
+## Coding standards
+
+- Type hints on public Python APIs  
+- Tests for non-trivial behavior  
+- Document durable decisions under `docs/decisions/`  
+
+## Related
+
+- [AGENTS.md](AGENTS.md)  
+- [WORKFLOW.md](WORKFLOW.md)  
+- [BUSINESS.md](BUSINESS.md)  

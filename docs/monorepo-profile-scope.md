@@ -1,8 +1,9 @@
 # Scope: Forge `monorepo` profile
 
-**Status:** Proposed (not yet implemented)  
+**Status:** Implemented (v1)  
 **Model:** `~/projects/west_ai_labs` layout (control-plane monorepo)  
 **Date:** 2026-08-05  
+**Decisions:** example product stub **yes**; neo pack **`workspace`**; shared services language **generic stub** in AGENTS.md.
 
 ## 1. Why a third profile?
 
@@ -183,13 +184,15 @@ Optional later: monorepo-specific neo pack template under `agents/platform/` in 
 
 ## 12. Success criteria
 
-- [ ] `forge profiles list` shows `base`, `fullstack`, `monorepo`  
-- [ ] Generated tree has products/services/hosts/lab/docs/workspace/agents/config/scripts  
-- [ ] **No** root `src/<slug>` application package  
-- [ ] LAYOUT + workspace-layout.yaml present and consistent  
-- [ ] `python3 scripts/print_layout.py` runs without deps  
-- [ ] `forge new … --neo auto` still works  
-- [ ] Docs cross-link monorepo profile ↔ neo starting-a-workspace  
+- [x] `forge profiles list` shows `base`, `fullstack`, `monorepo`  
+- [x] Generated tree has products/services/hosts/lab/docs/workspace/agents/config/scripts  
+- [x] **No** root `src/<slug>` application package  
+- [x] LAYOUT + workspace-layout.yaml present and consistent  
+- [x] `python3 scripts/print_layout.py` runs without deps  
+- [x] example-app stub under products/  
+- [x] AGENTS generic shared-services stub  
+- [ ] `forge new … --neo auto` verified in CI/manual  
+- [x] Docs updated (profiles.md, this scope)
 
 ## 13. Related
 

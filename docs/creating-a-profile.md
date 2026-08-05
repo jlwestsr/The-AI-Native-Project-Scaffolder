@@ -26,10 +26,11 @@ profile). Forge merges **parent then child**:
 - **Templates:** child `templates/` searched **before** parent (override a
   parent file by using the same template filename)
 
-Built-in chain today:
+Built-in profiles today:
 
 ```text
 base  ←  fullstack
+monorepo   (standalone — multi-bucket; does not inherit base)
 ```
 
 You almost always want:

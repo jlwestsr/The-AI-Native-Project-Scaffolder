@@ -94,17 +94,20 @@ then `./scripts/neo start --task-file jobs/smoke-mock.md -p mock`.
 | **[docs/README.md](docs/README.md)** | Docs index |
 | **[docs/related-projects.md](docs/related-projects.md)** | **neo-harness** (runtime) vs Forge |
 | **[docs/creating-a-profile.md](docs/creating-a-profile.md)** | **Tutorial: write your own profile** |
-| [docs/profiles.md](docs/profiles.md) | Shipped `base` / `fullstack` |
+| [docs/profiles.md](docs/profiles.md) | Shipped `base` / `fullstack` / `monorepo` |
 | [docs/reevaluation-2026-08.md](docs/reevaluation-2026-08.md) | Layout decisions, Forge vs neo |
 
 ## Profiles (public OSS)
-
-Only two project profiles ship:
 
 | Profile | Role |
 |---------|------|
 | **`base`** | Foundation: src/tests/docs, AGENTS.md, Claude hooks/skills, CI, workspace/scratchpad |
 | **`fullstack`** | **base** + notebooks, data/, models, Ansible, Docker, mkdocs |
+| **`monorepo`** | Control plane: products/services/hosts/lab + LAYOUT (no single-package `src/`) |
+
+```bash
+forge new ~/projects/eco -p monorepo --no-interactive --neo auto --neo-pack workspace
+```
 
 Add your own under `profiles/<name>/` — see the [profile tutorial](docs/creating-a-profile.md).
 

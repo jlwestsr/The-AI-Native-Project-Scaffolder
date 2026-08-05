@@ -28,6 +28,7 @@
 |---------|------|
 | `base` | Foundation project (src, tests, docs, AGENTS, Claude hooks, CI) |
 | `fullstack` | Extends `base` with notebooks, data/, Ansible, Docker |
+| `monorepo` | Control plane: products/services/hosts/lab + LAYOUT |
 
 ## Quick commands
 
@@ -36,4 +37,5 @@ forge profiles list
 forge profiles show base
 forge new ~/projects/my-app -p base --no-interactive
 forge new ~/projects/my-app -p fullstack --neo auto
+forge new ~/projects/eco -p monorepo --no-interactive --neo auto --neo-pack workspace
 ```
