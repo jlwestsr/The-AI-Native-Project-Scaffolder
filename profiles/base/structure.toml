@@ -4,7 +4,10 @@ root = [
     "tests",
     "docs",
     "docs/features",
+    "docs/ops",
     "scripts",
+    "workspace/scratchpad",
+    "agents",
     ".agent/rules",
     ".github/workflows",
 ]
@@ -12,6 +15,7 @@ root = [
 [files]
 "README.md" = "README.md.j2"
 "CONTEXT.md" = "CONTEXT.md.j2"
+"AGENTS.md" = "AGENTS.md.j2"
 "AI_DIRECTIVES.md" = "AI_DIRECTIVES.md.j2"
 "WORKFLOW.md" = "WORKFLOW.md.j2"
 "GEMINI.md" = "GEMINI.md.j2"

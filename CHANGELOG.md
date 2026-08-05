@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **neo-harness post-hook**: `forge new --neo auto|on|off` runs `neo init-workspace` when neo is installed (`FORGE_NEO_CMD` / PATH / lab paths).
+- **Variable defaults** for non-interactive runs (`apply_variable_defaults`: project_name from target, use_pip, project_slug, profile defaults).
+- **Base layout refresh**: `AGENTS.md`, `workspace/scratchpad/`, `docs/ops/`, `agents/`.
+- **docs/reevaluation-2026-08.md**: Forge vs neo roles and stale-template review.
+
+### Changed
+- Default Python version in base profile: **3.12**.
+- README rewritten for `forge new` + neo composition (removed stale `forge .` examples).
+- `FORGE_PROFILES_DIR` supported for profile discovery.
+
+### Added (prior)
 - **`claude-governance` profile**: New composable profile providing Claude Code enforcement layer — `.claude/hooks/` (guardrail-check + changelog-update), `.claude/skills/` (code-review, refactor, release), `docs/decisions/` (ADR template), `tools/prompts/` (versioned prompt library). All templates are Jinja2 with project_name interpolation.
 - **Governance inheritance wired to all profiles**: `fullstack`, `openclaw-agent`, and `workspace` now inherit from `claude-governance` (which inherits `base`). Chain: `base` ← `claude-governance` ← `{fullstack|openclaw-agent|workspace}`. Every project stamped with these profiles gets the full governance layer automatically.
 - **`workspace` profile.toml**: Added missing `profile.toml` to the `workspace` profile to formalize its inheritance chain.

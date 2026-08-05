@@ -1,0 +1,36 @@
+# AGENTS.md — {{ project_name }}
+
+Bootstrap notes for AI workers in this repository.
+
+## Role
+
+Assist on **{{ project_name }}** following `CLAUDE.md`, `AI_DIRECTIVES.md`, and
+`WORKFLOW.md`. Prefer small, reviewable changes.
+
+## Layout
+
+| Path | Purpose |
+|------|---------|
+| `src/{{ project_slug }}/` | Application package |
+| `tests/` | Pytest suite |
+| `docs/` | Durable docs (`features/`, `ops/`) |
+| `workspace/scratchpad/` | Disposable session notes (do not treat as product) |
+| `agents/` | Optional free-form or neo-harness packs |
+
+## neo-harness (if embedded)
+
+If `scripts/neo` or `requirements-neo.txt` exists, bounded PLAN→ACT→REFLECT jobs
+prefer the workspace runner over free-form monorepo chat:
+
+```bash
+./scripts/neo doctor
+./scripts/neo start --task-file jobs/<slug>.md --agent workspace -p mock
+```
+
+See [neo-harness starting-a-workspace](https://github.com/westailabs/neo-harness/blob/master/docs/starting-a-workspace.md).
+
+## Hard rules
+
+- Do not commit secrets or `.env`
+- Do not invent service health without a probe
+- Prefer tests for behavior changes

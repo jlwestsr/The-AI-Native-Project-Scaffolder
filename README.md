@@ -1,131 +1,137 @@
-# ⚒️ Forge: The AI-Native Project Scaffolder
+# Forge — AI-native project scaffolder
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![AI-Native](https://img.shields.io/badge/AI--Native-Collaboration-green.svg)](#ai-native-features)
+**Forge** generates a full project skeleton (governance docs, layout, CI hooks)
+for human–AI teams. It is **not** an agent runtime.
 
-**Forge** is a production-grade project generator designed specifically for modern AI engineering. It doesn't just create folders; it establishes an **AI Collaboration Framework** that ensures human-AI teams work within strict governance, shared context, and professional engineering standards.
-
----
-
-## 🚀 Why Forge?
-
-Traditional scaffolding tools (like Cookiecutter) focus on file organization. **Forge** focuses on **Agentic Governance**. It prepares your workspace to be understood and respected by AI tools (like Gemini Code Assist or Cursor) the moment you run the first commit.
-
-### Core Philosophy
-- **AI-Native Context**: Every project ships with `AI_DIRECTIVES.md`, `CLAUDE.md`, and `GEMINI.md` to ground your AI agent.
-- **Strict Governance**: Prevent AI "shadow logic" and reinvention of existing utilities.
-- **Production-Ready**: Enforces Type Hinting, Google-style docstrings, and full logic coverage in tests.
-
----
-
-## ✨ Key Features
-
-| Feature | Description |
-| :--- | :--- |
-| **Agentic Rules** | Dedicated `AI_DIRECTIVES.md` to define operational guardrails for AI agents. |
-| **Universal Ansible** | Production-ready `ansible/` scaffold with `setup_workstation.yml` for instant environment bootstrapping. |
-| **Strict Quality** | Enforced `pre-commit` hooks for `pytest`, `flake8`, `yamllint`, and `ansible-lint`. |
-| **Git Flow Automation** | Initializes a repo with `main` and `develop` branches out of the box. |
-| **Modular CI/CD** | Production-ready GitHub Actions for testing and linting. |
-| **Feature Tracking** | Structured `docs/features/` system with a ready-to-use template. |
-| **Standardized Layout** | Clean separation of `src/`, `data/`, `models/`, and `notebooks/`. |
-
-[View full Changelog](CHANGELOG.md)
-
----
-
-## 🛠️ Installation
-
-### Option 1: Global Installation (Recommended)
-The easiest way to use Forge globally is with `pipx`. This installs Forge in an isolated environment and makes the `forge` command available everywhere.
-
-```bash
-pipx install git+https://github.com/jlwestsr/nebulus-forge.git
-```
-
-### Option 2: Local Development Installation
-If you want to contribute to Forge or customize the templates locally:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/jlwestsr/nebulus-forge.git
-   cd nebulus-forge
-   ```
-
-2. Create a virtual environment and install in editable mode:
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   pip install -e .
-   ```
-
----
-
-### Forge a New Project
-Forge can be invoked as `forge` (via alias or pipx).
-
-```bash
-# Forge in the current directory
-forge .
-
-# Forge in a specific target directory
-forge ~/projects/my-new-ai-model
-```
-
-### Update an Existing Project
-Enable the "Update" feature to add missing standard files without overwriting your manual changes.
-
-```bash
-# Update existing project (safe, idempotent)
-forge . --update --profile fullstack
-```
-
----
-
-## 📁 The Forge Structure
-
-When you forge a project, you get a battle-tested structure:
+For bounded PLAN→ACT→REFLECT jobs and a thin harness embed, use
+**[neo-harness](https://github.com/westailabs/neo-harness)** (`neo init-workspace`).
 
 ```text
-.
-├── AI_DIRECTIVES.md       # Operational guardrails for AI
-├── CLAUDE.md              # Persona & project instructions
-├── GEMINI.md              # PM communication protocol
-├── WORKFLOW.md            # Git & development process
-├── data/                  # Git-ignored (raw/processed)
-├── docs/
-│   ├── templates/
-│   │   └── feature_template.md # Standardized feature requirement format
-│   └── features/          # Root for all feature documentation
-├── src/                   # Production-grade Python modules
-└── tests/                 # Unit & integration testing suite
+forge new   →  project tree (docs, src, AGENTS, workspace/, …)
+     └─(optional)→  neo init-workspace  →  jobs/, scripts/neo, packs
 ```
 
 ---
 
-## 📜 AI-Native Coding Standards
+## Install (recommended for development)
 
-Forge projects enforce the following by default:
-- **Type Hinting**: Mandatory for all function signatures.
-- **Modular Logic**: Business logic lives in `src/`, never in notebooks.
-- **Docstrings**: Google-style documentation for all public modules.
-- **Automated Verification**: CI/CD pipeline integrated into every scaffold.
+Profiles live in this repo and are **not** fully packaged in the wheel. Prefer
+an **editable** install:
+
+```bash
+git clone https://github.com/westailabs/nebulus-forge.git
+cd nebulus-forge
+pipx install --force --editable .
+# ensure ~/.local/bin is on PATH
+forge profiles list
+```
+
+Or:
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e .
+```
+
+Optional: `export FORGE_PROFILES_DIR=/path/to/nebulus-forge/profiles`
 
 ---
 
-## 🤝 Contributing
+## Quick start
 
-We are building the future of AI-native engineering. If you have ideas for improving agentic governance or scaffolding templates, please:
-1. Fork the repo.
-2. Create a feature branch off `develop`.
-3. Open a Pull Request.
+```bash
+# Interactive (wizard fills variables)
+forge new ~/projects/my-app --profile fullstack
+
+# Non-interactive (defaults applied for missing vars)
+forge new ~/projects/my-app -p fullstack --no-interactive \
+  --var project_name=my-app
+
+# Skip neo-harness embed
+forge new ~/projects/my-app -p fullstack --neo off
+
+# Require neo embed (fails if neo not installed)
+forge new ~/projects/my-app -p fullstack --neo on
+```
+
+After scaffold, if neo ran: copy `env.neo.example` → `.env`, set Neo4j password,
+then `./scripts/neo start --task-file jobs/smoke-mock.md -p mock`.
 
 ---
 
-## 📄 License
+## Commands
 
-Iterate fast, governed safely. Forge is released under the [MIT License](LICENSE).
+| Command | Purpose |
+|---------|---------|
+| `forge new <path>` | Create project from profile |
+| `forge update [path]` | Refresh managed files from lock |
+| `forge info` | Project / lock info |
+| `forge profiles list` | List profiles |
+| `forge workspace …` | Ecosystem workspace helpers |
+
+### `forge new` options
+
+| Option | Default | Meaning |
+|--------|---------|---------|
+| `-p / --profile` | `fullstack` | Profile name |
+| `--no-interactive` | off | Use defaults + `--var` only |
+| `--var key=value` | — | Template variables |
+| `--neo` | `auto` | `auto` / `on` / `off` — post-hook neo init-workspace |
+| `--neo-pack` | `workspace` | Pack id for neo |
+| `--force` | off | Overwrite files |
+| `--dry-run` | off | Render only |
 
 ---
-*Built with ❤️ by [JLWestSr](https://github.com/jlwestsr)*
+
+## Profiles
+
+| Profile | Role |
+|---------|------|
+| `base` | Foundation: src/tests/docs, AGENTS.md, governance, CI |
+| `claude-governance` | Claude hooks/skills layer (inherited) |
+| `fullstack` | base + notebooks/data/ansible/docker extras |
+| `openclaw-agent` | Agent identity / OpenClaw-oriented layout |
+| `workspace` | West AI Labs ecosystem workspace files |
+
+See [docs/reevaluation-2026-08.md](docs/reevaluation-2026-08.md) for layout rationale.
+
+---
+
+## What a forged tree looks like (base + typical)
+
+```text
+my-app/
+├── AGENTS.md, CLAUDE.md, GEMINI.md, AI_DIRECTIVES.md, WORKFLOW.md, CONTEXT.md
+├── src/<slug>/
+├── tests/
+├── docs/features/  docs/ops/
+├── workspace/scratchpad/
+├── agents/                 # free-form / neo packs
+├── scripts/
+├── .github/workflows/
+└── … pre-commit, pyproject, etc.
+
+# If neo hook ran:
+├── jobs/smoke-mock.md
+├── scripts/neo
+├── env.neo.example
+└── agents/workspace/       # neo pack
+```
+
+---
+
+## neo-harness integration
+
+| Env | Purpose |
+|-----|---------|
+| `FORGE_NEO_CMD` | Override neo binary (e.g. `/path/to/.venv/bin/neo`) |
+| `FORGE_PROFILES_DIR` | Override profiles root |
+
+Lab paths are also probed: `~/projects/neo-harness/.venv/bin/neo`,
+`~/projects/west_ai_labs/.venv-neo/bin/neo`.
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).
