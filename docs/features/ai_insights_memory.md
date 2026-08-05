@@ -1,32 +1,18 @@
-# Feature Title: AI Project Memory (AI_INSIGHTS.md)
+# Feature: AI_INSIGHTS long-term memory file
 
 ## Overview
-This feature introduces a standardized `docs/AI_INSIGHTS.md` file to every project. This file serves as the project's "Long Term Memory," capturing architectural nuances, non-functional requirements (like model parameter thresholds), and "lessons learned" that are specific to the AI's interaction with the codebase.
 
-The goal is to prevent future agents (or humans) from relearning known pitfalls (e.g., "This project requires a 30B model to avoid bureaucracy").
+Scaffolds include `docs/AI_INSIGHTS.md` (or monorepo-equivalent durable notes)
+so agents record project-specific lessons.
 
-## Requirements
-- [x] **Standard File**: Every project must have `docs/AI_INSIGHTS.md` initialized.
-- [x] **Agent Mandate**: The system prompt or project context must explicitly encourage agents to read and *update* this file.
-- [x] **Structure**: The file should capture:
-    -   **Date**: When the insight was learned.
-    -   **Insight**: The core finding (e.g., "Small models struggle with negative constraints").
-    -   **Action**: What changed in the project because of this (e.g., "Upgraded to 30B," "Added Telemetry").
+## Outcome (current)
 
-## Technical Implementation (v2)
-- **Template**: `AI_INSIGHTS.md.j2` in `profiles/base/templates/` — included in all profiles via inheritance.
-- **Template Content**:
-    ```markdown
-    # AI Insights & Lessons Learned
-    This document captures the nuances, architectural decisions, and "lessons learned" regarding the AI's behavior within this project.
-    
-    **Project Mandate**: Future AI agents working on this project are **explicitly encouraged** to recommend, document, or append new insights to this file.
-    ```
+- **base** / **fullstack**: template under `profiles/base/templates/docs/AI_INSIGHTS.md.j2`
+- **monorepo**: durable notes live under `docs/` taxonomy; operators may add
+  `docs/AI_INSIGHTS.md` manually or extend the profile later
+- Agent docs encourage reading and updating insights files when present
 
-## Acceptance Criteria
-- [x] `docs/AI_INSIGHTS.md` is present in newly scaffolded projects.
-- [x] The file contains the "Project Mandate" section.
-- [x] New agents can read this file to understand historical context without re-deriving it.
+## Acceptance (met)
 
-## Feedback/Notes
-Inspired by work on `Mini-Nebulus` where we discovered massive autonomy differences between 7B and 30B models and needed a place to document that decision permanently.
+- [x] base/fullstack generate an insights file path for agents
+- [x] Mandate language points agents at long-term memory, not only chat context

@@ -8,7 +8,7 @@
 | [../README.md](../README.md) | Install, `forge new`, neo hook |
 | [**related-projects.md**](./related-projects.md) | **neo-harness** (runtime) vs Forge (scaffold) |
 | [creating-a-profile.md](./creating-a-profile.md) | **Tutorial: write your own profile** |
-| [profiles.md](./profiles.md) | Shipped `base` / `fullstack` |
+| [profiles.md](./profiles.md) | Shipped `base` / `fullstack` / `monorepo` |
 | [**monorepo-profile-scope.md**](./monorepo-profile-scope.md) | **monorepo** profile (west_ai_labs-shaped) |
 | [reevaluation-2026-08.md](./reevaluation-2026-08.md) | Layout decisions, Forge vs neo |
 | [Session notes 2026-08-05](./session-notes/2026-08-05-reeval-monorepo-and-neo-hook.md) | Decisions: profile trim, monorepo, neo hook |

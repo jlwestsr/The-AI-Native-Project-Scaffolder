@@ -25,7 +25,7 @@ quarantine stale guidance.
 | GEMINI.md | “PROPRIETARY — LOCAL REMOTES ONLY”; incomplete CLI | **Rewritten** |
 | AI_DIRECTIVES.md | No neo hook / profile list | **Updated** |
 | docs/AI_INSIGHTS.md | `forge . --update` | **Updated** |
-| docs/features/* | Historical `forge .`, old managers | **Banner** via `docs/features/README.md` |
+| docs/features/* | Historical `forge .`, old managers, wrong profiles | **Rewritten** to current CLI (base/fullstack/monorepo, `--var manager`, neo flags); zero stale strings |
 | docs/plans/archive/* | v2 design history | Left as archive (intentional) |
 | README.md | Tree only showed single-package | **Added monorepo tree** |
 | WORKFLOW.md | “strictly MVC” for Forge itself | **Softened** |
@@ -42,5 +42,7 @@ quarantine stale guidance.
 
 ## Residual
 
-- Feature specs under `docs/features/` remain historical; do not treat as CLI truth.  
-- Root `AI_DIRECTIVES` still mentions optional reference trees if operators add them.  
+- Feature specs under `docs/features/` are short outcome notes aligned to the 2026-08 CLI; prefer README + `docs/profiles.md` for day-to-day use.  
+- Tutorial example profile name `api-service` in creating-a-profile.md is intentional (custom profile demo, not shipped).  
+- Root `AI_DIRECTIVES` may still mention optional reference trees if operators add them.  
+
