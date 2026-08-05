@@ -83,17 +83,18 @@ then `./scripts/neo start --task-file jobs/smoke-mock.md -p mock`.
 
 ---
 
-## Profiles
+## Profiles (public OSS)
+
+Only two project profiles ship:
 
 | Profile | Role |
 |---------|------|
-| `base` | Foundation: src/tests/docs, AGENTS.md, governance, CI |
-| `claude-governance` | Claude hooks/skills layer (inherited) |
-| `fullstack` | base + notebooks/data/ansible/docker extras |
-| `openclaw-agent` | Agent identity / OpenClaw-oriented layout |
-| `workspace` | West AI Labs ecosystem workspace files |
+| **`base`** | Foundation: src/tests/docs, AGENTS.md, Claude hooks/skills, CI, workspace/scratchpad |
+| **`fullstack`** | **base** + notebooks, data/, models, Ansible, Docker, mkdocs |
 
-See [docs/reevaluation-2026-08.md](docs/reevaluation-2026-08.md) for layout rationale.
+Lab-only profiles (`workspace`/Overlord, `openclaw-agent`, standalone `claude-governance`) were **removed** from the public set. Ecosystem multi-repo scaffolding remains available as `forge workspace` (templates under `templates/workspace/`), not as a `forge new` profile.
+
+See [docs/reevaluation-2026-08.md](docs/reevaluation-2026-08.md).
 
 ---
 

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- Public `forge new` profiles: **`claude-governance`** (merged into `base`), **`openclaw-agent`**, **`workspace`**.
+- Only **`base`** and **`fullstack`** remain as project profiles.
+
+### Changed
+- Claude hooks/skills/ADR/prompt templates now ship as part of **`base`**.
+- `fullstack` inherits **`base`** directly.
+- WAL ecosystem templates live under `templates/workspace/` for `forge workspace` only.
+
 ### Added
 - **neo-harness post-hook**: `forge new --neo auto|on|off` runs `neo init-workspace` when neo is installed (`FORGE_NEO_CMD` / PATH / lab paths).
 - **Variable defaults** for non-interactive runs (`apply_variable_defaults`: project_name from target, use_pip, project_slug, profile defaults).

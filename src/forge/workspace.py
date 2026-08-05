@@ -26,7 +26,7 @@ SENTINEL_END = "<!-- forge:ecosystem-end -->"
 def _get_template_env() -> Environment:
     """Create a Jinja2 environment for workspace templates."""
     template_dir = (
-        Path(__file__).parent.parent.parent / "profiles" / "workspace" / "templates"
+        Path(__file__).parent.parent.parent / "templates" / "workspace"
     )
     return Environment(
         loader=FileSystemLoader(str(template_dir)),

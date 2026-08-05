@@ -1,4 +1,0 @@
-[profile]
-name = "workspace"
-inherits = "claude-governance"
-description = "West AI Labs workspace scaffold — ecosystem manifest, business context, and Claude governance"

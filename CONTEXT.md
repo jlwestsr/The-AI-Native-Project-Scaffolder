@@ -67,7 +67,7 @@ forge [TARGET_DIR] [OPTIONS]
 | :--- | :--- | :--- |
 | `--update` | `-u` | **Safe Update**: Adds missing files without overwriting existing content. |
 | `--manager` | | Choose package manager: `pip` (default), `poetry`, or `uv`. |
-| `--profile` | | Choose archetype: `fullstack` (default), `base`, `claude-governance`, `openclaw-agent`, `workspace`. |
+| `--profile` | | Choose archetype: `fullstack` (default) or `base`. |
 | `--config-list` | | Display global configuration settings. |
 | `--config-set` | | Set global defaults (e.g., `--config-set author_name="Jane Doe"`). |
 
@@ -80,7 +80,7 @@ forge
 forge my-project --manager poetry --profile fullstack
 
 # Update Existing Project
-forge . --update --profile openclaw-agent
+forge update .
 ```
 
 ## 6. Coding Standards

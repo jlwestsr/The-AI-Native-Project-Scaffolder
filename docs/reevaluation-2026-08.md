@@ -33,11 +33,16 @@ forge new ~/projects/app -p fullstack [--neo auto]
 | `docs/` + `docs/features/` | Still useful | Keep; add **docs/ops/** |
 | Missing disposable surface | Stale vs monorepo practice | Add **workspace/scratchpad/** |
 | ML dirs on every fullstack project | Often unused | Keep on `fullstack` only; document lean profiles later |
-| `openclaw-agent` | Specialized | Keep as optional profile |
-| `workspace` profile (OVERLORD, BUSINESS) | WAL-specific | Keep for lab ecosystem; not default for OSS users |
+| `openclaw-agent` | Lab / OpenClaw-specific | **Removed** from public profiles |
+| `workspace` profile (OVERLORD, BUSINESS) | WAL-specific | **Removed** as `forge new` profile; `forge workspace` uses `templates/workspace/` |
+| `claude-governance` standalone | Mid-layer only | **Merged into `base`** |
 | README `forge .` | Stale | Document **`forge new`** |
 | Non-interactive missing defaults | Bug | **apply_variable_defaults** |
 | Profiles not in wheel | Packaging gap | Editable install + `FORGE_PROFILES_DIR` |
+
+### Public profile set (2026-08)
+
+**`base`** and **`fullstack`** only (`fullstack` inherits `base`).
 
 ## Directory model (target)
 
