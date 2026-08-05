@@ -1,0 +1,43 @@
+[directories]
+root = [
+    "products/example-app",
+    "services",
+    "hosts",
+    "lab",
+    "docs/architecture",
+    "docs/decisions",
+    "docs/ops",
+    "docs/product",
+    "docs/research",
+    "workspace/scratchpad",
+    "agents",
+    "config",
+    "scripts",
+    "tests",
+    "jobs",
+    ".github/workflows",
+]
+
+[files]
+"README.md" = "README.md.j2"
+"LAYOUT.md" = "LAYOUT.md.j2"
+"AGENTS.md" = "AGENTS.md.j2"
+"CLAUDE.md" = "CLAUDE.md.j2"
+"GEMINI.md" = "GEMINI.md.j2"
+"BUSINESS.md" = "BUSINESS.md.j2"
+"WORKFLOW.md" = "WORKFLOW.md.j2"
+".gitignore" = ".gitignore.j2"
+"config/workspace-layout.yaml" = "config/workspace-layout.yaml.j2"
+"products/README.md" = "products_README.md.j2"
+"products/example-app/README.md" = "products_example_app_README.md.j2"
+"services/README.md" = "services_README.md.j2"
+"hosts/README.md" = "hosts_README.md.j2"
+"lab/README.md" = "lab_README.md.j2"
+"docs/README.md" = "docs_README.md.j2"
+"docs/decisions/ADR-0000-template.md" = "docs_adr_template.md.j2"
+"agents/README.md" = "agents_README.md.j2"
+"scripts/README.md" = "scripts_README.md.j2"
+"scripts/print_layout.py" = "scripts_print_layout.py.j2"
+"tests/test_layout.py" = "tests_test_layout.py.j2"
+"workspace/scratchpad/.gitkeep" = "gitkeep.j2"
+".github/workflows/layout-check.yml" = "github_layout_check.yml.j2"

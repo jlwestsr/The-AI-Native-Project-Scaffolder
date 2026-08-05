@@ -1,0 +1,33 @@
+# Secrets
+.env
+.env.*
+!.env.example
+**/*.pem
+**/*id_rsa*
+**/secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.venv-neo/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# neo-harness
+neo-audit*.json
+neo-audit*.md
+
+# Workspace scratch may hold local dumps
+workspace/scratchpad/**
+!workspace/scratchpad/.gitkeep

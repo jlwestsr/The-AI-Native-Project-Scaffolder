@@ -1,0 +1,29 @@
+# Workspace layout — single source of truth for monorepo buckets.
+# Consumed by scripts/print_layout.py (extend with your own registry tooling).
+#
+# Paths are relative to the monorepo root.
+
+version: 1
+name: "{{ project_name }}"
+org: "{{ org_name }}"
+
+buckets:
+  products: products
+  services: services
+  hosts: hosts
+  lab: lab
+  docs: docs
+  workspace: workspace
+  scripts: scripts
+  agents: agents
+  config: config
+  tests: tests
+  jobs: jobs
+
+# Optional catalog of trees (fill as products/services appear)
+trees:
+  example-app:
+    bucket: products
+    path: products/example-app
+    class: ship
+    notes: "Scaffold stub — replace or remove"

@@ -1,26 +1,23 @@
-# Feature Title: Variable Template System (Jinja2)
+# Feature: Jinja2 template system
 
 ## Overview
-Templates are stored as external Jinja2 `.j2` files within profile directories. The v2 architecture uses a profile-driven template system with inheritance, enabling child profiles to override parent templates.
 
-## Requirements
-- [x] Templates live in `profiles/*/templates/*.j2` (per-profile, with inheritance).
-- [x] Integrate `jinja2` to render these files via `renderer.py`.
-- [x] Support dynamic variables: `{{ project_name }}`, `{{ author_name }}`, `{{ python_version }}`.
-- [x] Custom template loader (`ProfileTemplateLoader`) searches child → parent template directories.
+Scaffold files are external `.j2` templates under each profile’s `templates/`,
+rendered by `renderer.py` with child-first inheritance lookup.
 
-## Technical Implementation (v2)
-- **Renderer**: `src/forge/renderer.py` — pure in-memory rendering, returns `RenderedFile` objects (no I/O).
-- **Template Loader**: `ProfileTemplateLoader` in `renderer.py` — searches `template_dirs` in child-first order.
-- **Profiles**: Templates organized under `profiles/base/templates/`, `profiles/fullstack/templates/`, etc.
-- **Conditionals**: Files can be conditionally generated based on profile variable values (defined in `structure.toml`).
-- **Dependencies**: `jinja2`.
+## Outcome (current)
 
-## Acceptance Criteria
-How will we know this is working correctly?
-- [x] All generated files match the current output (regression test).
-- [x] Developers can edit a `.j2` file to update the scaffold without changing Python code.
-- [x] Unit tests verify variable substitution works correctly.
+- Paths: `profiles/<name>/templates/**/*.j2`
+- Shipped profiles: **base**, **fullstack**, **monorepo**
+- Conditionals in `structure.toml` gate optional files (e.g. Docker when `use_docker`)
+- Output paths may use `{{ project_slug }}` etc.
 
-## Feedback/Notes
-Ensure `MANIFEST.in` includes the non-Python template files so they are packaged correctly.
+## Acceptance (met)
+
+- [x] Edit templates without changing pipeline Python
+- [x] Child profile can override parent template by same filename
+- [x] Tests cover rendering and conditionals where applicable
+
+## Notes
+
+Editable install or `FORGE_PROFILES_DIR` is required so the `profiles/` tree is visible.

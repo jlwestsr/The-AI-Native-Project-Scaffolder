@@ -45,7 +45,7 @@ We follow a strict **Gitflow-lite** workflow.
 **Trigger**: User approves the plan.
 **Agent Action**:
 1.  Creates a feature branch (See **Step 2** below).
-2.  Writes code (strictly following MVC).
+2.  Writes code (profile-driven pipeline — no hardcoded file trees in core).
 3.  Writes tests (`tests/`).
 4.  Verifies locally (See **Step 4** below).
 

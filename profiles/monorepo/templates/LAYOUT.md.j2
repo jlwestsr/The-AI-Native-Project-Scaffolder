@@ -1,0 +1,89 @@
+# LAYOUT.md — Where things live
+
+**Read this first** when deciding where a file goes or when onboarding an AI worker.  
+Machine-readable buckets: [`config/workspace-layout.yaml`](config/workspace-layout.yaml).
+
+---
+
+## 30-second map
+
+```text
+{{ project_name }}/
+│
+│  ── CONTROL PLANE ─────────────────────────────────────────
+├── LAYOUT.md          ← this file
+├── README.md
+├── AGENTS.md          ← AI bootstrap
+├── CLAUDE.md          ← coding + git + policy
+├── WORKFLOW.md · BUSINESS.md · GEMINI.md
+│
+├── config/            layout registry (workspace-layout.yaml)
+├── scripts/           automation
+├── agents/            role profiles / harness packs
+├── docs/              durable knowledge
+├── workspace/         scratch only (disposable)
+├── tests/             monorepo-level tests
+├── jobs/              neo-harness task briefs (if embedded)
+│
+│  ── PRODUCT SURFACE ───────────────────────────────────────
+├── products/          ship code (apps, libraries)
+├── services/          shared platform services
+├── hosts/             infrastructure as code
+│
+│  ── NOT PRODUCT ───────────────────────────────────────────
+└── lab/               experiments, forks — never customer install
+```
+
+| Bucket | Class | Open when you need… |
+|--------|-------|---------------------|
+| `products/` | **SHIPS** | Product application or library code |
+| `services/` | **SHIPS** | Shared services (API, data, graph, …) |
+| `hosts/` | ship + personal | Ansible / host provisioning |
+| `lab/` | **LAB** | Experiments — never ship as product |
+| `docs/` | mixed | Durable notes (architecture, ops, product) |
+| `workspace/` | **OPS** | Throwaway session drafts |
+| `scripts/` | **OPS** | Automation |
+
+---
+
+## Where do I put X?
+
+| I have… | Put it in… | Not in… |
+|---------|------------|---------|
+| Product app or library | `products/<name>/` | `lab/`, monorepo root |
+| Shared service code | `services/<name>/` | `products/` unless it is a SKU |
+| Host / OS automation | `hosts/<name>/` | product trees |
+| Architecture / ADR | `docs/architecture/` or `docs/decisions/` | `workspace/` |
+| Runbook / incident | `docs/ops/` | product README only |
+| Research / scouting | `docs/research/` | `lab/` unless code |
+| Product / commercial note | `docs/product/` | `lab/` |
+| One-off session dump | `workspace/scratchpad/` | `docs/` |
+| Experiment or fork | `lab/<name>/` | `products/` until promoted |
+| Script that should run again | `scripts/` | chat transcript only |
+
+**Rule:** if it should still matter in 6 months → `docs/` or a product/service/host tree.  
+If it is only useful this week → `workspace/scratchpad/`.
+
+**Do not invent new top-level directories** without updating `LAYOUT.md` and
+`config/workspace-layout.yaml`.
+
+---
+
+## AI worker — open order
+
+1. **This file** (`LAYOUT.md`)  
+2. **`AGENTS.md`** — bootstrap and shared-service rules  
+3. **`CLAUDE.md` / `WORKFLOW.md`** — before code or host changes  
+4. **Task tree only** — e.g. `products/example-app/`, not the whole monorepo  
+
+```bash
+python3 scripts/print_layout.py
+```
+
+---
+
+## Example product stub
+
+| Path | Purpose |
+|------|---------|
+| `products/example-app/` | Placeholder product — replace or remove |

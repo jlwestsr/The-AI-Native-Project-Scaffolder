@@ -1,0 +1,20 @@
+name: layout-check
+
+on:
+  push:
+    branches: [main, {{ default_integration_branch }}]
+  pull_request:
+    branches: [main, {{ default_integration_branch }}]
+
+jobs:
+  layout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "{{ python_version }}"
+      - name: Print layout
+        run: python3 scripts/print_layout.py
+      - name: Layout smoke tests
+        run: python3 -m pytest tests/test_layout.py -q

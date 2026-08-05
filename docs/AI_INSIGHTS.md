@@ -12,7 +12,12 @@ This document serves as the **Long-Term Memory** for AI agents working on **Forg
 *   **Config Drift**: If you change a file in a reference project, you MUST update the corresponding template in `profiles/*/templates/` immediately.
 
 ## 3. Workflow Nuances
-*   **Verification**: `pytest` is the baseline, but manual inspection of generated output (using `forge . --update --dry-run` or similar) is often necessary to catch template errors.
+*   **Verification**: `pytest` is the baseline; also dry-run scaffolds with
+    `forge new /tmp/probe -p base|fullstack|monorepo --no-interactive --dry-run --neo off`
+    to catch template errors.
+*   **CLI (2026-08)**: Use `forge new <path>`, not legacy `forge .`. Profiles for
+    `forge new`: base, fullstack, monorepo only. neo-harness via `--neo auto|on|off`.
+*   **Install**: Editable pipx/pip so `profiles/` resolve; or set `FORGE_PROFILES_DIR`.
 *   **Dependencies**: When adding a dependency, check if it's needed for the *Generator* (add to `pyproject.toml`) or the *Generated Project* (add to `profiles/*/templates/`).
 
 ## 4. v2 Rewrite — Architectural Decisions (2026-02-03)

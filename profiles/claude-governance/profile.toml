@@ -1,4 +1,0 @@
-[profile]
-name = "claude-governance"
-inherits = "base"
-description = "Claude Code governance layer — hooks, skills, versioned prompts, and decision log"

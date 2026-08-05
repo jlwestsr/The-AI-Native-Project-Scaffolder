@@ -1,0 +1,14 @@
+# agents/
+
+Role profiles and optional **neo-harness** packs for this monorepo.
+
+| Layout | Purpose |
+|--------|---------|
+| Free-form `*/AGENT.md` | Chat-oriented role cards |
+| Pack with `manifest.yml` + `prompts/` | neo-harness PLAN/ACT/REFLECT |
+
+If neo-harness embedded a pack (e.g. `workspace/`), use:
+
+```bash
+./scripts/neo start --task-file jobs/<slug>.md --agent workspace -p mock
+```

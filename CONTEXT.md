@@ -1,114 +1,99 @@
 # Project Context & Coding Standards
 
 ## 1. Project Overview
-**Forge** is a production-grade project generator designed for modern AI engineering. It establishes an **AI Collaboration Framework** that ensures human-AI teams work within strict governance, shared context, and professional engineering standards.
 
-## 2. 🚨 MANDATORY: AI Behavior & Rules
-**CRITICAL**: Before proposing any changes or running commands, you MUST review and adhere to the rules defined in:
-👉 **[AI_DIRECTIVES.md](AI_DIRECTIVES.md)**
+**Forge** is a production-grade **project scaffolder** for AI engineering. It
+generates opinionated project trees (profiles + Jinja2 templates). It is **not**
+an agent runtime — use [neo-harness](https://github.com/westailabs/neo-harness)
+for PLAN→ACT→REFLECT jobs.
 
-Key constraints from these rules include:
-*   **Agentic Artifacts**: Use `task.md` and `implementation_plan.md` for state tracking.
-*   **Test-Driven**: `scripts/run_tests.sh` must pass before completion.
-*   **Git-Ops**: Strict branching (Feature/Fix/Docs -> Develop -> Main).
+## 2. Mandatory AI rules
 
-## 3. 🤖 Recommended AI Personas
-To effectively contribute to this project, adopt the following personas based on the task:
+Before proposing changes, follow **[AI_DIRECTIVES.md](AI_DIRECTIVES.md)**.
 
-### 1. Scaffolding Architect (Primary)
-*   **Focus**: System Design, Template Structure, Governance.
-*   **Responsibilities**:
-    *   Designing profile definitions in `profiles/` (TOML configs + templates).
-    *   Maintaining Jinja2 templates in `profiles/*/templates/`.
-    *   Ensuring generated projects comply with "AI-Native" standards.
+Key constraints:
 
-### 2. Python Tool Developer
-*   **Focus**: CLI Logic, File I/O, Testing.
-*   **Responsibilities**:
-    *   Implementing core logic in `src/forge/` modules.
-    *   Writing `pytest` cases in `tests/`.
-    *   Managing dependencies in `pyproject.toml`.
+- Prefer discovery from `profiles/` and tests over inventing structure
+- Run tests before claiming done (`./scripts/run_tests.sh` or `pytest`)
+- Gitflow-lite: feature branches → `develop` → `main`
 
-### 3. Release Manager
-*   **Focus**: Documentation, CI/CD, Quality Assurance.
-*   **Responsibilities**:
-    *   Updating `README.md` and `docs/`.
-    *   Verifying `scripts/run_tests.sh` passes.
-    *   Managing versioning and releases.
+## 3. Recommended AI personas
 
-## 4. 🗺️ Project Map
-Quickly orient yourself by connecting directories to responsible personas:
+### Scaffolding Architect
 
-| Directory/File | Primary Persona | Purpose |
-| :--- | :--- | :--- |
-| `profiles/` | **Architect** | Profile definitions (TOML configs + Jinja2 templates). |
-| `src/forge/` | **Tool Dev** | Core application logic (CLI, Pipeline, Renderer, Wizard). |
-| `tests/` | **Tool Dev** | Unit tests for valid verification. |
-| `scripts/` | **Release Mgr** | Test runners and utility scripts. |
-| `docs/` | **Release Mgr** | Project documentation. |
+- Profile TOML + Jinja2 under `profiles/`
+- Keep public profiles OSS-safe (`base`, `fullstack`, `monorepo`)
 
+### Python Tool Developer
 
-## 5. 💻 CLI Reference
+- Logic in `src/forge/`
+- Tests in `tests/`
+- Dependencies in `pyproject.toml`
 
-**Forge** is a command-line tool. The primary entry point is `forge` (or `python -m forge.cli`).
+### Release / Docs
 
-### Usage
+- `README.md`, `docs/`
+- Cross-links to neo-harness stay accurate
+
+## 4. Project map
+
+| Path | Purpose |
+|------|---------|
+| `profiles/` | Shipped profiles: **base**, **fullstack**, **monorepo** |
+| `templates/workspace/` | Templates for `forge workspace` (not a `forge new` profile) |
+| `src/forge/` | CLI, pipeline, renderer, wizard, neo hook |
+| `tests/` | Pytest suite |
+| `docs/` | User + design docs — start at [docs/README.md](docs/README.md) |
+| `scripts/` | Test runners / utilities |
+
+## 5. CLI reference (current)
+
 ```bash
-forge [TARGET_DIR] [OPTIONS]
+forge new <path> -p base|fullstack|monorepo [--no-interactive] [--var k=v] [--neo auto|on|off] [--neo-pack workspace]
+forge update [path]
+forge info [path]
+forge profiles list
+forge profiles show <name>
+forge workspace init|sync|info
 ```
 
-### Arguments
-| Argument | Description |
-| :--- | :--- |
-| `TARGET_DIR` | Directory to initialize. Defaults to current directory (`.`). |
+| Flag | Notes |
+|------|--------|
+| `-p / --profile` | Default `fullstack` |
+| `--neo` | Post-hook: `neo init-workspace` if neo found (`auto` default) |
+| `--neo-pack` | Default `workspace` |
+| `--no-interactive` | Uses profile defaults + `--var` |
 
-### Options
-| Option | Short | Description |
-| :--- | :--- | :--- |
-| `--update` | `-u` | **Safe Update**: Adds missing files without overwriting existing content. |
-| `--manager` | | Choose package manager: `pip` (default), `poetry`, or `uv`. |
-| `--profile` | | Choose archetype: `fullstack` (default), `base`, `claude-governance`, `openclaw-agent`, `workspace`. |
-| `--config-list` | | Display global configuration settings. |
-| `--config-set` | | Set global defaults (e.g., `--config-set author_name="Jane Doe"`). |
+Install: **editable** recommended so profiles resolve:
 
-### Examples
 ```bash
-# Interactive Wizard (Default)
-forge
-
-# Non-Interactive Customization
-forge my-project --manager poetry --profile fullstack
-
-# Update Existing Project
-forge . --update --profile openclaw-agent
+pipx install --force --editable .
+# or FORGE_PROFILES_DIR=/path/to/nebulus-forge/profiles
 ```
 
-## 6. Coding Standards
+Docs: [creating-a-profile.md](docs/creating-a-profile.md) ·
+[related-projects.md](docs/related-projects.md) ·
+[monorepo-profile-scope.md](docs/monorepo-profile-scope.md)
 
-1. **Unit Tests**: ALL changes must have accompanying unit tests in the `tests/` directory.
-2. **Modular Code**: Do not put business logic in notebooks. Move logic to `src/` modules.
-3. **Type Hinting**: Use Python type hints for all function definitions.
-4. **Documentation**: All public functions must have docstrings (Google style).
+## 6. Coding standards
 
-## 7. Git Workflow
+1. Unit tests for pipeline/profile behavior changes  
+2. Type hints on public functions  
+3. Google-style docstrings  
+4. **No shadow logic** — file trees live in profiles, not hardcoded in the pipeline  
 
-1. We use Git Flow.
-2. Direct commits to `main` are forbidden. 
-3. Work on feature branches off `develop`.
-4. Ensure `git init` and `.gitignore` are respected.
+## 7. Git workflow
 
-## 8. File Structure
+1. Gitflow-lite (`develop` integration, `main` release)  
+2. No direct commits to `main` without process  
+3. Feature branches preferred  
 
-- `data/`: Contains raw and processed data. **Ignored by git**.
-- `docs/`: Project documentation.
-- `src/`: The core source code of the project.
-- `tests/`: Unit tests mirroring the `src/` structure.
+## 8. Repo layout (this project)
 
+- `src/forge/` — package source  
+- `profiles/` — scaffold definitions  
+- `tests/` — unit tests  
+- `docs/` — documentation  
+- `templates/workspace/` — `forge workspace` only  
 
-## Reference Directories (READ-ONLY)
-
-The following directories are symbolic links to other projects for reference purposes only. **Do NOT modify content within these folders.**
-
-- `reference_gantry/`
-- `reference_nebulus/`
-- `reference_shurtugal-lnx/`
+Optional local `reference_*/` trees (if present) are read-only comparison targets; they are **not** required for Forge to run.

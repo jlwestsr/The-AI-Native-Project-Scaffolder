@@ -1,29 +1,34 @@
-# Feature Title: Project Type Profiles
+# Feature: Project profiles
 
 ## Overview
-This feature introduces "Project Profiles" to Forge, allowing users to select the architecture of their new project at generation time. Instead of a single "one-size-fits-all" structure, users can choose between specialized setups.
 
-## Requirements
-- [x] Support multiple profiles with TOML-based definitions and inheritance.
-- [x] Profiles defined as directories under `profiles/` with `profile.toml`, `structure.toml`, and `templates/`.
-- [x] Profile inheritance: child profiles extend parent profiles (e.g., `fullstack` inherits `base`).
-- [x] Update CLI to accept profile selection via `--profile` flag.
-- [x] Update Interactive Wizard to prompt for profile variables.
-- [x] Ensure specific templates utilize profile context variables.
+Profiles select scaffold shape at generation time via TOML + Jinja2, not
+hardcoded Python trees.
 
-## Technical Implementation (v2)
-- **Profile Definitions**: Each profile is a directory under `profiles/` containing:
-    - `profile.toml`: Variables, metadata, inheritance (`inherits = "base"`).
-    - `structure.toml`: Directories, files, and conditionals.
-    - `templates/`: Jinja2 `.j2` template files.
-- **Profile Loader**: `src/forge/profile_loader.py` — loads TOML, resolves inheritance chains, merges variables/files/directories.
-- **Listing**: `forge profiles list` shows all available profiles. `forge profiles show <name>` shows detail.
-- **Wizard**: `src/forge/wizard.py` builds prompts from `VariableSpec` definitions in the resolved profile.
-- **Inheritance**: Child templates override parent templates (child-first lookup in `template_dirs`).
+## Outcome (current)
 
-## Acceptance Criteria
-- [x] `forge new my-project --profile fullstack` creates a structure from the fullstack profile.
-- [x] `forge new my-project --profile base` creates a minimal structure from the base profile.
-- [x] `forge profiles list` shows available profiles with descriptions.
-- [x] Profile inheritance correctly merges base → child variables, files, and directories.
-- [x] Existing tests pass and new tests cover profile loading and inheritance.
+**Shipped `forge new` profiles:**
+
+| Profile | Inherits | Shape |
+|---------|----------|--------|
+| `base` | — | Single package `src/<slug>/` + governance |
+| `fullstack` | base | + notebooks, data, ansible, docker |
+| `monorepo` | — | products/services/hosts/lab control plane |
+
+```bash
+forge profiles list
+forge profiles show monorepo
+forge new ~/projects/eco -p monorepo --no-interactive --neo auto --neo-pack workspace
+forge new ~/projects/app -p base --no-interactive
+forge new ~/projects/app -p fullstack --no-interactive
+```
+
+Implementation: `profiles/<name>/{profile.toml,structure.toml,templates/}`,
+loaded by `profile_loader.py`, documented in [creating-a-profile.md](../creating-a-profile.md).
+
+## Acceptance (met)
+
+- [x] `-p` / `--profile` selects profile
+- [x] Inheritance merges variables, files, directories
+- [x] `forge profiles list` / `show`
+- [x] Custom profiles supported under `profiles/` or `FORGE_PROFILES_DIR`

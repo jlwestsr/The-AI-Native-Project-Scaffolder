@@ -1,0 +1,49 @@
+# {{ project_name }}
+
+{{ description }}
+
+**Organization:** {{ org_name }}
+
+## Orientation
+
+| Doc | Purpose |
+|-----|---------|
+| [LAYOUT.md](LAYOUT.md) | Where code and docs live (read first) |
+| [AGENTS.md](AGENTS.md) | AI worker bootstrap |
+| [CLAUDE.md](CLAUDE.md) | Coding + git + policy |
+| [WORKFLOW.md](WORKFLOW.md) | Branching and delivery |
+| [BUSINESS.md](BUSINESS.md) | Constraints and priorities (stubs) |
+| [config/workspace-layout.yaml](config/workspace-layout.yaml) | Machine-readable buckets |
+
+## Quick map
+
+```text
+products/   → ship product code
+services/   → shared platform services
+hosts/      → infrastructure as code
+lab/        → experiments (never ship as-is)
+docs/       → durable knowledge
+workspace/  → disposable scratch
+agents/     → role profiles / neo packs
+scripts/    → automation
+```
+
+```bash
+python3 scripts/print_layout.py
+```
+
+## neo-harness
+
+If embedded (`scripts/neo` present):
+
+```bash
+cp env.neo.example .env   # set Neo4j
+./scripts/neo init-db
+./scripts/neo start --task-file jobs/smoke-mock.md --agent workspace -p mock
+```
+
+See [neo-harness starting-a-workspace](https://github.com/westailabs/neo-harness/blob/master/docs/starting-a-workspace.md).
+
+## License
+
+Set by your organization. Do not commit secrets.
